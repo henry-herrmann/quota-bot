@@ -135,6 +135,8 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("quotafailures").execute(message, args, handler, client);
     }else if(command == "reload"){
         client.commands.get("reload").execute(message, args, handler, client);
+    }else if(command == "change"){
+        client.commands.get("change").execute(message, args, handler, client);
     }
 })
 
