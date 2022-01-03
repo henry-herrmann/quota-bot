@@ -1,0 +1,70 @@
+const Discord = require('discord.js');
+const Index = require('../index');
+
+module.exports = {
+    name: "announce",
+   async execute(message, args, client, handler){
+        if(await  handler.getPermissionLevel(message.member) < 4){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+        if(parseInt((await handler.getConfig("Announce-Members")).Value) == 0){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Announcing new members disabled :warning:')
+            .setColor("#ed0909")
+            .setDescription(`This feature was disabled by divisional HiCom. Please ask your CO to re-enable it.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+        if(args.length == 0){
+            if(handler.filteredplayers.length == 0){
+                const embed = new Discord.MessageEmbed()
+                .setTitle('Error :warning:')
+                .setColor("#ed0909")
+                .setDescription(`There are no players to announce.`)
+                .setFooter(Index.footer)
+                .setTimestamp();
+  
+                message.channel.send({embeds: [embed]})
+                return;
+            }
+            var string = "";
+            new Promise((resolve, reject) =>{
+                for(var i=0; i< handler.filteredplayers.length; i++){
+                    var id = handler.filteredplayers[i];
+    
+                    if(i==0){
+                        string = `<@${id}>`;
+                    }else{
+                        string = string + `, <@${id}>`;
+                    }
+                }
+                resolve();
+            }).then(async ()=>{
+                handler.filteredplayers = [];
+
+                client.channels.cache.get((await handler.getConfig("Announce-channel")).Value).send(`<@&${(await handler.getConfig("Personnel-Id")).Value}> Welcome ${string} to the ${((await handler.getConfig("Division-Name")).Value)}!`)
+            })
+        }else{
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect usage :warning:')
+            .setColor("#ed0909")
+            .setDescription(`>>> ${await handler.getPrefix()}announce`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+              
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+    }
+}
