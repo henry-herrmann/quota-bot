@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
 const RbxManager = require('../utils/RbxManager');
-const Index = require("../index")
-const dateFormat = require("dateformat")
+const Index = require("../index");
+const dateFormat = require("dateformat");
+const DivisionHandler = require("../db/DivisionHandler");
+
 module.exports = {
     name: "info",
     async execute(message, args, client, handler, rbx){
@@ -14,7 +16,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                 .setTitle("User doesn't exist :warning:")
                 .setColor("#ed0909")
-                .setDescription(`The stated user does not exist on Roblox.`)
+                .setDescription(`The stated user does not exist on Roblox. Make sure to state a roblox name.`)
                 .setFooter(Index.footer)
                 .setTimestamp();
                 message.channel.send({embeds: [embed]})
@@ -50,6 +52,20 @@ module.exports = {
             .setTimestamp();
             message.channel.send({embeds: [embed]})
         }else if(args.length == 0){
+
+
+            if(await handler.isConfigured() == false){
+                const embed = new Discord.MessageEmbed()
+                .setTitle('Division already configured :warning:')
+                .setColor("#ed0909")
+                .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+                .setFooter(Index.footer)
+                .setTimestamp();
+                      
+                message.channel.send({embeds: [embed]})
+                return;
+            }
+
             const user = message.member;
 
             const personnelid = (await handler.getConfig("Personnel-Id")).Value;
@@ -83,16 +99,17 @@ module.exports = {
                     return;
                 }
 
-                await handler.addMember(user.id, robloxid, member).then(async () =>{
-                    const playerinfo = await rbx.getPlayerInfo(robloxid);
+
+                await handler.addMember(user.id, robloxid, user).then(async () =>{
+                    const playerinfo = await rbx.getPlayerInfo(parseInt(robloxid));
     
                     const robloxgroupid = (await handler.getConfig("Roblox-Group-Id")).Value;
         
-                    const thumbnail = await rbx.getPlayerThumbnail(id, 720, "png", false, "Headshot")
+                    const thumbnail = await rbx.getPlayerThumbnail(parseInt(robloxid), 720, "png", false, "Headshot")
         
                     let rank;
-                    if(await RbxManager.isInGroup(rbx, handler, robloxid)){
-                        rank = await rbx.getRankNameInGroup(robloxgroupid, robloxid)
+                    if(await RbxManager.isInGroup(rbx, handler, parseInt(robloxid))){
+                        rank = await rbx.getRankNameInGroup(robloxgroupid, parseInt(robloxid))
                     }else{
                         rank = "N/A"
                     }

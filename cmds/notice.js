@@ -4,25 +4,37 @@ const RbxManager = require('../utils/RbxManager')
 
 module.exports = {
     name: "notice",
-    async execute(message, args, handler, client){
+    async execute(message, args, handler, client, rbx){
         if(await  handler.getPermissionLevel(message.member) < 4){
             const embed = new Discord.MessageEmbed()
-              .setTitle('Insufficient permissions :warning:')
-              .setColor("#ed0909")
-              .setDescription(`You are missing the required permissions to execute this command.`)
-              .setFooter(Index.footer)
-              .setTimestamp();
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.channel.send({embeds: [embed]})
+            return;
+        }
 
-              message.channel.send({embeds: [embed]})
-              return;
+        const prefix = await handler.getPrefix();
+
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
         }
 
         const divname = (await handler.getConfig("Division-Name")).Value;
         const personnelid = (await handler.getConfig("Personnel-Id")).Value;
         const color = (await handler.getConfig("Divisional-Color")).Value;
-        const prefix = await handler.getPrefix();
 
-        if(await handler.isOnSpreadsheet(mesage.member.id) == false){
+        if(await handler.isOnSpreadsheet(message.member.id) == false){
             const embed = new Discord.MessageEmbed()
             .setTitle('Not on the database :warning:')
             .setColor("#ed0909")
@@ -39,7 +51,7 @@ module.exports = {
             if(mention != undefined && mention != null && message.mentions.roles.first() == undefined && message.mentions.roles.first() == null){
                 var members = message.mentions.users.first(message.mentions.users.size)
                 var robloxid = await handler.getRobloxId(message.author.id);
-                var name = await RbxManager.getNameFromId(robloxid);
+                var name = await RbxManager.getNameFromId(rbx, robloxid);
 
                 let string = [];
                 for(m of members){
@@ -102,7 +114,7 @@ module.exports = {
                     return;
                 }
                 var robloxid = await handler.getRobloxId(message.author.id);
-                var name = await RbxManager.getNameFromId(robloxid);
+                var name = await RbxManager.getNameFromId(rbx, robloxid);
 
                 var roles = message.mentions.roles.first(message.mentions.roles.size)
                 new Promise((resolve, reject) => {
@@ -156,7 +168,7 @@ module.exports = {
                     return;
                 }
                 var robloxid = await handler.getRobloxId(message.author.id);
-                var name = await RbxManager.getNameFromId(robloxid); 
+                var name = await RbxManager.getNameFromId(rbx, robloxid); 
 
                 const Role = client.guilds.cache.get(handler.getGuildID()).roles.cache.find(role => role.id == personnelid);
                 new Promise((resolve, reject) =>{

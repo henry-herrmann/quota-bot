@@ -21,11 +21,12 @@ module.exports = {
     },
     async isInGroup(rbx, handler, id){
         const groups = await rbx.getGroups(id);
-            for(g of groups){
-                if(g.Id == parseInt((await handler.getConfig("Roblox-Group-Id")).Value)){
+        for(g of groups){
+            if(g.Id == parseInt((await handler.getConfig("Roblox-Group-Id")).Value)){
                     return true;
-                }
             }
+        }
+        return false;
     },
     async exileUser(rbx, handler, id){
         const isInGroup = await this.isInGroup(rbx, handler, id);
@@ -55,7 +56,7 @@ module.exports = {
             return false;
         }
     },
-    async getNameFromId(id){
+    async getNameFromId(rbx, id){
         const profile = await rbx.getPlayerInfo(id);
 
         return profile.username;

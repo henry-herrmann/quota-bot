@@ -18,18 +18,16 @@ async function messageReaction(client, user, handler, reaction, rbx) {
     const inactivityid = (await handler.getConfig("Inacitivty-Role-Id")).Value;
     const inactivitychannelid = (await handler.getConfig("Inactivity-Channel")).Value;
     const patrolsawardactivity = (await handler.getConfig("Patrols-Award-Activity")).Value != 0;
-    const nameposition = parseInt(await handler.getNamePosition());
 
-    const configformat = (await handler.getConfig("Name-Format")).Value;
-    const numberofslashformat = configformat.split("|").length;
+    if(await handler.isConfigured() == false){
+        return;
+    }
 
     if (message.channel.id == inactivity_appeals) {
 
         if (emoji.name == "✅") {
             const embed = message.embeds[0];
 
-
-            const name = embed.fields.find(element => element.name === "Name:").value;
             const length = embed.fields.find(element => element.name === "Length in days:").value;
             const reason = embed.fields.find(element => element.name === "Reason:").value;
 
@@ -1349,7 +1347,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt = new Discord.MessageEmbed()
                         .setTitle("Patrol log Denied")
                         .setColor("#ed0909")
-                        .setDescription(`Stated time in minutes: **${time}\nAmount of points: ${ppoints}\nUser: <@${member.id}>\nDenied by: <@${user.id}>`)
+                        .setDescription(`Stated time in minutes: **${time}**\nAmount of points: ${ppoints}\nUser: <@${member.id}>\nDenied by: <@${user.id}>`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 

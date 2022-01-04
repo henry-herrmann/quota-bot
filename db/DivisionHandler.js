@@ -32,9 +32,19 @@ function getDBs(){
 }
 
 async function getRobloxId(discordid, guildid){
+    await timer(1000);
     return new Promise(async (resolve, reject) =>{
-        axios.get(`https://api.blox.link/v1/user/${discordid}?guild=${guildid}`).then((response) =>{
-            if(response.data.status == 500 || response.data.status == "error"){
+        axios.get(`https://api.blox.link/v1/user/${discordid}?guild=${guildid}`).then(async (response) =>{
+            if(response.data.status == 500){
+                await timer(1000);
+                axios.get(`https://api.blox.link/v1/user/${discordid}`).then((response1) =>{
+                    if(response1.data.status == "error"){
+                        return reject();
+                    }
+                    return resolve(response1.data.primaryAccount);
+                })
+            }
+            if(response.data.status == "error"){
                 return reject();
             }
             if(response.data.matchingAccount != null){
@@ -44,7 +54,6 @@ async function getRobloxId(discordid, guildid){
         }).catch((err) =>{
             reject(err);
         })
-        await timer(1000);
     })
 }
 

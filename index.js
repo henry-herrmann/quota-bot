@@ -14,6 +14,8 @@ const RbxAuditLogs = require("./utils/RbxAuditLogs");
 const EventLogging = require("./utils/EventLogging");
 const Reactionevent = require("./utils/reactionevent");
 const RoleChange = require("./utils/rolechange");
+const guildMemberRemove = require("./utils/guildMemberRemove");
+const Inactivity = require("./utils/inactivity");
 
 const fs = require('fs');
 
@@ -36,23 +38,33 @@ client.login(process.env.TOKEN);
 
 DivisionHandler.loadDivisions()
 
+
 login().then(async ()=>{
     console.log("[RBLX] Logged in.")
 
     for(const division of DivisionHandler.getDBs()){
-        const groupid = (await division.getConfig("Roblox-Group-Id")).Value;
-        const robloxid = parseInt(groupid);
-
-        const auditevent = rbx.onAuditLog(robloxid);
-
-        auditevent.on("data", (data) =>{
-            RbxAuditLogs.onAuditLog(data, client, division);
-        })
-
-        auditevent.on("error", function (err) {
-        })
+        if(await division.isConfigured() == true){
+            const groupid = (await division.getConfig("Roblox-Group-Id")).Value;
+            const robloxid = parseInt(groupid);
+    
+            const auditevent = rbx.onAuditLog(robloxid);
+    
+            auditevent.on("data", (data) =>{
+                RbxAuditLogs.onAuditLog(data, client, division);
+            })
+    
+            auditevent.on("error", function (err) {
+            })
+        }
     }
 })
+
+setInterval(() =>{
+    for(const handler of DivisionHandler.getDBs()){
+        console.log(`[INFO] Checked inactivity notices for ${handler.getDivisionName()} at ${new Date().toString()}`)
+        Inactivity.checkINs(client, handler);
+    }
+}, 1000*60*60*2);
 
 
 
@@ -91,6 +103,8 @@ client.on('messageCreate', async (message) =>{
         EventLogging.logHostEvent(message, handler);
     }else if(supportsPatrols && message.channel.id == await handler.getChannel("patrol-logs")){
         EventLogging.logPatrol(message, client, handler);
+    }else if(message.channel.id == await handler.getChannel("inactivity")){
+        Inactivity.logInactivity(message, client, handler);
     }
 
     if(!message.content.startsWith(prefix)) return;
@@ -122,7 +136,7 @@ client.on('messageCreate', async (message) =>{
     }else if(command == "info"){
         client.commands.get("info").execute(message, args, client, handler, rbx);
     }else if(command == "notice"){
-        client.commands.get("notice").execute(message, args, handler, client);
+        client.commands.get("notice").execute(message, args, handler, client, rbx);
     }else if(command == "purge"){
         client.commands.get("purge").execute(message, args, handler);
     }else if(command == "members"){
@@ -137,6 +151,10 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("reload").execute(message, args, handler, client);
     }else if(command == "change"){
         client.commands.get("change").execute(message, args, handler, client);
+    }else if(command == "update"){
+        client.commands.get("update").execute(message, args, handler);
+    }else if(command == "resetpoints"){
+        client.commands.get("resetpoints").execute(message, args, handler, client);
     }
 })
 
@@ -158,8 +176,8 @@ client.on('guildMemberUpdate', (oldMember, newMember) =>{
 })
 
 client.on("guildMemberRemove", (member) =>{
-    if(DivisionHandler.getDivisionDB(message.guild.id) == undefined) return;
-    const handler = DivisionHandler.getDivisionDB(message.guild.id);
+    if(DivisionHandler.getDivisionDB(member.guild.id) == undefined) return;
+    const handler = DivisionHandler.getDivisionDB(member.guild.id);
     guildMemberRemove.run(member, handler, client, rbx);
 })
 

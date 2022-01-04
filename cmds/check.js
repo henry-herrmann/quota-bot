@@ -9,17 +9,28 @@ module.exports = {
     async execute(message, args, handler, rbx){
         if(await  handler.getPermissionLevel(message.member) < 1){
             const embed = new Discord.MessageEmbed()
-              .setTitle('Insufficient permissions :warning:')
-              .setColor("#ed0909")
-              .setDescription(`You are missing the required permissions to execute this command.`)
-              .setFooter(Index.footer)
-              .setTimestamp();
-
-              message.channel.send({embeds: [embed]})
-              return;
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.channel.send({embeds: [embed]})
+            return;
         }
 
         const prefix = await handler.getPrefix();
+
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
+        }
 
         if(args.length == 1){
             if(args[0] == undefined){

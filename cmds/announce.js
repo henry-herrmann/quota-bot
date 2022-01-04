@@ -15,6 +15,18 @@ module.exports = {
             message.channel.send({embeds: [embed]})
             return;
         }
+
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
+        }
         if(parseInt((await handler.getConfig("Announce-Members")).Value) == 0){
             const embed = new Discord.MessageEmbed()
             .setTitle('Announcing new members disabled :warning:')
@@ -59,7 +71,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
             .setColor("#ed0909")
-            .setDescription(`>>> ${await handler.getPrefix()}announce`)
+            .setDescription(`>>> ${prefix}announce`)
             .setFooter(Index.footer)
             .setTimestamp();
               

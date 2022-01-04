@@ -1,18 +1,27 @@
 class DivisionDB {
+    /**
+     * Constuctor for each divisional database object which contains a set of functions designed to interact with a database for each discord guild.
+     * @param {string} divisionname 
+     * @param {string} guild_id 
+     * @param {boolean} patrols 
+     * @param {Pool} con 
+     */
     constructor(divisionname, guild_id, patrols, con){
         this.divisionname = divisionname;
         this.con = con;
         this.guild_id = guild_id;
         this.patrols = patrols;
         this.filteredplayers = [];
+        this.updatecooldown = [];
 
-        if(divisionname == "SG"){
-            this.filteredplayers.push("282590125408387073");
-        }
 
+
+        //Create the table for command permission levels for the respective discord guild also referred to as division.
         con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.permission(id TEXT, level INT NOT NULL DEFAULT 0)`, (err, result, field) =>{
             if(err) console.log(err);
         })
+
+        //Checks if a certain type of points is enabled and then creates the respective table according to that that boolean variable. 
         if(patrols) {
             con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.quota(Id TEXT, RbxId TEXT, Attend FLOAT NOT NULL DEFAULT 0, Host FLOAT NOT NULL DEFAULT 0, Patrol FLOAT NOT NULL DEFAULT 0, Joined TEXT, Staff TEXT)`, (err, result, field) =>{
                 if(err) console.log(err);
@@ -23,6 +32,7 @@ class DivisionDB {
             })
         }
 
+        //The function calls below create another three different databases to store roblox rank ids, configurations and inactivity notices. 
         con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.inactivity(Id TEXT, StartDate TEXT, EndDate TEXT, Reason TEXT, MessageID TEXT)`, (err, result, field) =>{
             if(err) console.log(err);
         })
@@ -89,14 +99,26 @@ class DivisionDB {
         }
     }
 
+    /**
+     * 
+     * @returns {string} - Assigned name of the division.
+     */
     getDivisionName(){
         return this.divisionname;
     }
     
+    /**
+     * 
+     * @returns {boolean} - Guild Id of the division.
+     */
     getGuildID(){
         return this.guild_id;
     }
 
+    /**
+     * 
+     * @returns {boolean} - Whether patrol points are enabled or not.
+     */
     supportsPatrols(){
         return this.patrols != false;
     }
@@ -106,11 +128,15 @@ class DivisionDB {
             this.con.query(`SELECT * FROM ${this.divisionname}.config WHERE Name = ?`, [name], (err, result, fields) =>{
                 if(err) reject(err);
 
-                return resolve(result != undefined);
+                return resolve(result.length != 0);
             })
         })
     }
 
+    /**
+     * Alters the quota table by adding a column "Patrol" with the type of float after the "Host" column, based on the value of patrols column in the divisions table in the quota database.
+     * @returns {Promise} - Returned once the quota table has been modified.
+     */
     async addPatrolTable(){
         return new Promise(async (resolve, reject) =>{
             this.con.query(`SELECT patrols FROM quota.divisions WHERE Name = ?`, [this.divisionname], (err, result, fields)=>{
@@ -126,7 +152,10 @@ class DivisionDB {
             })
         })
     }
-
+    /**
+     * Alters the quota table by removing the column "Patrol" after the "Host" column if the value of the column "Patrol" for that division name is 1
+     * @returns {Promise} - Returned once the quota table has been modified.
+     */
     async removePatrolTable(){
         return new Promise(async (resolve, reject) =>{
             this.con.query(`SELECT patrols FROM quota.divisions WHERE Name = ?`, [this.divisionname], (err, result, fields)=>{
@@ -143,13 +172,17 @@ class DivisionDB {
         })
     }
 
+    /**
+     * Inserts/updates entries in the "config" table of the division's database based on whether the entry already exists or not. 
+     * @returns {Promise}
+     */
     async updateConfig(key, value){
         return new Promise((resolve, reject) =>{
 
             this.con.query(`SELECT Name FROM ${this.divisionname}.config WHERE Name = ?`, [key], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result[0] == undefined){
+                if(result == undefined){
                     this.con.query(`INSERT INTO ${this.divisionname}.config (Name, Value) VALUES (?, ?)`, [key, value], (err1, result1, fields1) =>{
                         if(err1) reject(err1);
 
@@ -363,30 +396,42 @@ class DivisionDB {
             })
         })
     }
-
+    /**
+     * Gets the sum of all values within the "Attend" column in the quota table of the division's database.
+     * @returns {Promise}
+     */
     async getTotalEventsAttended(){
         return new Promise((resolve, reject) =>{
             this.con.query(`SELECT SUM(Attend) AS Sum FROM ${this.divisionname}.quota`, (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result[0] == undefined) return resolve([]);
+                if(result == undefined) return resolve(null);
 
                 return resolve(result[0].Sum);
             })
         })
     }
+
+    /**
+     * Gets the sum of all values within the "Host" column in the quota table of the division's database.
+     * @returns {Promise}
+     */
     async getTotalEventsHosted(){
         return new Promise((resolve, reject) =>{
             this.con.query(`SELECT SUM(Host) AS Sum FROM ${this.divisionname}.quota`, (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result[0] == undefined) return resolve([]);
+                if(result == undefined) return resolve(null);
 
                 return resolve(result[0].Sum);
             })
         })
     }
 
+    /**
+     * Gets the sum of all values within the "Patrol" column in the quota table of the division's database.
+     * @returns {Promise}
+     */
     async getTotalPatrols(){
         return new Promise((resolve, reject) =>{
             this.con.query(`SELECT SUM(Patrol) AS Sum FROM ${this.divisionname}.quota`, (err, result, fields) =>{
@@ -422,6 +467,27 @@ class DivisionDB {
         })
     }
 
+    async clearPermission(){
+        return new Promise((resolve, reject) =>{
+
+            this.con.query(`DELETE FROM ${this.divisionname}.permission`,  (err, result, fields) =>{
+                if(err) reject(err);
+
+                return resolve();
+            })
+        })
+    }
+
+    async clearRoles(){
+        return new Promise((resolve, reject) =>{
+
+            this.con.query(`DELETE FROM ${this.divisionname}.roles`,  (err, result, fields) =>{
+                if(err) reject(err);
+
+                return resolve();
+            })
+        })
+    }
     async getRobloxRoles(){
         return new Promise((resolve, reject) =>{
 
@@ -449,6 +515,10 @@ class DivisionDB {
         })
     }
 
+    /**
+     * Checks whether the value of the "configured" column for the division is set to 1 or 0.
+     * @returns {Promise} - Resolves if there's an entry for the division and then passes over a boolean.
+     */
     async isConfigured(){
         return new Promise((resolve, reject) =>{
             this.con.query("SELECT configured FROM quota.divisions WHERE name = ?", [this.divisionname], (err, result, fields) =>{
@@ -580,9 +650,18 @@ class DivisionDB {
         })
     }
 
+    /**
+     * 
+     * @param {string} id - The User Id
+     * @param {string} startdate - The start date of the inactivity notice as a string.
+     * @param {string} enddate 
+     * @param {string} reason 
+     * @param {string} messageid 
+     * @returns {Promise}
+     */
     async addInactivityNotice(id, startdate, enddate, reason, messageid){
         return new Promise((resolve, reject) =>{
-            this.con.query(`INSERT INTO ${this.divisionname}.inactivity (id,StartDate,EndDate,Reason,MessageID) VALUES (?,?,?,?,?,?)`, [id, startdate, enddate, reason, messageid], (err, result, fields) =>{
+            this.con.query(`INSERT INTO ${this.divisionname}.inactivity (id, StartDate, EndDate, Reason, MessageID) VALUES (?,?,?,?,?)`, [id, startdate, enddate, reason, messageid], (err, result, fields) =>{
                 if(err) reject(err);
 
                 return resolve();
@@ -650,6 +729,17 @@ class DivisionDB {
         })
     }
 
+    async updateRobloxId(userid, newrbxid){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`UPDATE ${this.divisionname}.quota SET RbxId = ? WHERE Id = ?`, [newrbxid, userid], (err, result, fields) =>{
+                if(err) reject(err);
+
+                return resolve();
+            })
+        })
+    }
+    
+
     async resetPoints(){
         return new Promise((resolve, reject) =>{
             if(this.patrols){
@@ -668,6 +758,11 @@ class DivisionDB {
         })
     }
 
+    /**
+     * Deletes the user from the divisional database
+     * @param {string} id - Member id 
+     * @returns {Promise} - Resolves if user was deleted from both the inactivity and quota table of the division's database
+     */
     async removeMember(id){
         return new Promise((resolve, reject) =>{
             this.con.query(`DELETE FROM ${this.divisionname}.quota WHERE Id = ?`, [id], (err, result, fields) =>{
@@ -814,7 +909,7 @@ class DivisionDB {
             this.con.query(`SELECT Value FROM ${this.divisionname}.config WHERE Name = ?`, ["Prefix"], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result[0] == undefined) return resolve(".");
+                if(result.length == 0) return resolve(".");
 
                 return resolve(result[0].Value);
             })

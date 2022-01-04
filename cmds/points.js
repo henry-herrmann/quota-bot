@@ -5,12 +5,14 @@ const DivisionHandler = require("../db/DivisionHandler")
 module.exports = {
     name: "points",
     async execute(message, args, handler, client){
+        const prefix = await handler.getPrefix();
+
         if(await handler.isConfigured() == false){
             const embed = new Discord.MessageEmbed()
-            .setTitle('Division not configured :warning:')
+            .setTitle('Division already configured :warning:')
             .setColor("#ed0909")
-            .setDescription(`It appears that the bot was not configured for this division. Please contact your CO and ask them to run the .setup command. Thank you.\n- Bot Developer Henryhre`)
-            .setFooter(footer)
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
             .setTimestamp();
                   
             message.channel.send({embeds: [embed]})
@@ -33,6 +35,7 @@ module.exports = {
 
         const permlevel = await handler.getPermissionLevel(message.member);
         const supportsPatrols = handler.supportsPatrols();
+        const color = (await handler.getConfig("Divisional-Color")).Value;
 
         if(args.length == 0){
             const attendquota = await handler.getAttendanceQuota();
@@ -80,7 +83,7 @@ module.exports = {
                         if(permlevel >= 1){
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Quota')
-                            .setColor("#cc0afc")
+                            .setColor(color)
                             .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}\u200B`)
                             .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
                             .setFooter(Index.footer)
@@ -90,7 +93,7 @@ module.exports = {
                         }else{
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Quota')
-                            .setColor("#cc0afc")
+                            .setColor(color)
                             .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolpoints}\n\u200B`)
                             .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
                             .setFooter(Index.footer)
@@ -105,7 +108,7 @@ module.exports = {
                     if(permlevel >= 1){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
-                        .setColor("#cc0afc")
+                        .setColor(color)
                         .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}\u200B`)
                         .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
                         .setFooter(Index.footer)
@@ -115,7 +118,7 @@ module.exports = {
                     }else{
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
-                        .setColor("#cc0afc")
+                        .setColor(color)
                         .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolpoints}\n\u200B`)
                         .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
                         .setFooter(Index.footer)
@@ -158,7 +161,7 @@ module.exports = {
                         if(permlevel >= 1){
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Quota')
-                            .setColor("#cc0afc")
+                            .setColor(color)
                             .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\u200B`)
                             .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
                             .setFooter(Index.footer)
@@ -168,7 +171,7 @@ module.exports = {
                         }else{
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Quota')
-                            .setColor("#cc0afc")
+                            .setColor(color)
                             .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\u200B`)
                             .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
                             .setFooter(Index.footer)
@@ -181,7 +184,7 @@ module.exports = {
                     if(permlevel >= 1){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
-                        .setColor("#cc0afc")
+                        .setColor(color)
                         .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\u200B`)
                         .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
                         .setFooter(Index.footer)
@@ -191,7 +194,7 @@ module.exports = {
                     }else{
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
-                        .setColor("#cc0afc")
+                        .setColor(color)
                         .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\u200B`)
                         .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
                         .setFooter(Index.footer)
@@ -699,57 +702,89 @@ module.exports = {
     
                 var member = message.mentions.users.first(), user;
                 if(member) user = await message.guild.members.fetch(member);
-    
-    
-                var name;
-    
-                if(user.nickname == null || user.nickname == undefined){
-                  name = user.user.username;
-                }else{
-                  name = user.nickname.split(" ")[parseInt(await handler.getNamePosition())];
-                } 
-    
-                if(name == null || name == undefined){
-                  const embed = new Discord.MessageEmbed()
-                  .setTitle('Error :warning:')
-                  .setColor("#ed0909")
-                  .setDescription(`User has an invalid nickname.`)
-                  .setFooter(Index.footer)
-                  .setTimestamp();
-    
-                  message.channel.send({embeds: [embed]})
-                  return;
-                }  
-    
-                var attendpoints = await handler.getAttendancePoints(name);
-                var hostpoints = await handler.getHostingPoints(name);
 
-                if(supportsPatrols){
-                    var patrolpoints = await handler.getPatrolPoints(name);
+                handler.isOnSpreadsheet(user.id).then(async (bool) =>{
+                    if(bool){
+                        var attendpoints = await handler.getAttendancePoints(member.id);
+                        var hostpoints = await handler.getHostingPoints(member.id);
+        
+                        if(supportsPatrols){
+                            var patrolpoints = await handler.getPatrolPoints(member.id);
+        
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Points')
+                            .setColor(color)
+                            .addField(`Name`, `<@${member.id}>`)
+                            .addField(`Stats`, `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                        }else{
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Points')
+                            .setColor(color)
+                            .addField(`Name`, `<@${member.id}>`)
+                            .addField("Stats", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                        }
+                    }else{
+                        var robloxid;
 
-                    const embed = new Discord.MessageEmbed()
-                    .setTitle('Points')
-                    .setColor("#0257c7")
-                    .addField(`${name}'s stats`, `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
-                    .setFooter(Index.footer)
-                    .setTimestamp();
-        
-                    message.channel.send({embeds: [embed]})
-                }else{
-                    const embed = new Discord.MessageEmbed()
-                    .setTitle('Points')
-                    .setColor("#0257c7")
-                    .addField(`${name}'s stats`, `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
-                    .setFooter(Index.footer)
-                    .setTimestamp();
-        
-                    message.channel.send({embeds: [embed]})
-                }
+                        try{
+                            robloxid = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                        }catch(error){
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Error :warning:')
+                            .setColor("#ed0909")
+                            .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                  
+                            message.channel.send({embeds: [embed]})
+                            return;
+                        }
+
+                        handler.addMember(user.id, robloxid, user).then(async () =>{
+                            var attendpoints = await handler.getAttendancePoints(user.id);
+                            var hostpoints = await handler.getHostingPoints(user.id);
+            
+                            if(supportsPatrols){
+                                var patrolpoints = await handler.getPatrolPoints(user.id);
+            
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Points')
+                                .setColor(color)
+                                .addField(`Name`, `<@${member.id}>`)
+                                .addField(`Stats`, `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }else{
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Points')
+                                .setColor(color)
+                                .addField(`Name`, `<@${member.id}>`)
+                                .addField("Stats", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }
+                        })
+                    }
+                })
+    
+                
             }else{
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect usage :warning:')
                 .setColor("#ed0909")
-                .setDescription(`>>> .points <add,remove> <attend,host${supportsPatrols ? ",patrol" : ""}> <Amount> @User\n.points get @User`)
+                .setDescription(`>>> ${prefix}points <add,remove> <attend,host${supportsPatrols ? ",patrol" : ""}> <Amount> @User\n${prefix}points get @User`)
                 .setFooter(Index.footer)
                 .setTimestamp();
     
@@ -760,7 +795,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
             .setColor("#ed0909")
-            .setDescription(`>>> .points <add,remove> <attend,host${supportsPatrols ? ",patrol" : ""}> <Amount> @User\n.points get @User`)
+            .setDescription(`>>> ${prefix}points <add,remove> <attend,host${supportsPatrols ? ",patrol" : ""}> <Amount> @User\n${prefix}points get @User`)
             .setFooter(Index.footer)
             .setTimestamp();
               

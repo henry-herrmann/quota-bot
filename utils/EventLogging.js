@@ -3,6 +3,9 @@ const Index = require("../index");
 const dateFormat = require("dateformat")
 
 async function logAttendeeEvent(message, client, handler){
+    if(await handler.isConfigured() == false){
+        return;
+    }
     const args = message.content.split("<");
     if(message.mentions.users.first() == undefined){
         const embed = new Discord.MessageEmbed()
@@ -69,12 +72,13 @@ async function logAttendeeEvent(message, client, handler){
     
 }
 async function logHostEvent(message, handler){
+    if(await handler.isConfigured() == false){
+        return;
+    }
     var eventtype = message.content;
 
     let messageAttachment = message.attachments.size > 0 ? message.attachments.first().url : null;
 
-    const configformat = (await handler.getConfig("Name-Format")).Value;
-    const numberofslashformat = configformat.split("|").length; 
 
     if(messageAttachment == null){
         if(new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(message.content)) {
@@ -142,35 +146,67 @@ async function logHostEvent(message, handler){
 
 async function logPatrol(message, client, handler){
 
-    let messageAttachment = message.attachments.size > 0 ? message.attachments.first().url : null; 
-    let content = message.content;
-
-    if(content.includes("Time spent patrolling") || content.includes("Screenshot proof") || content.includes("spent patrolling") || content.includes("Time") || content.includes("patrolling")){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Incorrect Patrol Log :warning:')
-        .setColor("#ed0909")
-        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
-        .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
-        .setFooter(Index.footer)
-        .setTimestamp();
-    
-        message.author.send({embeds: [embed]}).catch(() =>{});
-        message.delete().catch(() =>{});
+    if(await handler.isConfigured() == false){
         return;
     }
 
+    let messageAttachment = message.attachments.size > 0 ? message.attachments.first().url : null; 
+    let content = message.content;
+
+    const twopictures = (await handler.getConfig("Two-Pictures-Patrols")).Value;
+
+    if(content.includes("Time spent patrolling") || content.includes("Screenshot proof") || content.includes("spent patrolling") || content.includes("Time") || content.includes("patrolling")){
+        if(parseInt(twopictures) == 1){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
+            .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }else{
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/926510080877273170/unknown.png")
+            .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }
+    }
+
     if(content == "" || content == null || content == undefined){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Incorrect Patrol Log :warning:')
-        .setColor("#ed0909")
-        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
-        .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
-        .setFooter(Index.footer)
-        .setTimestamp();
-    
-        message.author.send({embeds: [embed]}).catch(() =>{});
-        message.delete().catch(() =>{});
-        return;
+        if(parseInt(twopictures) == 1){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
+            .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }else{
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/926510080877273170/unknown.png")
+            .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }
     }
 
     content = content.replace(/(\r\n|\n|\r)/gm, " ");
@@ -178,52 +214,89 @@ async function logPatrol(message, client, handler){
     let args = content.split(" ");
 
     if(args[0] == undefined || args[0] == null){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Incorrect Patrol Log :warning:')
-        .setColor("#ed0909")
-        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
-        .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
-        .setFooter(Index.footer)
-        .setTimestamp();
-    
-        message.author.send({embeds: [embed]}).catch(() =>{});
-        message.delete().catch(() =>{});
-        return;
+        if(parseInt(twopictures) == 1){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
+            .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }else{
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/926510080877273170/unknown.png")
+            .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }
     }
 
     var timespent = args[0];
 
 
     if(isNaN(timespent)){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Incorrect Patrol Log :warning:')
-        .setColor("#ed0909")
-        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
-        .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
-        .setFooter(Index.footer)
-        .setTimestamp();
-    
-        message.author.send({embeds: [embed]}).catch(() =>{});
-        message.delete().catch(() =>{});
-        return;
+        if(parseInt(twopictures) == 1){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
+            .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }else{
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/926510080877273170/unknown.png")
+            .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }
     }
     const vouch = message.mentions.users.first() || client.users.cache.get(args[2]);
 
     if(message.attachments.size  > 1){
-        const embed = new Discord.MessageEmbed()
-        .setTitle('Incorrect Patrol Log :warning:')
-        .setColor("#ed0909")
-        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
-        .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
-        .setFooter(Index.footer)
-        .setTimestamp();
-    
-        message.author.send({embeds: [embed]}).catch(() =>{});
-        message.delete().catch(() =>{});
-        return;
-    }
+        if(parseInt(twopictures) == 1){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
+            .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
 
-    const twopictures = (await handler.getConfig("Two-Pictures-Patrols")).Value;
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }else{
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Incorrect Patrol Log :warning:')
+            .setColor("#ed0909")
+            .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720254193889280/unknown.png")
+            .setDescription(`**Provide a screenshot of your patrol timer or ping 2+ people.**`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.author.send({embeds: [embed]}).catch(() =>{});
+            message.delete().catch(() =>{});
+            return;
+        }
+    }
 
     if(vouch == null || vouch == undefined || new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(message.content)){
         if(messageAttachment == null){
@@ -291,7 +364,7 @@ async function logPatrol(message, client, handler){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Incorrect Patrol Log :warning:')
                         .setColor("#ed0909")
-                        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720254193889280/unknown.png")
+                        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
                         .setDescription(`**Only provide one screenshot of your patrol timer or ping 2 people.**`)
                         .setFooter(Index.footer)
                         .setTimestamp();
@@ -325,7 +398,7 @@ async function logPatrol(message, client, handler){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Incorrect Patrol Log :warning:')
                         .setColor("#ed0909")
-                        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720254193889280/unknown.png")
+                        .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
                         .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
                         .setFooter(Index.footer)
                         .setTimestamp();
@@ -342,7 +415,7 @@ async function logPatrol(message, client, handler){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect Patrol Log :warning:')
                     .setColor("#ed0909")
-                    .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720254193889280/unknown.png")
+                    .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
                     .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
                     .setFooter(Index.footer)
                     .setTimestamp();
@@ -354,7 +427,7 @@ async function logPatrol(message, client, handler){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect Patrol Log :warning:')
                     .setColor("#ed0909")
-                    .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720254193889280/unknown.png")
+                    .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720758034645012/unknown.png")
                     .setDescription(`**Only provide one screenshot of your patrol timer or ping 2 people.**`)
                     .setFooter(Index.footer)
                     .setTimestamp();
@@ -364,7 +437,6 @@ async function logPatrol(message, client, handler){
                     return;
                 }
             }
-            
         }else{
             if(parseInt(twopictures) == 0){
                 var points = Math.trunc(parseInt(timespent) / 30);
@@ -402,7 +474,7 @@ async function logPatrol(message, client, handler){
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect Patrol Log :warning:')
                 .setColor("#ed0909")
-                .setImage("https://cdn.discordapp.com/attachments/702147293150707805/921720254193889280/unknown.png")
+                .setImage("https://cdn.discordapp.com/attachments/702147293150707805/927639663659864135/unknown.png")
                 .setDescription(`**Please provide two screenshots or ping 2+ people.**`)
                 .setFooter(Index.footer)
                 .setTimestamp();
@@ -413,6 +485,7 @@ async function logPatrol(message, client, handler){
             } 
         }
     }else{
+
         const mention = message.mentions.users.first() || client.users.cache.get(args[1]);
         const mention2 = Array.from(message.mentions.users)[1] || client.users.cache.get(args[2]);
 

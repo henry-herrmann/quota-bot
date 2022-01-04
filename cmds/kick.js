@@ -6,16 +6,30 @@ const DivisionHandler = require("../db/DivisionHandler");
 module.exports = {
     name: "kick",
     async execute(message, args, client, handler, rbx){
-        if(await  handler.getPermissionLevel(message.member) < 4){
-            const embed = new Discord.MessageEmbed()
-              .setTitle('Insufficient permissions :warning:')
-              .setColor("#ed0909")
-              .setDescription(`You are missing the required permissions to execute this command.`)
-              .setFooter(Index.footer)
-              .setTimestamp();
+        const prefix = await handler.getPrefix();
 
-              message.channel.send({embeds: [embed]})
-              return;
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process is finished already. Please use the **${prefix}change** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
         }
 
         if(args.length >= 1){
@@ -158,7 +172,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
               .setTitle('Incorrect usage :warning:')
               .setColor("#ed0909")
-              .setDescription(`>>> .kick @User <Reason>`)
+              .setDescription(`>>> ${prefix}kick @User <Reason>`)
               .setFooter(Index.footer)
               .setTimestamp();
 

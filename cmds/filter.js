@@ -9,14 +9,26 @@ module.exports = {
     async execute(message, args, client, handler, rbx){
         if(await  handler.getPermissionLevel(message.member) < 4){
             const embed = new Discord.MessageEmbed()
-              .setTitle('Insufficient permissions :warning:')
-              .setColor("#ed0909")
-              .setDescription(`You are missing the required permissions to execute this command.`)
-              .setFooter(Index.footer)
-              .setTimestamp();
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+        const prefix = await handler.getPrefix();
 
-              message.channel.send({embeds: [embed]})
-              return;
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
         }
         if(args.length == 1){
             if(message.mentions.users.first() == undefined){
@@ -106,7 +118,7 @@ module.exports = {
                                 .setTimestamp();
         
                                 message.channel.send({embeds: [embed]}).then((msg) =>{
-                                    setTimeout(() => {msg.delete()}, 3000)
+                                    setTimeout(() => {msg.delete().catch(err =>{})}, 3000)
                                 })
         
                                 const txt = new Discord.MessageEmbed()
@@ -116,8 +128,9 @@ module.exports = {
                                 .setFooter(Index.footer)
                                 .setTimestamp();
 
+                                
                                 if(parseInt((await handler.getConfig("Announce-Members")).Value) == 1){
-                                    handler.filteredplayers.push(user.id)
+                                    handler.filteredplayers.push(user.id);
                                 }
                                 
                                 client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
@@ -160,7 +173,7 @@ module.exports = {
                             .setTimestamp();
         
                             message.channel.send({embeds: [embed]}).then((msg) =>{
-                                setTimeout(() => {msg.delete()}, 3000)
+                                setTimeout(() => {msg.delete().catch(err =>{})}, 3000)
                             })
 
                             if(parseInt((await handler.getConfig("Announce-Members")).Value) == 1){
@@ -203,7 +216,7 @@ module.exports = {
                             .setTimestamp();
         
                             message.channel.send({embeds: [embed]}).then((msg) =>{
-                                setTimeout(() => {msg.delete()}, 3000)
+                                setTimeout(() => {msg.delete().catch(err =>{})}, 3000)
                             })
 
                             const txt = new Discord.MessageEmbed()
@@ -253,7 +266,7 @@ module.exports = {
                         .setTimestamp();
         
                         message.channel.send({embeds: [embed]}).then((msg) =>{
-                           setTimeout(() => msg.delete(), 4000)
+                           setTimeout(() => msg.delete().catch(err =>{}), 4000)
                         })
 
                         const txt = new Discord.MessageEmbed()
@@ -276,7 +289,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
             .setColor("#ed0909")
-            .setDescription(`>>> ${await handler.getPrefix()}filter @User`)
+            .setDescription(`>>> ${prefix}filter @User`)
             .setFooter(Index.footer)
             .setTimestamp();
 

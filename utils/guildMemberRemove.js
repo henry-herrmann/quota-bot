@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
-const Index = require("../../index");
+const Index = require("../index");
 const RbxManager =require("./RbxManager");
 
 module.exports = {
-    run(member, handler, client, rbx){
+    async run(member, handler, client, rbx){
         const personnelid = (await handler.getConfig("Personnel-Id")).Value;
         const prefix = await handler.getPrefix();
         const react_logs = await handler.getChannel("react-logs");

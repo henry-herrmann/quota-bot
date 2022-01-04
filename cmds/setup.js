@@ -31,7 +31,7 @@ module.exports = {
 
 
         let questions = [
-            /*{
+            {
                 question: "What prefix would you like to use? :one:",
                 key: "Prefix",
                 desc: "Please reply with a letter.",
@@ -156,7 +156,7 @@ module.exports = {
                 desc: "Please reply with a number.",
                 require: "Roblox-Group-Id",
                 reply: "Roblox Group Id: "
-            },*/
+            },
             {
                 question: "We will now ask you a few questions about the roblox group tied to this discord. :one::eight:",
                 dummy: true,
@@ -261,13 +261,6 @@ module.exports = {
                 require: "Channel-Mention"
             },
             {
-                question: "In which channel should the bot post nickname approval requests? :three::four:",
-                key: "Nick-Appeals-Channel",
-                desc: "Whenever someone uses the nick command, the bot will post their request here.\nReply with a channel mention",
-                reply: "Nick appeals: ",
-                require: "Channel-Mention"
-            },
-            {
                 question: "What is your inactivity notices channel? :three::five:",
                 key: "Inactivity-Channel",
                 desc: "This is required to monitor INs.\nReply with a channel mention",
@@ -357,7 +350,7 @@ module.exports = {
                 
                     message.channel.send({embeds: [embed]})
 
-                    const answer = await awaitMessage(filter, message.channel);
+                    const answer = await awaitMessage(filter, message.channel).catch(err =>{});
 
                     if(answer.content.toUpperCase() == "CANCEL"){
                         const embed1 = new Discord.MessageEmbed()
@@ -431,7 +424,7 @@ module.exports = {
                 
                     message.channel.send({embeds: [embed]})
     
-                    const answer = await awaitMessage(filter, message.channel);
+                    const answer = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                     if(answer.content.toUpperCase() == "CANCEL"){
                         const embed1 = new Discord.MessageEmbed()
@@ -455,7 +448,7 @@ module.exports = {
 
                             message.channel.send({embeds: [embed1]})
 
-                            const answer1 = await awaitMessage(filter, message.channel);
+                            const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                             if(answer1.content.toUpperCase() == "CANCEL"){
                                 const embed1 = new Discord.MessageEmbed()
@@ -513,7 +506,7 @@ module.exports = {
 
                             message.channel.send({embeds: [embed1]})
 
-                            const answer1 = await awaitMessage(filter, message.channel);
+                            const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                             if(answer1.content.toUpperCase() == "CANCEL"){
                                 const embed1 = new Discord.MessageEmbed()
@@ -548,7 +541,7 @@ module.exports = {
 
                             message.channel.send({embeds: [embed1]})
 
-                            const answer1 = await awaitMessage(filter, message.channel);
+                            const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                             if(answer1.content.toUpperCase() == "CANCEL"){
                                 const embed1 = new Discord.MessageEmbed()
@@ -596,7 +589,7 @@ module.exports = {
 
                             message.channel.send({embeds: [embed1]}) 
 
-                            const answer1 = await awaitMessage(filter, message.channel);
+                            const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                             if(answer1.content.toUpperCase() == "CANCEL"){
                                 const embed1 = new Discord.MessageEmbed()
@@ -621,7 +614,7 @@ module.exports = {
 
                                 message.channel.send({embeds: [embed1]}) 
 
-                                const answer2 = await awaitMessage(filter, message.channel);
+                                const answer2 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                                 if(answer2.content.toUpperCase() == "CANCEL"){
                                     const embed1 = new Discord.MessageEmbed()
@@ -668,7 +661,7 @@ module.exports = {
 
                                 message.channel.send({embeds: [embed1]}) 
 
-                                const answer1 = await awaitMessage(filter, message.channel);
+                                const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                                 if(answer1.content.toUpperCase() == "CANCEL"){
                                     const embed1 = new Discord.MessageEmbed()
@@ -733,7 +726,7 @@ module.exports = {
     
                                 message.channel.send({embeds: [embed1]})
     
-                                const answer1 = await awaitMessage(filter, message.channel);
+                                const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
     
                                 if(answer1.content.toUpperCase() == "CANCEL"){
                                     const embed1 = new Discord.MessageEmbed()
@@ -784,7 +777,7 @@ module.exports = {
     
                                 message.channel.send({embeds: [embed1]})
     
-                                const answer1 = await awaitMessage(filter, message.channel);
+                                const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
 
                                 if(answer1.content.toUpperCase() == "CANCEL"){
                                     const embed1 = new Discord.MessageEmbed()
@@ -845,7 +838,7 @@ module.exports = {
             
                                         message.channel.send({embeds: [embed1]})
             
-                                        const answer1 = await awaitMessage(filter, message.channel);
+                                        const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
         
                                         if(answer1.content.toUpperCase() == "CANCEL"){
                                             const embed1 = new Discord.MessageEmbed()
@@ -928,7 +921,7 @@ module.exports = {
         
                                     message.channel.send({embeds: [embed1]})
         
-                                    const answer1 = await awaitMessage(filter, message.channel);
+                                    const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
     
                                     if(answer1.content.toUpperCase() == "CANCEL"){
                                         const embed1 = new Discord.MessageEmbed()
@@ -1016,7 +1009,7 @@ module.exports = {
                                 
                                     message.channel.send({embeds: [embed]})
         
-                                    const answer1 = await awaitMessage(filter, message.channel);
+                                    const answer1 = await awaitMessage(filter, message.channel).catch(err => {return;});
     
                                     if(answer1.content.toUpperCase() == "CANCEL"){
                                         const embed1 = new Discord.MessageEmbed()
@@ -1039,7 +1032,7 @@ module.exports = {
             
                                         message.channel.send({embeds: [embed1]})
             
-                                        const answer2 = await awaitMessage(filter, message.channel);
+                                        const answer2 = await awaitMessage(filter, message.channel).catch(err => {return;});
     
                                         if(answer2.content.toUpperCase() == "CANCEL"){
                                             const embed1 = new Discord.MessageEmbed()

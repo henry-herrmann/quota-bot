@@ -16,6 +16,20 @@ module.exports = {
             return;
         }
 
+        const prefix = await handler.getPrefix();
+
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+
         if(args.length == 0){
             handler.getMembers().then(async (doc) =>{
 
@@ -138,7 +152,6 @@ module.exports = {
 
             })
         }else{
-            const prefix = await handler.getPrefix();
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
             .setColor("#ed0909")

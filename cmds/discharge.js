@@ -19,6 +19,18 @@ async execute(message, args, client, handler, rbx){
 
         const prefix = await handler.getPrefix();
 
+        if(await handler.isConfigured() == false){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Division already configured :warning:')
+            .setColor("#ed0909")
+            .setDescription(`The setup process has yet to be executed. Please use the **${prefix}setup** command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+                  
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+
         if(args.length == 1){
             if(message.mentions.users.first() == undefined){
                 const embed = new Discord.MessageEmbed()
@@ -46,7 +58,7 @@ async execute(message, args, client, handler, rbx){
             var member = message.mentions.users.first(), user;
             if(member) user = await message.guild.members.fetch(member);
 
-            /*if(await  handler.getPermissionLevel(user) >= await  handler.getPermissionLevel(message.member)){
+            if(await  handler.getPermissionLevel(user) >= await  handler.getPermissionLevel(message.member)){
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Unable to discharge :warning:')
                 .setColor("#ed0909")
@@ -56,7 +68,7 @@ async execute(message, args, client, handler, rbx){
 
                 message.channel.send({embeds: [embed]})
                 return;
-            }*/
+            }
 
             const joindatestring = await handler.getJoinDate(user.id);
             const now = new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})
@@ -95,7 +107,9 @@ async execute(message, args, client, handler, rbx){
             }
 
             if(await handler.isOnInactivityNotice(user.id)){
-                client.channels.cache.get(Data.inactivity).messages.fetch({limit: 100}).then((messages) =>{
+                const inactivitychannelid = (await handler.getConfig("Inactivity-Channel")).Value;
+
+                client.channels.cache.get(inactivitychannelid).messages.fetch({limit: 100}).then((messages) =>{
                     const msgs = messages.filter(m => m.author.id === user.id);
                     msgs.forEach((msg) =>{
                       if(msg != null && msg != undefined){
@@ -230,9 +244,23 @@ async execute(message, args, client, handler, rbx){
               }
               var member = message.mentions.users.first(), user;
               if(member) user = await message.guild.members.fetch(member);
+
+              if(await  handler.getPermissionLevel(user) >= await  handler.getPermissionLevel(message.member)){
+                const embed = new Discord.MessageEmbed()
+                .setTitle('Unable to discharge :warning:')
+                .setColor("#ed0909")
+                .setDescription(`Cannot discharge someone with the same or higher permissions.`)
+                .setFooter(Index.footer)
+                .setTimestamp();
+
+                message.channel.send({embeds: [embed]})
+                return;
+              } 
   
               if(await handler.isOnInactivityNotice(user.id)){
-                client.channels.cache.get(Data.inactivity).messages.fetch({limit: 100}).then((messages) =>{
+                const inactivitychannelid = (await handler.getConfig("Inactivity-Channel")).Value;
+
+                client.channels.cache.get(inactivitychannelid).messages.fetch({limit: 100}).then((messages) =>{
                     const msgs = messages.filter(m => m.author.id === user.id);
                     msgs.forEach((msg) =>{
                       if(msg != null && msg != undefined){
