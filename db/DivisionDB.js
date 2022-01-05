@@ -182,7 +182,7 @@ class DivisionDB {
             this.con.query(`SELECT Name FROM ${this.divisionname}.config WHERE Name = ?`, [key], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result == undefined){
+                if(result.length == 0){
                     this.con.query(`INSERT INTO ${this.divisionname}.config (Name, Value) VALUES (?, ?)`, [key, value], (err1, result1, fields1) =>{
                         if(err1) reject(err1);
 
