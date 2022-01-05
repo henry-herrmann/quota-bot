@@ -31,7 +31,7 @@ module.exports = {
 
 
         let questions = [
-            {
+            /*{
                 question: "What prefix would you like to use? :one:",
                 key: "Prefix",
                 desc: "Please reply with a letter.",
@@ -170,7 +170,7 @@ module.exports = {
                 desc: `Once you are ready to proceed, reply with Yes`,
                 require: "Roblox-Rank-Id",
                 reply: "Rank id: "
-            },
+            },*/
             {
                 question: "Would you like to enable the auto rank feature? :one::nine:",
                 key: "Auto-Rank",
