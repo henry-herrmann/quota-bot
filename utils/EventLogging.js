@@ -154,6 +154,7 @@ async function logPatrol(message, client, handler){
     let content = message.content;
 
     const twopictures = (await handler.getConfig("Two-Pictures-Patrols")).Value;
+    const patrolminutes = parseInt((await handler.getConfig("Patrol-Minutes")).Value);
 
     if(content.includes("Time spent patrolling") || content.includes("Screenshot proof") || content.includes("spent patrolling") || content.includes("Time") || content.includes("patrolling")){
         if(parseInt(twopictures) == 1){
@@ -319,11 +320,11 @@ async function logPatrol(message, client, handler){
 
                 var time = args[0]
 
-                if(parseInt(time)< 30){
+                if(parseInt(time)< patrolminutes){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Patrol time too short :warning:')
                     .setColor("#ed0909")
-                    .setDescription(`You can only log a patrol which is longer or equals to **30 minutes.**`)
+                    .setDescription(`You can only log a patrol which is longer or equals to **${patrolminutes} minute/minutes.**`)
                     .setFooter(Index.footer)
                     .setTimestamp();
     
@@ -345,7 +346,7 @@ async function logPatrol(message, client, handler){
                         time = time.replace(/(\r\n|\n|\r)/gm, "");
                         time = time.replace(/\s+/g, '');
     
-                        var points = Math.trunc(parseInt(time) / 30);
+                        var points = Math.trunc(parseInt(time) / patrolminutes);
                         
                         const now = new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})
                         const datestring = new Date(now.toString())
@@ -378,7 +379,7 @@ async function logPatrol(message, client, handler){
                         time = time.replace(/(\r\n|\n|\r)/gm, "");
                         time = time.replace(/\s+/g, '');
     
-                        var points = Math.trunc(parseInt(time) / 30);
+                        var points = Math.trunc(parseInt(time) / patrolminutes);
           
     
                         const now = new Date().toLocaleString('en-US', {timeZone: 'America/New_York'})
@@ -439,13 +440,13 @@ async function logPatrol(message, client, handler){
             }
         }else{
             if(parseInt(twopictures) == 0){
-                var points = Math.trunc(parseInt(timespent) / 30);
+                var points = Math.trunc(parseInt(timespent) / patrolminutes);
 
                 if(parseInt(timespent)< 30){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Patrol time too short :warning:')
                     .setColor("#ed0909")
-                    .setDescription(`You can only log a patrol which is longer or equals to **30 minutes.**`)
+                    .setDescription(`You can only log a patrol which is longer or equals to **${patrolminutes} minute/minutes.**`)
                     .setFooter(Index.footer)
                     .setTimestamp();
                     message.author.send({embeds: [embed]}).catch(() =>{});
@@ -510,13 +511,13 @@ async function logPatrol(message, client, handler){
         var member2 = Array.from(message.mentions.users)[1][1], user2;
         if(member2) user2 = await message.guild.members.fetch(member2);
 
-        var points = Math.trunc(parseInt(timespent) / 30);
+        var points = Math.trunc(parseInt(timespent) / patrolminutes);
 
-        if(parseInt(timespent)< 30){
+        if(parseInt(timespent)< patrolminutes){
            const embed = new Discord.MessageEmbed()
            .setTitle('Patrol time too short :warning:')
            .setColor("#ed0909")
-           .setDescription(`You can only log a patrol which is longer or equals to **30 minutes.**`)
+           .setDescription(`You can only log a patrol which is longer or equals to **${patrolminutes} minute/minutes.**`)
            .setFooter(Index.footer)
            .setTimestamp();
            message.author.send({embeds: [embed]}).catch(() =>{});

@@ -64,6 +64,13 @@ module.exports = {
                 example: "2"
             },
             {
+                name: "patrolMinutes",
+                require: "number",
+                reply: "Successfully set the value for one patrol point to: ",
+                config_query: "Patrol-Minutes",
+                example: "30"
+            },
+            {
                 name: "hostQuota",
                 require: "number",
                 reply: "Successfully set the hosting quota to: ",

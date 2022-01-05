@@ -51,7 +51,14 @@ module.exports = {
                 reply: "Sucessfully set patrol points support to: "
             },
             {
-                question: "What is the attendance quota for non-staff? :four:",
+                question: "If you enabled patrol points, how many minutes are worth one patrol point? :four:",
+                key: "Patrol-Minutes",
+                desc: "Reply with a number. If you want to have each minute logged reply with '1'. __Default is **30**__Reply with 0 if you disabled patrol logs!!!!**",
+                require: "Number",
+                reply: "Sucessfully set value of one patrol point to: "
+            },
+            {
+                question: "What is the attendance quota for non-staff? :five:",
                 key: "Attend-Quota",
                 desc: "Please reply with a number.",
                 require: "Number",

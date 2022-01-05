@@ -18,6 +18,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
     const inactivityid = (await handler.getConfig("Inacitivty-Role-Id")).Value;
     const inactivitychannelid = (await handler.getConfig("Inactivity-Channel")).Value;
     const patrolsawardactivity = (await handler.getConfig("Patrols-Award-Activity")).Value != 0;
+    const patrolminutes = parseInt((await handler.getConfig("Patrol-Minutes")).Value);
 
     if(await handler.isConfigured() == false){
         return;
@@ -353,7 +354,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                             const variables = args[0].split(" ");
                             const time = parseInt(variables[3]);
 
-                            var ppoints = Math.trunc(time / 30);
+                            var ppoints = Math.trunc(time / patrolminutes);
 
                             handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                 if (bool) {
@@ -1341,7 +1342,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const variables = args[0].split(" ");
                         const time = parseInt(variables[3]);
 
-                        var ppoints = Math.trunc(time / 30);
+                        var ppoints = Math.trunc(time / patrolminutes);
 
 
                         const txt = new Discord.MessageEmbed()

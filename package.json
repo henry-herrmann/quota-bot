@@ -25,6 +25,7 @@
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "mysql": "^2.18.1",
-    "noblox.js": "^4.12.0"
+    "noblox.js": "^4.12.0",
+    "roblox-funcaptcha": "^4.0.3"
   }
 }
