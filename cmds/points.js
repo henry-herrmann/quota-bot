@@ -307,6 +307,18 @@ module.exports = {
                   message.channel.send({embeds: [embed]})
                   return;
                 }
+
+                if(parseInt(newpoints) < 0){
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle('Error :warning:')
+                    .setColor("#ed0909")
+                    .setDescription(`Cannot add negative points, use ${prefix}points remove <attend,host${supportsPatrols ? ",patrol" : ""}> <Amount> @User`)
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+      
+                    message.channel.send({embeds: [embed]})
+                    return;
+                }
     
                 var users = [];
     
@@ -568,6 +580,18 @@ module.exports = {
                                 if(args[1] == "attend"){
                                     handler.removeAttendancePoints(user.id, parseFloat(newpoints)).then( async (updatedPoints)=>{
                                         //Points.updateAttendRoles(message.member, updatedPoints);
+
+                                        if(updatedPoints == -1){
+                                            const embed = new Discord.MessageEmbed()
+                                            .setTitle('Error :warning:')
+                                            .setColor("#ed0909")
+                                            .setDescription(`The users points cannot be lower than 0.`)
+                                            .setFooter(Index.footer)
+                                            .setTimestamp();
+                            
+                                            message.channel.send({embeds: [embed]})
+                                            return;
+                                        }
                     
                                         const embed = new Discord.MessageEmbed()
                                         .setTitle('Success :white_check_mark:')
@@ -581,6 +605,18 @@ module.exports = {
                                 }else if(args[1] == "host"){
                                     handler.removeHostingPoints(user.id, parseFloat(newpoints)).then(async (updatedPoints)=>{
                                         //Points.updateHostRoles(message.member, updatedPoints);
+
+                                        if(updatedPoints == -1){
+                                            const embed = new Discord.MessageEmbed()
+                                            .setTitle('Error :warning:')
+                                            .setColor("#ed0909")
+                                            .setDescription(`The users points cannot be lower than 0.`)
+                                            .setFooter(Index.footer)
+                                            .setTimestamp();
+                            
+                                            message.channel.send({embeds: [embed]})
+                                            return;
+                                        }
                     
                                         const embed = new Discord.MessageEmbed()
                                         .setTitle('Success :white_check_mark:')
@@ -594,6 +630,18 @@ module.exports = {
                                 }else if(args[1] == "patrol"){
                                     handler.removePatrolPoints(user.id, parseFloat(newpoints)).then(async (updatedPoints)=>{
                                         //Points.updateHostRoles(message.member, updatedPoints);
+
+                                        if(updatedPoints == -1){
+                                            const embed = new Discord.MessageEmbed()
+                                            .setTitle('Error :warning:')
+                                            .setColor("#ed0909")
+                                            .setDescription(`The users points cannot be lower than 0.`)
+                                            .setFooter(Index.footer)
+                                            .setTimestamp();
+                            
+                                            message.channel.send({embeds: [embed]})
+                                            return;
+                                        }
                     
                                         const embed = new Discord.MessageEmbed()
                                         .setTitle('Success :white_check_mark:')
@@ -610,6 +658,18 @@ module.exports = {
                             if(args[1] == "attend"){
                                 handler.removeAttendancePoints(user.id, parseFloat(newpoints)).then( async (updatedPoints)=>{
                                     //Points.updateAttendRoles(message.member, updatedPoints);
+
+                                    if(updatedPoints == -1){
+                                        const embed = new Discord.MessageEmbed()
+                                        .setTitle('Error :warning:')
+                                        .setColor("#ed0909")
+                                        .setDescription(`The users points cannot be lower than 0.`)
+                                        .setFooter(Index.footer)
+                                        .setTimestamp();
+                        
+                                        message.channel.send({embeds: [embed]})
+                                        return;
+                                    }
                 
                                     const embed = new Discord.MessageEmbed()
                                     .setTitle('Success :white_check_mark:')
@@ -623,6 +683,18 @@ module.exports = {
                             }else if(args[1] == "host"){
                                 handler.removeHostingPoints(user.id, parseFloat(newpoints)).then(async (updatedPoints)=>{
                                     //Points.updateHostRoles(message.member, updatedPoints);
+
+                                    if(updatedPoints == -1){
+                                        const embed = new Discord.MessageEmbed()
+                                        .setTitle('Error :warning:')
+                                        .setColor("#ed0909")
+                                        .setDescription(`The users points cannot be lower than 0.`)
+                                        .setFooter(Index.footer)
+                                        .setTimestamp();
+                        
+                                        message.channel.send({embeds: [embed]})
+                                        return;
+                                    }
                 
                                     const embed = new Discord.MessageEmbed()
                                     .setTitle('Success :white_check_mark:')
@@ -636,6 +708,18 @@ module.exports = {
                             }else if(args[1] == "patrol"){
                                 handler.removePatrolPoints(user.id, parseFloat(newpoints)).then(async (updatedPoints)=>{
                                     //Points.updateHostRoles(message.member, updatedPoints);
+
+                                    if(updatedPoints == -1){
+                                        const embed = new Discord.MessageEmbed()
+                                        .setTitle('Error :warning:')
+                                        .setColor("#ed0909")
+                                        .setDescription(`The users points cannot be lower than 0.`)
+                                        .setFooter(Index.footer)
+                                        .setTimestamp();
+                        
+                                        message.channel.send({embeds: [embed]})
+                                        return;
+                                    }
                 
                                     const embed = new Discord.MessageEmbed()
                                     .setTitle('Success :white_check_mark:')

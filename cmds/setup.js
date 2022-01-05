@@ -31,7 +31,7 @@ module.exports = {
 
 
         let questions = [
-            /*{
+            {
                 question: "What prefix would you like to use? :one:",
                 key: "Prefix",
                 desc: "Please reply with a letter.",
@@ -53,7 +53,7 @@ module.exports = {
             {
                 question: "If you enabled patrol points, how many minutes are worth one patrol point? :four:",
                 key: "Patrol-Minutes",
-                desc: "Reply with a number. If you want to have each minute logged reply with '1'. __Default is **30**__Reply with 0 if you disabled patrol logs!!!!**",
+                desc: "Reply with a number. __Default is **30**. __Reply with 0 if you disabled patrol logs!!!!**",
                 require: "Number",
                 reply: "Sucessfully set value of one patrol point to: "
             },
@@ -170,7 +170,7 @@ module.exports = {
                 desc: `Once you are ready to proceed, reply with Yes`,
                 require: "Roblox-Rank-Id",
                 reply: "Rank id: "
-            },*/
+            },
             {
                 question: "Would you like to enable the auto rank feature? :one::nine:",
                 key: "Auto-Rank",

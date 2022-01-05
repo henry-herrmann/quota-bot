@@ -968,6 +968,8 @@ class DivisionDB {
             let intpoints = parseFloat(points);
             let newpoints = parseFloat(intpoints-amount);
 
+            if(newpoints < 0) return resolve(-1);
+
             this.con.query(`UPDATE ${this.divisionname}.quota SET Attend = ? WHERE Id = ?`, [newpoints, id], (err, result, fields) =>{
                 if(err) reject(err);
 
@@ -983,6 +985,8 @@ class DivisionDB {
             let intpoints = parseFloat(points);
             let newpoints = parseFloat(intpoints-amount);
 
+            if(newpoints < 0) return resolve(-1);
+
             this.con.query(`UPDATE ${this.divisionname}.quota SET Host = ? WHERE Id = ?`, [newpoints, id], (err, result, fields) =>{
                 if(err) reject(err);
 
@@ -997,6 +1001,8 @@ class DivisionDB {
 
             let intpoints = parseFloat(points);
             let newpoints = parseFloat(intpoints-amount);
+
+            if(newpoints < 0) return resolve(-1);
 
             this.con.query(`UPDATE ${this.divisionname}.quota SET Patrol = ? WHERE Id = ?`, [newpoints, id], (err, result, fields) =>{
                 if(err) reject(err);
