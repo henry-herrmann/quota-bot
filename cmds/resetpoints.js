@@ -37,7 +37,7 @@ module.exports = {
             const robloxEmbed = new Discord.MessageEmbed()
             .setColor("#003bed")
             .setTitle("Prompt will expire in 45 seconds")
-            .setDescription("❓ Are you sure you want to reset the spreadsheet and point roles? **Reply with (Yes/No).**")
+            .setDescription("❓ Are you sure you want to reset the database and point roles? **Reply with (Yes/No).**")
             .setFooter(Index.footer)
             .setTimestamp();
             message.channel.send({embeds: [robloxEmbed]});
@@ -57,7 +57,7 @@ module.exports = {
             }
 
             var embed = new Discord.MessageEmbed()
-            .setTitle("Spread sheet reset in progress :wrench:")
+            .setTitle("Database reset in progress :wrench:")
             .setColor("#ebe71c")
             .setDescription(`This can take up to 2 minutes. **Stand by.**`)
             .setFooter(Index.footer)
