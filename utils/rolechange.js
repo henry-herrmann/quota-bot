@@ -1,6 +1,9 @@
 const RbxManager = require('./RbxManager');
 
 async function roleChanged(oldMember, newMember, handler, client, rbx){
+    const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
+    if(autorank == 0) return;
+
     if (oldMember.roles.cache.size < newMember.roles.cache.size){
 
         const logs = await newMember.guild.fetchAuditLogs({ limit: 1, type: 'MEMBER_ROLE_UPDATE' });

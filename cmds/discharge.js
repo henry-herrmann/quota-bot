@@ -123,96 +123,104 @@ async execute(message, args, client, handler, rbx){
                 handler.removeInactivityNotice(user.id);
             }
 
+            const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
+
             
             handler.isOnSpreadsheet(user.id).then(async (bool) =>{
                 if(bool){
+                  if(autorank == 1){
                     var robloxid = await handler.getRobloxId(user.id);
                     await RbxManager.exileUser(rbx, handler, robloxid)
-                    await handler.removeMember(user.id);
-                    const embed = new Discord.MessageEmbed()
-                    .setTitle('User removed from the spreadsheet :white_check_mark:')
-                    .setColor("#56d402")
-                    .setDescription(`Successfully removed <@${user.id}> from the database. `)
-                    .setFooter(Index.footer)
-                    .setTimestamp();
-                    message.channel.send({embeds: [embed]})
+                  }
+        
+                  await handler.removeMember(user.id);
 
-                    const txt = new Discord.MessageEmbed()
-                    .setTitle("User Discharged")
-                    .setColor("#42f581")
-                    .setDescription(`User: <@${user.id}>\nDischarged by: <@${message.author.id}>`)
-                    .setFooter(Index.footer)
-                    .setTimestamp();
+                  const embed = new Discord.MessageEmbed()
+                  .setTitle('User removed from the spreadsheet :white_check_mark:')
+                  .setColor("#56d402")
+                  .setDescription(`Successfully removed <@${user.id}> from the database. `)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
+                  message.channel.send({embeds: [embed]})
+
+                  const txt = new Discord.MessageEmbed()
+                  .setTitle("User Discharged")
+                  .setColor("#42f581")
+                  .setDescription(`User: <@${user.id}>\nDischarged by: <@${message.author.id}>`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
                                 
-                    client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
+                  client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
 
 
-                    const notice = new Discord.MessageEmbed()
-                    .setTitle(":wave: You have been discharged. :wave:")
-                    .setColor("#0456c2")
-                    .addField("**If you weren't granted Guest, __please leave the discord.__**", `Thank you for your service. - ${handler.getDivisionName()} High Command`)
-                    .setFooter(Index.footer)
-                    .setTimestamp();
+                  const notice = new Discord.MessageEmbed()
+                  .setTitle(":wave: You have been discharged. :wave:")
+                  .setColor("#0456c2")
+                  .addField("**If you weren't granted Guest, __please leave the discord.__**", `Thank you for your service. - ${handler.getDivisionName()} High Command`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
 
-                    user.send({embeds: [notice]})
+                  user.send({embeds: [notice]})
 
                 }else{
-                  var robloxid1;
+                  if(autorank == 1){
+                    var robloxid1;
 
-                  try{
-                      robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
-                  }catch(error){
-                      const embed = new Discord.MessageEmbed()
-                      .setTitle('Error :warning:')
-                      .setColor("#ed0909")
-                      .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
-                      .setFooter(Index.footer)
-                      .setTimestamp();
-          
-                      message.channel.send({embeds: [embed]})
-                      return;
+                    try{
+                        robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                    }catch(error){
+                        const embed = new Discord.MessageEmbed()
+                        .setTitle('Error :warning:')
+                        .setColor("#ed0909")
+                        .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+            
+                        message.channel.send({embeds: [embed]})
+                        return;
+                    }
+        
+                    if(robloxid1 == undefined || robloxid1 == null){
+                        const embed = new Discord.MessageEmbed()
+                        .setTitle('Error :warning:')
+                        .setColor("#ed0909")
+                        .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+            
+                        message.channel.send({embeds: [embed]})
+                        return;
+                    }
+                    await RbxManager.exileUser(rbx, handler, robloxid1)
                   }
-      
-                  if(robloxid1 == undefined || robloxid1 == null){
-                      const embed = new Discord.MessageEmbed()
-                      .setTitle('Error :warning:')
-                      .setColor("#ed0909")
-                      .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
-                      .setFooter(Index.footer)
-                      .setTimestamp();
-          
-                      message.channel.send({embeds: [embed]})
-                      return;
-                  }
-                  await RbxManager.exileUser(rbx, handler, robloxid1)
 
-                    const embed = new Discord.MessageEmbed()
-                   .setTitle('User not on the spreadsheet :warning:')
-                   .setColor("#ed0909")
-                   .setDescription(`<@${user.id}> is not on the spreadsheet, he is good to go.`)
-                   .setFooter(Index.footer)
-                   .setTimestamp();
+                  const embed = new Discord.MessageEmbed()
+                  .setTitle('User not on the spreadsheet :warning:')
+                  .setColor("#ed0909")
+                  .setDescription(`<@${user.id}> is not on the spreadsheet, he is good to go.`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
 
-                   message.channel.send({embeds: [embed]})
+                  message.channel.send({embeds: [embed]})
 
-                   const txt = new Discord.MessageEmbed()
-                   .setTitle("User Discharged")
-                   .setColor("#42f581")
-                   .setDescription(`User: <@${user.id}>\nDischarged by: <@${message.author.id}>`)
-                   .setFooter(Index.footer)
-                   .setTimestamp();
-                                
-                   client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
+                  const txt = new Discord.MessageEmbed()
+                  .setTitle("User Discharged")
+                  .setColor("#42f581")
+                  .setDescription(`User: <@${user.id}>\nDischarged by: <@${message.author.id}>`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
+                               
+                  client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
 
-                   const notice = new Discord.MessageEmbed()
-                   .setTitle(":wave: You have been discharged. :wave:")
-                   .setColor("#0456c2")
-                   .addField("**If you weren't granted Guest, __please leave the discord.__**", `Thank you for your service. - ${handler.getDivisionName()} High Command`)
-                   .setFooter(Index.footer)
-                   .setTimestamp();
+                  const notice = new Discord.MessageEmbed()
+                  .setTitle(":wave: You have been discharged. :wave:")
+                  .setColor("#0456c2")
+                  .addField("**If you weren't granted Guest, __please leave the discord.__**", `Thank you for your service. - ${handler.getDivisionName()} High Command`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
 
-                   user.send({embeds: [notice]})
-                   return; 
+                  user.send({embeds: [notice]})
+                  return; 
                 }
             })
             
@@ -273,12 +281,17 @@ async execute(message, args, client, handler, rbx){
   
                 handler.removeInactivityNotice(user.id);
               }
+
+              const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
   
             
              handler.isOnSpreadsheet(user.id).then(async (bool) =>{
                 if(bool){
-                    var robloxid = await handler.getRobloxId(user.id);
-                    await RbxManager.exileUser(rbx, handler, robloxid)
+                    if(autorank == 1){
+                      var robloxid = await handler.getRobloxId(user.id);
+                      await RbxManager.exileUser(rbx, handler, robloxid);
+                    }
+
                     await handler.removeMember(user.id);
                     const embed = new Discord.MessageEmbed()
                     .setTitle('User removed from the spreadsheet :white_check_mark:')
@@ -308,64 +321,66 @@ async execute(message, args, client, handler, rbx){
                     user.send({embeds: [notice]})
   
                 }else{
-                  var robloxid1;
+                  if(autorank == 1){
+                    var robloxid1;
 
-                  try{
-                      robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
-                  }catch(error){
-                      const embed = new Discord.MessageEmbed()
-                      .setTitle('Error :warning:')
-                      .setColor("#ed0909")
-                      .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
-                      .setFooter(Index.footer)
-                      .setTimestamp();
-          
-                      message.channel.send({embeds: [embed]})
-                      return;
+                    try{
+                        robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                    }catch(error){
+                        const embed = new Discord.MessageEmbed()
+                        .setTitle('Error :warning:')
+                        .setColor("#ed0909")
+                        .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+            
+                        message.channel.send({embeds: [embed]})
+                        return;
+                    }
+        
+                    if(robloxid1 == undefined || robloxid1 == null){
+                        const embed = new Discord.MessageEmbed()
+                        .setTitle('Error :warning:')
+                        .setColor("#ed0909")
+                        .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+            
+                        message.channel.send({embeds: [embed]})
+                        return;
+                    }
+                    await RbxManager.exileUser(rbx, handler, robloxid1)
                   }
-      
-                  if(robloxid1 == undefined || robloxid1 == null){
-                      const embed = new Discord.MessageEmbed()
-                      .setTitle('Error :warning:')
-                      .setColor("#ed0909")
-                      .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
-                      .setFooter(Index.footer)
-                      .setTimestamp();
-          
-                      message.channel.send({embeds: [embed]})
-                      return;
-                  }
-                  await RbxManager.exileUser(rbx, handler, robloxid1)
 
-                    const embed = new Discord.MessageEmbed()
-                   .setTitle('User not on the spreadsheet :warning:')
-                   .setColor("#ed0909")
-                   .setDescription(`<@${user.id}> is not on the spreadsheet, he is good to go.`)
-                   .setFooter(Index.footer)
-                   .setTimestamp();
+                  const embed = new Discord.MessageEmbed()
+                  .setTitle('User not on the spreadsheet :warning:')
+                  .setColor("#ed0909")
+                  .setDescription(`<@${user.id}> is not on the spreadsheet, he is good to go.`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
+
+                  message.channel.send({embeds: [embed]})
   
-                   message.channel.send({embeds: [embed]})
-  
-                   const txt = new Discord.MessageEmbed()
-                   .setTitle("User Discharged")
-                   .setColor("#42f581")
-                   .setDescription(`User: <@${user.id}>\nDischarged by: <@${message.author.id}>`)
-                   .setFooter(Index.footer)
-                   .setTimestamp();
-                                
-                   client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
-  
-                   const notice = new Discord.MessageEmbed()
-                   .setTitle(":wave: You have been discharged. :wave:")
-                   .setColor("#0456c2")
-                   .addField("**If you weren't granted Guest, __please leave the discord.__**", `Thank you for your service. - ${handler.getDivisionName()} High Command`)
-                   .setFooter(Index.footer)
-                   .setTimestamp();
-  
-                   user.send({embeds: [notice]})
-                   return; 
+                  const txt = new Discord.MessageEmbed()
+                  .setTitle("User Discharged")
+                  .setColor("#42f581")
+                  .setDescription(`User: <@${user.id}>\nDischarged by: <@${message.author.id}>`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
+                               
+                  client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
+
+                  const notice = new Discord.MessageEmbed()
+                  .setTitle(":wave: You have been discharged. :wave:")
+                  .setColor("#0456c2")
+                  .addField("**If you weren't granted Guest, __please leave the discord.__**", `Thank you for your service. - ${handler.getDivisionName()} High Command`)
+                  .setFooter(Index.footer)
+                  .setTimestamp();
+
+                  user.send({embeds: [notice]})
+                  return; 
                 }
-               })
+              })
   
             }else{
               const embed = new Discord.MessageEmbed()

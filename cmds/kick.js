@@ -32,6 +32,8 @@ module.exports = {
             return;
         }
 
+        const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
+
         if(args.length >= 1){
             if(message.mentions.users.first() == undefined){
                 const embed = new Discord.MessageEmbed()
@@ -79,8 +81,10 @@ module.exports = {
 
             handler.isOnSpreadsheet(user.id).then(async (bool) =>{
                 if(bool){
-                    var robloxid = await handler.getRobloxId(user.id);
-                    await RbxManager.exileUser(rbx, handler, robloxid)
+                    if(autorank == 1){
+                        var robloxid = await handler.getRobloxId(user.id);
+                        await RbxManager.exileUser(rbx, handler, robloxid);
+                    }
 
                     const kickmsg = new Discord.MessageEmbed()
                     .setTitle(`:exclamation: You were kicked from the ${(await handler.getConfig("Division-Name")).Value} :exclamation:`)
@@ -111,34 +115,36 @@ module.exports = {
                         return;
                     })
                 }else{
-                    var robloxid1;
+                    if(autorank == 1){
+                        var robloxid1;
 
-                    try{
-                        robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
-                    }catch(error){
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Error :warning:')
-                        .setColor("#ed0909")
-                        .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
+                        try{
+                            robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                        }catch(error){
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Error :warning:')
+                            .setColor("#ed0909")
+                            .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                            return;
+                        }
             
-                        message.channel.send({embeds: [embed]})
-                        return;
+                        if(robloxid1 == undefined || robloxid1 == null){
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Error :warning:')
+                            .setColor("#ed0909")
+                            .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                            return;
+                        }
+                        await RbxManager.exileUser(rbx, handler, robloxid1)
                     }
-        
-                    if(robloxid1 == undefined || robloxid1 == null){
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Error :warning:')
-                        .setColor("#ed0909")
-                        .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
-            
-                        message.channel.send({embeds: [embed]})
-                        return;
-                    }
-                    await RbxManager.exileUser(rbx, handler, robloxid1)
 
                     const kickmsg = new Discord.MessageEmbed()
                     .setTitle(`:exclamation: You were kicked from the ${(await handler.getConfig("Division-Name")).Value} :exclamation:`)
@@ -152,7 +158,7 @@ module.exports = {
                         const embed = new Discord.MessageEmbed()
                         .setTitle('User kicked and removed from the database :white_check_mark:')
                         .setColor("#56d402")
-                        .setDescription(`Successfully kicked ${user.user.tag} from the discord.`)
+                        .setDescription(`Successfully kicked ${user.user.tag} from the discord.\nRemoved from the group`)
                         .setFooter(Index.footer)
                         .setTimestamp();
                         message.channel.send({embeds: [embed]})
