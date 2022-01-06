@@ -746,7 +746,7 @@ module.exports = {
                 return;
             }
         }else if(args.length == 2){
-            if(permlevel < 3){
+            if(permlevel < 1){
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Insufficient permissions :warning:')
                 .setColor("#ed0909")

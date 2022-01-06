@@ -113,7 +113,9 @@ client.on('messageCreate', async (message) =>{
     const args = message.content.substring(prefix.length).split(" ");
     const command = args.shift().toLocaleLowerCase();
 
-    if(command == "points"){
+    if(command == "help"){
+        client.commands.get("help").execute(message, args, handler);
+    }else if(command == "points"){
         client.commands.get("points").execute(message, args, handler, client);
     }else if(command == "setup"){
         client.commands.get("setup").execute(message, args, handler, client, prefix);

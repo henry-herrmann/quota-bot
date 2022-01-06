@@ -40,6 +40,8 @@ module.exports = {
             return;
         }
 
+        const supportsPatrols = handler.supportsPatrols();
+
         //Executes if the command has more than one argument
         if(args.length >= 1){
             const attendance = await handler.getTotalEventsAttended(); //Fetches the sum of all values in the "Attend" column of the quota table in the database for the division.
@@ -110,6 +112,18 @@ module.exports = {
                     backgroundColors.push("rgba(171, 169, 243, 0.2)")
                     borderColors.push("rgba(171, 169, 243, 1)")
                 }else if(commaargs[i].toUpperCase() == "PATROLS" || commaargs[i].toUpperCase() == "PATROL"){
+                    if(!supportsPatrols){
+                        const embed = new Discord.MessageEmbed()
+                        .setTitle('Error :warning:')
+                        .setColor("#ed0909")
+                        .setDescription(`Patrols are disabled for this division. Please use the change command in order to activate patrols.`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+                              
+                        message.channel.send({embeds: [embed]})
+                        return;
+                    }
+                    
                     labels.push("Patrols (" + patrols + ")");
                     datas.push(patrols);
                     backgroundColors.push("rgba(252, 197, 112, 0.2)")
@@ -228,63 +242,116 @@ module.exports = {
             const height = 400;
             const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height });
 
-
-            (async ()=> {
-                const config = {
-                    type: 'bar',
-                    data: {
-                        labels: ["Activity (" + attendance + ")", "Hosts (" + hosts + ")" , "Patrols (" + patrols + ")"],
-                        datasets: [{
-                            
-                            data: [attendance, hosts, patrols],
-                            backgroundColor: [
-                                'rgba(230, 126, 34, 0.2)',
-                                'rgba(171, 169, 243, 0.2)',
-                                'rgba(252, 197, 112, 0.2)'
-                            ],
-                            borderColor: [
-                                'rgba(230, 126, 34, 1)',
-                                'rgba(171, 169, 243, 1)',
-                                'rgba(252, 197, 112, 1)'
-                            ],
-                            borderWidth: 1
-                        }]
-                    }, 
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                            }
-                        },
-                        legend: {
-                           display: false,
-                           labels: {
-                               family: "sans-serif"
-                           }
-                        },
-                        plugins: {
+            if(supportsPatrols){
+                (async ()=> {
+                    const config = {
+                        type: 'bar',
+                        data: {
+                            labels: ["Activity (" + attendance + ")", "Hosts (" + hosts + ")" , "Patrols (" + patrols + ")"],
+                            datasets: [{
+                                
+                                data: [attendance, hosts, patrols],
+                                backgroundColor: [
+                                    'rgba(230, 126, 34, 0.2)',
+                                    'rgba(171, 169, 243, 0.2)',
+                                    'rgba(252, 197, 112, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(230, 126, 34, 1)',
+                                    'rgba(171, 169, 243, 1)',
+                                    'rgba(252, 197, 112, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        }, 
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                }
+                            },
                             legend: {
-                                display: false,
+                               display: false,
+                               labels: {
+                                   family: "sans-serif"
+                               }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                }
                             }
-                        }
-                    } 
-                }
+                        } 
+                    }
+    
+                    
+    
+                    var dataURL = await chartJSNodeCanvas.renderToDataURL(config)
+                    var data = dataURL.replace(/^data:image\/\w+;base64,/, "");
+    
+                    var buffer = new Buffer.from(data, "base64");
+                    const attach = new Discord.MessageAttachment(buffer);
+    
+                    message.channel.send({files: [attach]})
+                })();
+            }else{
+                (async ()=> {
+                    const config = {
+                        type: 'bar',
+                        data: {
+                            labels: ["Activity (" + attendance + ")", "Hosts (" + hosts + ")" ],
+                            datasets: [{
+                                
+                                data: [attendance, hosts, patrols],
+                                backgroundColor: [
+                                    'rgba(230, 126, 34, 0.2)',
+                                    'rgba(171, 169, 243, 0.2)'
+                                    
+                                ],
+                                borderColor: [
+                                    'rgba(230, 126, 34, 1)',
+                                    'rgba(171, 169, 243, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        }, 
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                }
+                            },
+                            legend: {
+                               display: false,
+                               labels: {
+                                   family: "sans-serif"
+                               }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                }
+                            }
+                        } 
+                    }
+    
+                    
+    
+                    var dataURL = await chartJSNodeCanvas.renderToDataURL(config)
+                    var data = dataURL.replace(/^data:image\/\w+;base64,/, "");
+    
+                    var buffer = new Buffer.from(data, "base64");
+                    const attach = new Discord.MessageAttachment(buffer);
+    
+                    message.channel.send({files: [attach]})
+                })();
+            }
 
-                
-
-                var dataURL = await chartJSNodeCanvas.renderToDataURL(config)
-                var data = dataURL.replace(/^data:image\/\w+;base64,/, "");
-
-                var buffer = new Buffer.from(data, "base64");
-                const attach = new Discord.MessageAttachment(buffer);
-
-                message.channel.send({files: [attach]})
-            })();
         }else{
             const embed = new Discord.MessageEmbed()
               .setTitle('Incorrect usage :warning:')
               .setColor("#ed0909")
-              .setDescription(`>>> ${prefix}totalevents (<activity, hosts, patrols>) `)
+              .setDescription(`>>> ${prefix}totalevents (<activity, hosts${supportsPatrols ? ", patrols" : ""}>) `)
               .setFooter(Index.footer)
               .setTimestamp();
 
