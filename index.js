@@ -119,8 +119,8 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("points").execute(message, args, handler, client);
     }else if(command == "setup"){
         client.commands.get("setup").execute(message, args, handler, client, prefix);
-    }else if(command == "alderaan"){
-        client.commands.get("alderaan").execute(message, args, handler, rbx);
+    }else if(command == "game"){
+        client.commands.get("game").execute(message, args, handler, rbx);
     }else if(command == "announce"){
         client.commands.get("announce").execute(message, args, client, handler);
     }else if(command == "ban"){

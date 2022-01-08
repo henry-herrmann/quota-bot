@@ -103,7 +103,7 @@ module.exports = {
                 }
             })
         }else if(args.length == 1){
-            if(await handler.getPermissionLevel(message.member) < 4){
+            if(await handler.getPermissionLevel(message.member) < 3){
                 return;
             }
             if(message.mentions.users.first() == undefined || message.mentions.users.first() == null){
