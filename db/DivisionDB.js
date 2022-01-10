@@ -42,6 +42,9 @@ class DivisionDB {
         con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.roles(id TEXT, rankid INT NOT NULL, type TEXT)`, (err, result, field) =>{
             if(err) console.log(err);
         })
+        con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.events(Name TEXT, Type TEXT, Points FLOAT NOT NULL DEFAULT 0)`, (err, result, field) =>{
+            if(err) console.log(err);
+        })
 
         this.loadConfig();
     }
@@ -182,7 +185,7 @@ class DivisionDB {
             this.con.query(`SELECT Name FROM ${this.divisionname}.config WHERE Name = ?`, [key], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result.length == 0){
+                if(result == undefined || result.length == 0){
                     this.con.query(`INSERT INTO ${this.divisionname}.config (Name, Value) VALUES (?, ?)`, [key, value], (err1, result1, fields1) =>{
                         if(err1) reject(err1);
 
@@ -405,7 +408,7 @@ class DivisionDB {
             this.con.query(`SELECT SUM(Attend) AS Sum FROM ${this.divisionname}.quota`, (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result == undefined) return resolve(null);
+                if(result == undefined ||  result.length == 0) return resolve(null);
 
                 return resolve(result[0].Sum);
             })
@@ -421,7 +424,7 @@ class DivisionDB {
             this.con.query(`SELECT SUM(Host) AS Sum FROM ${this.divisionname}.quota`, (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result == undefined) return resolve(null);
+                if(result == undefined || result.length == 0) return resolve(null);
 
                 return resolve(result[0].Sum);
             })
@@ -781,7 +784,7 @@ class DivisionDB {
             this.con.query(`SELECT Attend FROM ${this.divisionname}.quota WHERE Id = ?`, [id], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result == undefined) return resolve(0);
+                if(result == undefined || result.length == 0) return resolve(0);
 
                 return resolve(result[0].Attend);
             })
@@ -793,7 +796,7 @@ class DivisionDB {
             this.con.query(`SELECT Host FROM ${this.divisionname}.quota WHERE Id = ?`, [id], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result == undefined) return resolve(0);
+                if(result == undefined || result.length == 0) return resolve(0);
 
                 return resolve(result[0].Host);
             })
@@ -805,7 +808,7 @@ class DivisionDB {
             this.con.query(`SELECT Patrol FROM ${this.divisionname}.quota WHERE Id = ?`, [id], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result == undefined) return resolve(0);
+                if(result == undefined || result.length == 0) return resolve(0);
 
                 return resolve(result[0].Patrol);
             })
@@ -909,7 +912,7 @@ class DivisionDB {
             this.con.query(`SELECT Value FROM ${this.divisionname}.config WHERE Name = ?`, ["Prefix"], (err, result, fields) =>{
                 if(err) reject(err);
 
-                if(result.length == 0) return resolve(".");
+                if(result == undefined || result.length == 0) return resolve(".");
 
                 return resolve(result[0].Value);
             })
@@ -1008,6 +1011,61 @@ class DivisionDB {
                 if(err) reject(err);
 
                 return resolve(newpoints);
+            })
+        })
+    }
+
+    async getEventTypes(){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.events`, (err, result, fields) =>{
+                if(err) reject(err);
+
+                return resolve(result);
+            })
+        })
+    }
+
+    async getEventType(name, type){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, [name, type], (err, result, fields) =>{
+                if(err) reject(err);
+
+                if(result == undefined || result.length == 0) return resolve({Name: "other", Type: "all", Points: 1});
+
+                return resolve(result[0]);
+            })
+        })
+    }
+
+    async updateEventType(name, type, points){
+        return new Promise((resolve, reject) =>{
+
+            this.con.query(`SELECT Type FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, [name, type], (err, result, fields) =>{
+                if(err) reject(err);
+
+                if(result == undefined  || result.length == 0){
+                    this.con.query(`INSERT INTO ${this.divisionname}.events (Name, Type, Points) VALUES (?, ?, ?)`, [name, type, points], (err1, result1, fields1) =>{
+                        if(err1) reject(err1);
+
+                        return resolve();
+                    })
+                }else{
+                    this.con.query(`UPDATE ${this.divisionname}.events SET Points = ? WHERE Name = ? AND Type = ?`, [points, name, type], (err1, result1, fields1) =>{
+                        if(err1) reject(err1);
+
+                        return resolve();
+                    })
+                }
+            })
+        })
+    }
+    
+    async deleteEventType(name, type){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`DELETE FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, [name, type], (err, result, fields) =>{
+                if(err) reject(result);
+
+                return resolve();
             })
         })
     }
