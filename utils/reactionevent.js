@@ -505,11 +505,18 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                                         handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                             if (bool) {
-                                                handler.addHostingPoints(member.id, 1).then(async () => {
+                                                const eventtypes = await handler.getEventTypes();
+                                                let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
+
+                                                if(result == undefined){
+                                                    result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
+                                                }
+
+                                                handler.addHostingPoints(member.id, parseFloat(result.Points)).then(async () => {
                                                     const txt = new Discord.MessageEmbed()
                                                     .setTitle("Event log Approved")
                                                     .setColor("#aba9f3")
-                                                    .setDescription(`Event type: **${type}**\nHost: **<@${member.id}>**\nProof link: ${link}\nPoints added: **1**\nApproved by: <@${user.id}>`)
+                                                    .setDescription(`Event type: **${type}**\nHost: **<@${member.id}>**\nProof link: ${link}\nPoints added: **${parseFloat(result.Points)}**\nApproved by: <@${user.id}>`)
                                                     .setFooter(Index.footer)
                                                     .setTimestamp();
 
@@ -553,11 +560,18 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                 }
 
                                                 handler.addMember(member.id, robloxid1, member).then(async () => {
-                                                    handler.addHostingPoints(member.id, 1).then(async () => {
+                                                    const eventtypes = await handler.getEventTypes();
+                                                    let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
+    
+                                                    if(result == undefined){
+                                                        result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
+                                                    }
+
+                                                    handler.addHostingPoints(member.id, parseFloat(result.Points)).then(async () => {
                                                         const txt = new Discord.MessageEmbed()
                                                         .setTitle("Event log Approved")
                                                         .setColor("#aba9f3")
-                                                        .setDescription(`Event type: **${type}**\nHost: **<@${member.id}>**\nProof link: ${link}\nPoints added: **1**\nApproved by: <@${user.id}>`)
+                                                        .setDescription(`Event type: **${type}**\nHost: **<@${member.id}>**\nProof link: ${link}\nPoints added: **${parseFloat(result.Points)}**\nApproved by: <@${user.id}>`)
                                                         .setFooter(Index.footer)
                                                         .setTimestamp();
 
@@ -628,13 +642,20 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                             handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                 if (bool) {
-                                    handler.addAttendancePoints(member.id, 1).then(async () => {
+                                    const eventtypes = await handler.getEventTypes();
+                                    let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "attend");
+
+                                    if(result == undefined){
+                                        result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "attend");
+                                    }
+
+                                    handler.addAttendancePoints(member.id, parseFloat(result.Points)).then(async () => {
                                         const txt = new Discord.MessageEmbed()
-                                            .setTitle("Activity log Approved")
-                                            .setColor("#e67e22")
-                                            .setDescription(`Event type: **${eventtype}**\nAttendee: <@${member.id}>\nHost: **${host}**\nPoints added: **1**\nApproved by: <@${user.id}>`)
-                                            .setFooter(Index.footer)
-                                            .setTimestamp();
+                                        .setTitle("Activity log Approved")
+                                        .setColor("#e67e22")
+                                        .setDescription(`Event type: **${eventtype}**\nAttendee: <@${member.id}>\nHost: **${host}**\nPoints added: **${parseFloat(result.Points)}**\nApproved by: <@${user.id}>`)
+                                        .setFooter(Index.footer)
+                                        .setTimestamp();
 
                                         client.channels.cache.get(react_logs).send({ embeds: [txt] })
                                     })
@@ -674,11 +695,18 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                     }
 
                                     handler.addMember(member.id, robloxid1, member).then(async () => {
-                                        handler.addAttendancePoints(member.id, 1).then(async () => {
+                                        const eventtypes = await handler.getEventTypes();
+                                        let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "attend");
+    
+                                        if(result == undefined){
+                                            result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "attend");
+                                        }
+
+                                        handler.addAttendancePoints(member.id, parseFloat(result.Points)).then(async () => {
                                             const txt = new Discord.MessageEmbed()
                                             .setTitle("Activity log Approved")
                                             .setColor("#e67e22")
-                                            .setDescription(`Event type: **${eventtype}**\nAttendee: <@${member.id}>\nHost: **${host}**\nPoints added: **1**\nApproved by: <@${user.id}>`)
+                                            .setDescription(`Event type: **${eventtype}**\nAttendee: <@${member.id}>\nHost: **${host}**\nPoints added: **${parseFloat(result.Points)}**\nApproved by: <@${user.id}>`)
                                             .setFooter(Index.footer)
                                             .setTimestamp();
 
@@ -709,11 +737,18 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                             })
                             handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                 if (bool) {
-                                    handler.addHostingPoints(member.id, 1).then(async () => {
+                                    const eventtypes = await handler.getEventTypes();
+                                    let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
+
+                                    if(result == undefined){
+                                        result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
+                                    }
+
+                                    handler.addHostingPoints(member.id, parseFloat(result.Points)).then(async () => {
                                         const txt = new Discord.MessageEmbed()
                                         .setTitle("Event log Approved")
                                         .setColor("#aba9f3")
-                                        .setDescription(`Event type: **${eventtype}**\nHost: **<@${member.id}>**\nPoints added: **1**\nApproved by: <@${user.id}>`)
+                                        .setDescription(`Event type: **${eventtype}**\nHost: **<@${member.id}>**\nPoints added: **${parseFloat(result.Points)}**\nApproved by: <@${user.id}>`)
                                         .setFooter(Index.footer)
                                         .setTimestamp();
 
@@ -756,11 +791,18 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                     }
 
                                     handler.addMember(member.id, robloxid1, member).then(async () => {
-                                        handler.addHostingPoints(member.id, 1).then(async () => {
+                                        const eventtypes = await handler.getEventTypes();
+                                        let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
+    
+                                        if(result == undefined){
+                                            result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
+                                        }
+
+                                        handler.addHostingPoints(member.id, parseFloat(result.Points)).then(async () => {
                                             const txt = new Discord.MessageEmbed()
                                             .setTitle("Event log Approved")
                                             .setColor("#aba9f3")
-                                            .setDescription(`Event type: **${eventtype}**\nHost: **<@${member.id}>**\nPoints added: **1**\nApproved by: <@${user.id}>`)
+                                            .setDescription(`Event type: **${eventtype}**\nHost: **<@${member.id}>**\nPoints added: **${parseFloat(result.Points)}**\nApproved by: <@${user.id}>`)
                                             .setFooter(Index.footer)
                                             .setTimestamp();
 

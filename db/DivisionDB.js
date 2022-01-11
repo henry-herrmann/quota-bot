@@ -1025,18 +1025,6 @@ class DivisionDB {
         })
     }
 
-    async getEventType(name, type){
-        return new Promise((resolve, reject) =>{
-            this.con.query(`SELECT * FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, [name, type], (err, result, fields) =>{
-                if(err) reject(err);
-
-                if(result == undefined || result.length == 0) return resolve({Name: "other", Type: "all", Points: 1});
-
-                return resolve(result[0]);
-            })
-        })
-    }
-
     async updateEventType(name, type, points){
         return new Promise((resolve, reject) =>{
 

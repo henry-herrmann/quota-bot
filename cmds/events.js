@@ -30,7 +30,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                         .setTitle('Incorrect usage :warning:')
                         .setColor("#ed0909")
-                        .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host${supportsPatrols ? ",patrol" : ""}> <Event name>\n${prefix}events <unset> <Event name>`)
+                        .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
                         .setFooter(Index.footer)
                         .setTimestamp();
                           
@@ -38,30 +38,16 @@ module.exports = {
                         return;
                 }
 
-                if(supportsPatrols){
-                    if(args[1].toLowerCase() != "patrol" && args[1].toLowerCase() != "attend" && args[1].toLowerCase() != "host"){
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Incorrect usage :warning:')
-                        .setColor("#ed0909")
-                        .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host${supportsPatrols ? ",patrol" : ""}> <Event name>\n${prefix}events <unset> <Event name>`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
-                          
-                        message.channel.send({embeds: [embed]})
-                        return;
-                    }
-                }else{
-                    if(args[1].toLowerCase() != "attend" && args[1].toLowerCase() != "host"){
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Incorrect usage :warning:')
-                        .setColor("#ed0909")
-                        .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
-                          
-                        message.channel.send({embeds: [embed]})
-                        return;
-                    }
+                if(args[1].toLowerCase() != "attend" && args[1].toLowerCase() != "host"){
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle('Incorrect usage :warning:')
+                    .setColor("#ed0909")
+                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+                      
+                    message.channel.send({embeds: [embed]})
+                    return;
                 }
 
                 if(!parseFloat(args[2])){
@@ -107,7 +93,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect usage :warning:')
                     .setColor("#ed0909")
-                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host${supportsPatrols ? ",patrol" : ""}> <Event name>\n${prefix}events <unset> <Event name>`)
+                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
                     .setFooter(Index.footer)
                     .setTimestamp();
                       
@@ -158,7 +144,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect usage :warning:')
                 .setColor("#ed0909")
-                .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host${supportsPatrols ? ",patrol" : ""}> <Event name>\n${prefix}events <unset> <Event name>`)
+                .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
                 .setFooter(Index.footer)
                 .setTimestamp();
                   
@@ -169,7 +155,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
             .setColor("#ed0909")
-            .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host${supportsPatrols ? ",patrol" : ""}> <Event name>\n${prefix}events <unset> <Event name>`)
+            .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
             .setFooter(Index.footer)
             .setTimestamp();
               
