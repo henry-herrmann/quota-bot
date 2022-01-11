@@ -100,6 +100,21 @@ class DivisionDB {
                 if(err) console.log(err);
             })
         }
+
+        this.con.query(`SELECT Name FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, ["other", "attend"], (err, result, fields)=>{
+            if(result == undefined || result.length == 0){
+                this.con.query(`INSERT IGNORE INTO ${this.divisionname}.events (Name, Type, Points) VALUES (?,?,?)`, ["other", "attend", 1], (err, result, fields) =>{
+                    if(err) console.log(err);
+                })
+            }
+        })
+        this.con.query(`SELECT Name FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, ["other", "host"], (err, result, fields)=>{
+            if(result == undefined || result.length == 0){
+                this.con.query(`INSERT IGNORE INTO ${this.divisionname}.events (Name, Type, Points) VALUES (?,?,?)`, ["other", "host", 1], (err, result, fields) =>{
+                    if(err) console.log(err);
+                })
+            }
+        })
     }
 
     /**
@@ -1021,6 +1036,18 @@ class DivisionDB {
                 if(err) reject(err);
 
                 return resolve(result);
+            })
+        })
+    }
+
+    async getEventType(name, type){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.events WHERE Name = ? AND Type = ?`, [name, type], (err, result, fields) =>{
+                if(err) reject(err);
+
+                if(result == undefined || result.length == 0) return resolve({Name: "other", Type: "all", Points: 1});
+
+                return resolve(result[0]);
             })
         })
     }

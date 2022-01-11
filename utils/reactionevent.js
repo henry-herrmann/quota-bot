@@ -506,8 +506,15 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                         handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                             if (bool) {
                                                 const eventtypes = await handler.getEventTypes();
-                                                let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
-
+                                    
+                                                let result;
+            
+                                                for(const e of eventtypes){
+                                                    if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                                        result = e;
+                                                    }
+                                                }
+            
                                                 if(result == undefined){
                                                     result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
                                                 }
@@ -561,8 +568,15 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                                                 handler.addMember(member.id, robloxid1, member).then(async () => {
                                                     const eventtypes = await handler.getEventTypes();
-                                                    let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
-    
+                                    
+                                                    let result;
+                
+                                                    for(const e of eventtypes){
+                                                        if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                                            result = e;
+                                                        }
+                                                    }
+                
                                                     if(result == undefined){
                                                         result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
                                                     }
@@ -643,12 +657,18 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                             handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                 if (bool) {
                                     const eventtypes = await handler.getEventTypes();
-                                    let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "attend");
+                                    
+                                    let result;
+
+                                    for(const e of eventtypes){
+                                        if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "attend"){
+                                            result = e;
+                                        }
+                                    }
 
                                     if(result == undefined){
                                         result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "attend");
                                     }
-
                                     handler.addAttendancePoints(member.id, parseFloat(result.Points)).then(async () => {
                                         const txt = new Discord.MessageEmbed()
                                         .setTitle("Activity log Approved")
@@ -696,7 +716,14 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                                     handler.addMember(member.id, robloxid1, member).then(async () => {
                                         const eventtypes = await handler.getEventTypes();
-                                        let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "attend");
+                                    
+                                        let result;
+    
+                                        for(const e of eventtypes){
+                                            if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "attend"){
+                                                result = e;
+                                            }
+                                        }
     
                                         if(result == undefined){
                                             result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "attend");
@@ -738,7 +765,14 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                             handler.isOnSpreadsheet(member.id).then(async (bool) => {
                                 if (bool) {
                                     const eventtypes = await handler.getEventTypes();
-                                    let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
+                                    
+                                    let result;
+
+                                    for(const e of eventtypes){
+                                        if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                            result = e;
+                                        }
+                                    }
 
                                     if(result == undefined){
                                         result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
@@ -792,7 +826,14 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                                     handler.addMember(member.id, robloxid1, member).then(async () => {
                                         const eventtypes = await handler.getEventTypes();
-                                        let result = eventtypes.find(t => t.Name.includes(type) && t.Type.toLowerCase() == "host");
+                                    
+                                        let result;
+    
+                                        for(const e of eventtypes){
+                                            if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                                result = e;
+                                            }
+                                        }
     
                                         if(result == undefined){
                                             result = eventtypes.find(t => t.Name == "other" && t.Type.toLowerCase() == "host");
