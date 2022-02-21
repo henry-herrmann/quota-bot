@@ -7,16 +7,6 @@ const DivisionHandler = require("../db/DivisionHandler");
 module.exports = {
     name: "filter",
     async execute(message, args, client, handler, rbx){
-        if(await  handler.getPermissionLevel(message.member) < 4){
-            const embed = new Discord.MessageEmbed()
-            .setTitle('Insufficient permissions :warning:')
-            .setColor("#ed0909")
-            .setDescription(`You are missing the required permissions to execute this command.`)
-            .setFooter(Index.footer)
-            .setTimestamp();
-            message.channel.send({embeds: [embed]})
-            return;
-        }
         const prefix = await handler.getPrefix();
 
         if(await handler.isConfigured() == false){
@@ -30,7 +20,66 @@ module.exports = {
             message.channel.send({embeds: [embed]})
             return;
         }
+
+        const permlvl = parseInt((await handler.getConfig("Filter-Permission-Level")).Value);
+
+        if(await  handler.getPermissionLevel(message.member) < permlvl){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.channel.send({embeds: [embed]})
+            return;
+        }
         if(args.length == 1){
+            if(args[0].toLowerCase() == "all"){
+                const personnelid = (await handler.getConfig("Personnel-Id")).Value;
+                let filtered = 0;
+
+                const Role = client.guilds.cache.get(handler.getGuildID()).roles.cache.find(role => role.id == personnelid);
+                new Promise((resolve, reject) =>{
+                    client.guilds.cache.get(handler.getGuildID()).members.fetch().then(members => {
+                        members.filter(member => member.roles.cache.find(role => role == Role)).forEach(async (member)=>{
+                            var robloxid;
+
+                            try{
+                                robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                            }catch(error){
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Error :warning:')
+                                .setColor("#ed0909")
+                                .setDescription(`<@${member.id}> is not linked with Bloxlink. He has to run the /verify command.`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                  
+                                message.channel.send({embeds: [embed]})
+                            }
+
+                            if(robloxid != undefined){
+                                handler.isOnSpreadsheet(member.id).then(async (bool)=>{
+                                    if(!bool){
+                                        await handler.addMember(member.id, robloxid, member).then(() =>{
+                                            filtered++;
+                                        });
+                                    }
+                                })
+                            }
+                        })
+                        resolve();
+                    })
+                }).then(() =>{
+                    const success = new Discord.MessageEmbed()
+                    .setTitle("Number of personnel filitered: " + filtered)
+                    .setColor("#56d402")
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+
+                    message.channel.send({embeds: [success]});
+                })
+                return;
+            }
             if(message.mentions.users.first() == undefined){
                 const embed = new Discord.MessageEmbed()
                  .setTitle('Error :warning:')

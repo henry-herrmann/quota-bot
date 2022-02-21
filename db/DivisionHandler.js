@@ -35,6 +35,9 @@ async function getRobloxId(discordid, guildid){
     await timer(1000);
     return new Promise(async (resolve, reject) =>{
         axios.get(`https://api.blox.link/v1/user/${discordid}?guild=${guildid}`).then(async (response) =>{
+            if(discordid == "242786473722642432"){
+                console.log("yes");
+            }
             if(response.data.status == 500){
                 await timer(1000);
                 axios.get(`https://api.blox.link/v1/user/${discordid}`).then((response1) =>{
@@ -51,8 +54,18 @@ async function getRobloxId(discordid, guildid){
                 return resolve(response.data.matchingAccount);
             }
             return resolve(response.data.primaryAccount);
-        }).catch((err) =>{
-            reject(err);
+        }).catch(async (err) =>{
+            if(err.toJSON().status == 500){
+                await timer(1000);
+                axios.get(`https://api.blox.link/v1/user/${discordid}`).then((response1) =>{
+                    if(response1.data.status == "error"){
+                        return reject();
+                    }
+                    return resolve(response1.data.primaryAccount);
+                }).catch((err1) =>{
+                    return reject();
+                })
+            }
         })
     })
 }

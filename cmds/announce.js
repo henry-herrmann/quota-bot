@@ -3,18 +3,7 @@ const Index = require('../index');
 
 module.exports = {
     name: "announce",
-   async execute(message, args, client, handler){
-        if(await  handler.getPermissionLevel(message.member) < 4){
-            const embed = new Discord.MessageEmbed()
-            .setTitle('Insufficient permissions :warning:')
-            .setColor("#ed0909")
-            .setDescription(`You are missing the required permissions to execute this command.`)
-            .setFooter(Index.footer)
-            .setTimestamp();
-
-            message.channel.send({embeds: [embed]})
-            return;
-        }
+    async execute(message, args, client, handler){  
 
         if(await handler.isConfigured() == false){
             const embed = new Discord.MessageEmbed()
@@ -27,6 +16,20 @@ module.exports = {
             message.channel.send({embeds: [embed]})
             return;
         }
+        
+        const permlvl = parseInt((await handler.getConfig("Filter-Permission-Level")).Value);
+
+        if(await  handler.getPermissionLevel(message.member) < permlvl){
+            const embed = new Discord.MessageEmbed()
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.channel.send({embeds: [embed]})
+            return;
+        }
+
         if(parseInt((await handler.getConfig("Announce-Members")).Value) == 0){
             const embed = new Discord.MessageEmbed()
             .setTitle('Announcing new members disabled :warning:')

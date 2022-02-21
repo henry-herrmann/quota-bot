@@ -99,6 +99,13 @@ module.exports = {
                 example: "2742631"
             },
             {
+                name: "filterPermLevel",
+                require: "number",
+                reply: "Successfully set the perm level for the filter command to: ",
+                config_query: "Filter-Permission-Level",
+                example: "2"
+            },
+            {
                 name: "autoRank",
                 require: "bool",
                 reply: "Auto rank enabled: ",

@@ -18,7 +18,7 @@ module.exports = {
         }
 
         if(await handler.isConfigured() == true){
-            /*const embed = new Discord.MessageEmbed()
+            const embed = new Discord.MessageEmbed()
             .setTitle('Division already configured :warning:')
             .setColor("#ed0909")
             .setDescription(`The setup process is finished already. Please use the **${prefix}change** command.`)
@@ -26,7 +26,7 @@ module.exports = {
             .setTimestamp();
                   
             message.channel.send({embeds: [embed]})
-            return;*/
+            return;
         }
 
 
@@ -65,35 +65,35 @@ module.exports = {
                 reply: "Sucessfully set the attendance quota to: "
             },
             {
-                question: "What is the patrol quota for non-staff? :five:",
+                question: "What is the patrol quota for non-staff? :six:",
                 key: "Patrol-Quota",
                 desc: "Reply with a number. **Reply with 0 if you don't want patrol points!!!!**",
                 require: "Number",
                 reply: "Sucessfully set the patrol quota to: "
             },
             {
-                question: "What is the hosting quota for staff? :six:",
+                question: "What is the hosting quota for staff? :seven:",
                 key: "Hosting-Quota",
                 desc: "Please reply with a number.",
                 require: "Number",
                 reply: "Sucessfully set the hosting quota to: "
             },
             {
-                question: "What is the attendance quota for staff? :seven:",
+                question: "What is the attendance quota for staff? :eight:",
                 key: "Staff-Attendance-Quota",
                 desc: "Please reply with a number.",
                 require: "Number",
                 reply: "Sucessfully set the staff attendance quota to: "
             },
             {
-                question: "What is the patrol quota for staff? :eight:",
+                question: "What is the patrol quota for staff? :nine:",
                 key: "Staff-Patrol-Quota",
                 desc: "Please reply with a number. **Reply with 0 if you don't want patrol points!!!**",
                 require: "Number",
                 reply: "Sucessfully set the staff patrol quota to: "
             },
             {
-                question: "Please ping all the roles you want to assign permission level 5. :nine:",
+                question: "Please ping all the roles you want to assign permission level 5. :one::zero:",
                 level: 5,
                 permission: true,
                 desc: "Please ping all roles that are meant to have access to all commands. Normally this is given to the Commander and XO.",
@@ -101,7 +101,7 @@ module.exports = {
                 reply: "The following roles now have access to all commands: "
             },
             {
-                question: "Please ping all the roles you want to assign permission level 4. :one::zero:",
+                question: "Please ping all the roles you want to assign permission level 4. :one::one:",
                 level: 4,
                 permission: true,
                 desc: "Please ping all roles that have access to almost all commands except resetpoints. Normally this is given to AOs.",
@@ -109,7 +109,7 @@ module.exports = {
                 reply: "The following roles now have permission level 4: "
             },
             {
-                question: "Please ping all the roles you want to assign permission level 3. :one::one:",
+                question: "Please ping all the roles you want to assign permission level 3. :one::two:",
                 level: 3,
                 permission: true,
                 desc: "Please ping all roles that are to receive permission level 3 which grants access to standard commands only. This is normally given to CCs or CC like roles to identify them as CC.",
@@ -117,7 +117,7 @@ module.exports = {
                 reply: "The following roles now have permission level 3: "
             },
             {
-                question: "Please ping all the roles you want to assign permission level 2. :one::two:",
+                question: "Please ping all the roles you want to assign permission level 2. :one::three:",
                 level: 2,
                 permission: true,
                 desc: "Please ping all roles that are to receive permission level 2 which grants access to standard commands only. This is reserved for LTs and JCs.",
@@ -125,7 +125,7 @@ module.exports = {
                 reply: "The following roles now have permission level 2: "
             },
             {
-                question: "Please ping all the roles you want to assign permission level 1. :one::three:",
+                question: "Please ping all the roles you want to assign permission level 1. :one::four:",
                 level: 1,
                 permission: true,
                 desc: "Please ping all roles that are to receive permission level 1 which grants access to standard commands only. This is the level for normal staff members like Ensigns, Corporals, etc.",
@@ -133,7 +133,7 @@ module.exports = {
                 reply: "The following roles now have permission level 1: "
             },
             {
-                question: "Please ping all company roles. :one::four:",
+                question: "Please ping all company roles. :one::five:",
                 permission: false,
                 type: "company",
                 desc: "This is necessary in order for the auto rank roblox group feature to work.",
@@ -141,7 +141,7 @@ module.exports = {
                 reply: "Company roles: "
             },
             {
-                question: "Please ping the trooper role. :one::five:",
+                question: "Please ping the trooper role. :one::six:",
                 permission: false,
                 type: "trooper",
                 desc: "If you don't have one, simply say 'No'",
@@ -149,7 +149,7 @@ module.exports = {
                 reply: "Trooper role: "
             },
             {
-                question: "Please ping the enlist role. :one::six:",
+                question: "Please ping the enlist role. :one::seven:",
                 permission: false,
                 type: "enlist",
                 desc: "This is necessary for the auto rank feature to work.",
@@ -157,7 +157,14 @@ module.exports = {
                 reply: "Enlist role: "
             },
             {
-                question: "What is the id of the roblox group? :one::seven:",
+                question: "What permission level should be the minimum to use the filter and announce command? :one::eight:",
+                key: "Filter-Permission-Level",
+                desc: "Reply with a number. __Default is **4**.",
+                require: "Number",
+                reply: "Successfully set the minimu perm level for the filter command to: "
+            },
+            {
+                question: "What is the id of the roblox group? :one::nine:",
                 level: 1,
                 key: "Roblox-Group-Id",
                 desc: "Please reply with a number.",
@@ -165,103 +172,103 @@ module.exports = {
                 reply: "Roblox Group Id: "
             },
             {
-                question: "We will now ask you a few questions about the roblox group tied to this discord. :one::eight:",
+                question: "We will now ask you a few questions about the roblox group tied to this discord. :two::zero:",
                 dummy: true,
                 desc: `Once you are ready to proceed, reply with Yes`,
                 require: "Roblox-Rank-Id",
                 reply: "Rank id: "
             },
             {
-                question: "Would you like to enable the auto rank feature? :one::nine:",
+                question: "Would you like to enable the auto rank feature? :two::one:",
                 key: "Auto-Rank",
                 require: "bool",
                 desc: "If enabled, this feature will log role changes and update the roblox rank automatically based on the previous information.\nPlease reply with **Yes** or **No**",
                 reply: "Auto ranked feature enabled: "
             },
             {
-                question: "Would you like to have two pictures for patrol logs? :two::zero:",
+                question: "Would you like to have two pictures for patrol logs? :two::two:",
                 key: "Two-Pictures-Patrols",
                 require: "bool",
                 desc: "If enabled, members will be required to post the links of two pictures.\n**Reply with NO if you don't want patrol logs.**\nPlease reply with **Yes** or **No**",
                 reply: "Two pictures for patrol logs enabled: "
             },
             {
-                question: "Would you like to have new members announced in a channel? :two::one:",
+                question: "Would you like to have new members announced in a channel? :two::three:",
                 key: "Announce-Members",
                 require: "bool",
                 desc: "If enabled, you will be able to use the announce command.\nPlease reply with **Yes** or **No**",
                 reply: "Announce members enabled: "
             },
             {
-                question: "If you chose to announce new members, please state the channel id. :two::two:",
+                question: "If you chose to announce new members, please state the channel id. :two::four:",
                 key: "Announce-channel",
                 require: "Channel-Mention",
                 desc: "Please reply with a channel id. **Reply with 0 if you chose to disable the feature.**",
                 reply: "Announcement channel for new members: "
             },
             {
-                question: "Please ping the personnel role :two::three:",
+                question: "Please ping the personnel role :two::five:",
                 key: "Personnel-Id",
                 require: "Role-Mention",
                 desc: "Please mention the personnel role.",
                 reply: "Personnel role Id: "
             },
             {
-                question: "Please ping the inactivity notice role :two::four:",
+                question: "Please ping the inactivity notice role :two::six:",
                 key: "Inacitivty-Role-Id",
                 require: "Role-Mention",
                 desc: "Please mention the IN role.",
                 reply: "Inactivity notice role Id: "
             },
             {
-                question: "Please ping the new role :two::five:",
+                question: "Please ping the new role :two::seven:",
                 key: "New-Role-Id",
                 require: "Role-Mention",
                 desc: "The new role is typically the role for those who just returned from IN or who are new to the division.",
                 reply: "New role Id: "
             },
             {
-                question: "Please ping the new staff role :two::six:",
+                question: "Please ping the new staff role :two::eight:",
                 key: "New-Staff-Role-Id",
                 require: "Role-Mention",
                 desc: "The new staff role is typically the role for those who just returned from IN or just got staff.",
                 reply: "New staff role Id: "
             },
             {
-                question: "What's the full name of the division? :two::seven:",
+                question: "What's the full name of the division? :two::nine:",
                 key: "Division-Name",
                 desc: "Please reply with the full name of your division e.g. Senate Guard or 501st Legion.",
                 reply: "Division Name: "
             },
             {
-                question: "Under what category falls this division? :two::nine:",
+                question: "Under what category falls this division? :three::zero:",
                 key: "Division-Type",
                 desc: "Reply with a valid type like main, aux, sub.",
                 reply: "Division type: "
             },
             {
-                question: "In which channel should the bot post log approvals? :three::zero:",
+                question: "In which channel should the bot post log approvals? :three::one:",
                 key: "Logging-Channel",
                 desc: "For instance if somone logs an event, their log will be posted in this channel.\nReply with a channel mention",
                 reply: "Logging channel: ",
                 require: "Channel-Mention"
             },
             {
-                question: "In which channel should the bot log interactions with the bot? :three::one:",
+                question: "In which channel should the bot log interactions with the bot? :three::two:",
                 key: "React-Logs-Channel",
                 desc: "For instance if someone accepts logs posted into that channel, the bot will log it here. Think of it as an **audit log channel**.\nReply with a channel mention",
                 reply: "React logs channel: ",
                 require: "Channel-Mention"
             },
             {
-                question: "In which channel should the bot post inactivity appeals? :three::two:",
+                question: "In which channel should the bot post inactivity appeals? :three::three:",
                 key: "Inactivity-Appeals-Channel",
                 desc: "When someone requests an IN, the bot will post their log in this channel.\nReply with a channel mention",
                 reply: "Inactivity appeals: ",
                 require: "Channel-Mention"
             },
             {
-                question: "In which channel should the bot post roblox audit logs? :three::three:",
+                question: "In which channel should the bot post roblox audit logs? :three::four:",
                 key: "Rbx-Audit-Channel",
                 desc: "All rank changes, exiles and join request approvals will be logged in that channel.\nReply with a channel mention",
                 reply: "Roblox audit logs: ",
@@ -1122,7 +1129,9 @@ async function awaitMessage(filter, channel){
             .setTimestamp();
                       
             channel.send({embeds: [embed]})
-            return reject();
+            return resolve({
+                content: "cancel"
+            });
         })
     })
 }

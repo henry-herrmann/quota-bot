@@ -159,6 +159,8 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("resetpoints").execute(message, args, handler, client);
     }else if(command == "events"){
         client.commands.get("events").execute(message, args, handler);
+    }else if(command == "division"){
+        client.commands.get("division").execute(message, args, handler, rbx);
     }
 })
 

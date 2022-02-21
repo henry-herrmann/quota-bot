@@ -17,22 +17,37 @@ module.exports = {
             message.channel.send({embeds: [embed]})
             return;
         }
+        const supportsPatrols = handler.supportsPatrols();
+
         if(args.length == 0){
             handler.getMembers().then(async(doc) =>{
                 var personnel = [];
                 new Promise(async (resolve, reject) =>{
 
                     for(const member of doc){
-                        var attendpoints = member.Attend;
-                        var patrolpoints = member.Patrol;
-                        var hostpoints = member.Host;
-    
-                        var sum = parseFloat(attendpoints) + parseFloat(patrolpoints) + parseFloat(hostpoints);
-                        const user = {
-                            Id: member.Id,
-                            Sum: sum
+                        if(supportsPatrols){
+                            var attendpoints = member.Attend;
+                            var patrolpoints = member.Patrol;
+                            var hostpoints = member.Host;
+        
+                            var sum = parseFloat(attendpoints) + parseFloat(patrolpoints) + parseFloat(hostpoints);
+                            const user = {
+                                Id: member.Id,
+                                Sum: sum
+                            }
+                            personnel.push(user)
+                        }else{
+                            var attendpoints = member.Attend;
+                            var hostpoints = member.Host;
+        
+                            var sum = parseFloat(attendpoints) + parseFloat(hostpoints);
+                            const user = {
+                                Id: member.Id,
+                                Sum: sum
+                            }
+                            personnel.push(user)
                         }
-                        personnel.push(user)
+                        
                     }
                     resolve();
                 }).then(() =>{
@@ -44,6 +59,7 @@ module.exports = {
 
                     for(e of top){
                         arr.push(`- <@${e.Id}>: ${e.Sum}`)
+                        
                     }
 
                     const embed = new Discord.MessageEmbed()
