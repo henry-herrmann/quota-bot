@@ -91,7 +91,6 @@ async function messageReaction(client, user, handler, reaction, rbx) {
         if (emoji.name == "❌") {
             const embed = message.embeds[0];
 
-            const name = embed.fields.find(element => element.name === "Name:").value;
             const length = embed.fields.find(element => element.name === "Length in days:").value;
             const reason = embed.fields.find(element => element.name === "Reason:").value;
 
@@ -125,7 +124,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                 const usermsg = new Discord.MessageEmbed()
                     .setTitle(":x: Your Inactivity Notice was declined :x:")
-                    .setDescription(`__Contact <@${user.id}> if you think this is wrong.__`)
+                    .setDescription(`Division: ${handlg.getDivisionName()}\n__Contact <@${user.id}> if you think this is wrong.__`)
                     .setColor("#ed0909")
                     .setFooter(Index.footer)
                     .setTimestamp();
@@ -363,7 +362,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                             const txt = new Discord.MessageEmbed()
                                             .setTitle("Patrol log Approved")
                                             .setColor("#fcc570")
-                                            .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nProof link: ${link}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
+                                            .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
                                             .setFooter(Index.footer)
                                             .setTimestamp();
 
@@ -374,7 +373,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                             const txt = new Discord.MessageEmbed()
                                             .setTitle("Patrol log Approved")
                                             .setColor("#fcc570")
-                                            .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nProof link: ${link}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
+                                            .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
                                             .setFooter(Index.footer)
                                             .setTimestamp();
 
@@ -422,7 +421,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                 const txt = new Discord.MessageEmbed()
                                                 .setTitle("Patrol log Approved")
                                                 .setColor("#fcc570")
-                                                .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nProof link: ${link}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
+                                                .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
                                                 .setFooter(Index.footer)
                                                 .setTimestamp();
     
@@ -433,7 +432,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                 const txt = new Discord.MessageEmbed()
                                                 .setTitle("Patrol log Approved")
                                                 .setColor("#fcc570")
-                                                .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nProof link: ${link}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
+                                                .setDescription(`Time: **${time}**\nPoints added: ${ppoints}\nTime of the log: ${embed.fields[0].value}\nUser: <@${member.id}>\nApproved by: <@${user.id}>`)
                                                 .setFooter(Index.footer)
                                                 .setTimestamp();
     
@@ -510,7 +509,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                 let result;
             
                                                 for(const e of eventtypes){
-                                                    if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                                    if(e.Name.includes(type) && e.Type.toLowerCase() == "host"){
                                                         result = e;
                                                     }
                                                 }

@@ -266,6 +266,20 @@ module.exports = {
                 reply: "Patrols award activity points: ",
                 config_query: "Patrols-Award-Activity",
                 example: "No"
+            },
+            {
+                name: "minDaysIN",
+                require: "number",
+                reply: "Minimum number of days for an Inactivity Notice set to: ",
+                config_query: "Inactivity-Notice-Minimum",
+                example: "3"
+            },
+            {
+                name: "maxDaysIN",
+                require: "number",
+                reply: "Maximum number of days of an Inactivity Notice set to: ",
+                config_query: "Inactivity-Notice-Maximum",
+                example: "21"
             }
         ]
 

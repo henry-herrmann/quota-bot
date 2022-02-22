@@ -44,8 +44,11 @@ module.exports = {
                 arr.push(`- <@${member.Id}>(${member.RbxId}): A: ${member.Attend}${supportsPatrols ? `, P: ${member.Patrol}` : ""}, H: ${member.Host}, Join: ${date}, Staff: ${member.Staff}`);
             }
             const msg = arr.join("\n");
-            const string = await Util.splitMessage(msg, { maxLength: 2000 });
-            message.channel.send("Members: \n" + string);
+            const string = Util.splitMessage(msg, { maxLength: 2000 });
+            message.channel.send("Members: \n")
+            for(s of string){
+                message.channel.send(s);
+            }
         }else{
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')

@@ -30,7 +30,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                         .setTitle('Incorrect usage :warning:')
                         .setColor("#ed0909")
-                        .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
+                        .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Amount of Points> <Event name>\n${prefix}events <unset> <attend,host> <Event name>`)
                         .setFooter(Index.footer)
                         .setTimestamp();
                           
@@ -42,7 +42,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect usage :warning:')
                     .setColor("#ed0909")
-                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
+                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Amount of Points> <Event name>\n${prefix}events <unset> <attend,host> <Event name>`)
                     .setFooter(Index.footer)
                     .setTimestamp();
                       
@@ -93,7 +93,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect usage :warning:')
                     .setColor("#ed0909")
-                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
+                    .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Amount of Points> <Event name>\n${prefix}events <unset> <attend,host> <Event name>`)
                     .setFooter(Index.footer)
                     .setTimestamp();
                       
@@ -144,7 +144,7 @@ module.exports = {
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect usage :warning:')
                 .setColor("#ed0909")
-                .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
+                .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Amount of Points> <Event name>\n${prefix}events <unset> <attend,host> <Event name>`)
                 .setFooter(Index.footer)
                 .setTimestamp();
                   
@@ -155,7 +155,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
             .setColor("#ed0909")
-            .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Event name>\n${prefix}events <unset> <Event name>`)
+            .setDescription(`>>> ${prefix}events\n${prefix}events <set> <attend,host> <Amount of Points> <Event name>\n${prefix}events <unset> <attend,host> <Event name>`)
             .setFooter(Index.footer)
             .setTimestamp();
               

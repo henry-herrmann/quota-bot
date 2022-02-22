@@ -57,6 +57,9 @@ async function logInactivity(message, client, handler){
         return;
     }
 
+    const minDays = parseInt((await handler.getConfig("Inactivity-Notice-Minimum")).Value);
+    const maxDays = parseInt((await handler.getConfig("Inactivity-Notice-Maximum")).Value);
+
     handler.isOnSpreadsheet(message.author.id).then(async (bool) =>{
         if(await handler.isOnInactivityNotice(message.author.id)){
             const embed = new Discord.MessageEmbed()
@@ -100,7 +103,7 @@ async function logInactivity(message, client, handler){
                 message.delete().catch(() =>{});
                 return;
             }
-            if(parseInt(length) <=2){
+            if(parseInt(length) < minDays){
                 if(await handler.getPermissionLevel(message.member) > 3) return;
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect Inactivity Notice :warning:')
@@ -113,7 +116,7 @@ async function logInactivity(message, client, handler){
                 message.delete().catch(() =>{});
                 return;
             }
-            if(parseInt(length) > 21){
+            if(parseInt(length) > maxDays){
                 if(await handler.getPermissionLevel(message.member) > 3) return;
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect Inactivity Notice :warning:')
@@ -204,7 +207,7 @@ async function logInactivity(message, client, handler){
                     message.delete().catch(() =>{});
                     return;
                 }
-                if(parseInt(lenght) < 1){
+                if(parseInt(length) < 1){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect Inactivity Notice :warning:')
                     .setColor("#ed0909")
@@ -216,7 +219,7 @@ async function logInactivity(message, client, handler){
                     message.delete().catch(() =>{});
                     return;
                 }
-                if(parseInt(length) <=2){
+                if(parseInt(length) < minDays){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect Inactivity Notice :warning:')
                     .setColor("#ed0909")
@@ -228,7 +231,7 @@ async function logInactivity(message, client, handler){
                     message.delete().catch(() =>{});
                     return;
                 }
-                if(parseInt(length) > 21){
+                if(parseInt(length) > maxDays){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Incorrect Inactivity Notice :warning:')
                     .setColor("#ed0909")

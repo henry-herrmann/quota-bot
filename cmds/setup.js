@@ -18,7 +18,7 @@ module.exports = {
         }
 
         if(await handler.isConfigured() == true){
-            const embed = new Discord.MessageEmbed()
+            /*const embed = new Discord.MessageEmbed()
             .setTitle('Division already configured :warning:')
             .setColor("#ed0909")
             .setDescription(`The setup process is finished already. Please use the **${prefix}change** command.`)
@@ -26,7 +26,7 @@ module.exports = {
             .setTimestamp();
                   
             message.channel.send({embeds: [embed]})
-            return;
+            return;*/
         }
 
 
@@ -45,10 +45,10 @@ module.exports = {
                 reply: "Sucessfully set the divisional-color to: "
             },
             {
-                question: "Would you like to have patrol points separated from activity points? :three:",
+                question: "WWould you like to enable patrols? :three:",
                 key: "Patrols",
                 desc: "Please reply with Yes or No",
-                reply: "Sucessfully set patrol points support to: "
+                reply: "Sucessfully set patrol support to: "
             },
             {
                 question: "If you enabled patrol points, how many minutes are worth one patrol point? :four:",
@@ -322,6 +322,21 @@ module.exports = {
                 require: "bool",
                 desc: "If enabled all patrols will award activity points.\n**If you disabled patrols, please reply with No**.\nPlease reply with **Yes** or **No**",
                 reply: "Announce members enabled: "
+            },
+            {
+                question: "What's the minimum number of days of an Inactivity Notice? :four::two:",
+                key: "Inactivity-Notice-Minimum",
+                require: "Number",
+                desc: "Please reply with a number.",
+                reply: "Minimum number of days for INs set to: "
+            },
+            ,
+            {
+                question: "What's the maximum number of days of an Inactivity Notice? :four::three:",
+                key: "Inactivity-Notice-Maximum",
+                require: "Number",
+                desc: "Please reply with a number.",
+                reply: "Maximum number of days for INs set to: "
             },
         ]
 
