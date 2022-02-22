@@ -124,7 +124,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                 const usermsg = new Discord.MessageEmbed()
                     .setTitle(":x: Your Inactivity Notice was declined :x:")
-                    .setDescription(`Division: ${handlg.getDivisionName()}\n__Contact <@${user.id}> if you think this is wrong.__`)
+                    .setDescription(`Division: ${handler.getDivisionName()}\n__Contact <@${user.id}> if you think this is wrong.__`)
                     .setColor("#ed0909")
                     .setFooter(Index.footer)
                     .setTimestamp();
