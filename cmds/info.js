@@ -142,7 +142,7 @@ module.exports = {
             }else{
                 var id = await handler.getRobloxId(user.id);
 
-                const playerinfo = await rbx.getPlayerInfo(id);
+                const playerinfo = await rbx.getPlayerInfo(parseInt(id));
     
                 const robloxgroupid = (await handler.getConfig("Roblox-Group-Id")).Value;
     
