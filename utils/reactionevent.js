@@ -518,7 +518,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                 let result;
             
                                                 for(const e of eventtypes){
-                                                    if(e.Name.includes(type) && e.Type.toLowerCase() == "host"){
+                                                    if(e.Name.toLowerCase().includes(type.toLowerCase()) && e.Type.toLowerCase() == "host"){
                                                         result = e;
                                                     }
                                                 }
@@ -580,7 +580,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                     let result;
                 
                                                     for(const e of eventtypes){
-                                                        if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                                        if(e.Name.toLowerCase().includes(type.toLowerCase()) && e.Type.toLowerCase() == "host"){
                                                             result = e;
                                                         }
                                                     }
@@ -669,7 +669,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                     let result;
 
                                     for(const e of eventtypes){
-                                        if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "attend"){
+                                        if(e.Name.toLowerCase().includes(eventtype.toLowerCase()) && e.Type.toLowerCase() == "attend"){
                                             result = e;
                                         }
                                     }
@@ -728,7 +728,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                         let result;
     
                                         for(const e of eventtypes){
-                                            if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "attend"){
+                                            if(e.Name.toLowerCase().includes(eventtype.toLowerCase()) && e.Type.toLowerCase() == "attend"){
                                                 result = e;
                                             }
                                         }
@@ -777,7 +777,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                     let result;
 
                                     for(const e of eventtypes){
-                                        if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                        if(e.Name.toLowerCase().includes(eventtype.toLowerCase()) && e.Type.toLowerCase() == "host"){
                                             result = e;
                                         }
                                     }
@@ -838,7 +838,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                         let result;
     
                                         for(const e of eventtypes){
-                                            if(e.Name.includes(eventtype) && e.Type.toLowerCase() == "host"){
+                                            if(e.Name.toLowerCase().includes(eventtype.toLowerCase()) && e.Type.toLowerCase() == "host"){
                                                 result = e;
                                             }
                                         }
