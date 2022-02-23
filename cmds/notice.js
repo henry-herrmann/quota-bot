@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const Index = require('../index');
 const RbxManager = require('../utils/RbxManager')
+const divisions = require("../utils/Divisions");
 
 module.exports = {
     name: "notice",
@@ -46,6 +47,9 @@ module.exports = {
             return;
         }
 
+        const selected_div = divisions.find(d => d.short == handler.getDivisionName());
+        const logo = await rbx.getLogo(selected_div.id);
+
         if(args.length >= 1){
             const mention = message.mentions.users.first() || client.users.cache.get(args[0]);
             if(mention != undefined && mention != null && message.mentions.roles.first() == undefined && message.mentions.roles.first() == null){
@@ -76,6 +80,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                     .setAuthor({name: name, iconURL: message.author.avatarURL()})
                     .setTitle(`${divname} Divisional Notice`)
+                    .setThumbnail(logo)
                     .setDescription(txt)
                     .setColor(color)
                     .setFooter(Index.footer)
@@ -127,6 +132,7 @@ module.exports = {
                                 const embed = new Discord.MessageEmbed()
                                 .setAuthor({name: name, iconURL: message.author.avatarURL()})
                                 .setTitle(`${divname} Divisional Notice`)
+                                .setThumbnail(logo)
                                 .setDescription(txt)
                                 .setColor(color)
                                 .setFooter(Index.footer)
@@ -177,6 +183,7 @@ module.exports = {
                             const embed = new Discord.MessageEmbed()
                             .setAuthor({name: name, iconURL: message.author.avatarURL()})
                             .setTitle(`${divname} Divisional Notice`)
+                            .setThumbnail(logo)
                             .setDescription(txt)
                             .setColor(color)
                             .setFooter(Index.footer)

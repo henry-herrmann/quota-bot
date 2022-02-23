@@ -35,9 +35,6 @@ async function getRobloxId(discordid, guildid){
     await timer(1000);
     return new Promise(async (resolve, reject) =>{
         axios.get(`https://api.blox.link/v1/user/${discordid}?guild=${guildid}`).then(async (response) =>{
-            if(discordid == "242786473722642432"){
-                console.log("yes");
-            }
             if(response.data.status == 500){
                 await timer(1000);
                 axios.get(`https://api.blox.link/v1/user/${discordid}`).then((response1) =>{

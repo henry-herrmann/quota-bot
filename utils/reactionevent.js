@@ -3,6 +3,7 @@ const Index = require("../index")
 const timer = ms => new Promise(res => setTimeout(res, ms))
 const dateFormat = require("dateformat");
 const DivisionHandler = require("../db/DivisionHandler");
+const divisions = require("../utils/Divisions");
 
 async function messageReaction(client, user, handler, reaction, rbx) {
     if (user.bot) return;
@@ -43,7 +44,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
             var endDate = new Date(tempDate.getTime() + (86400000 * length));
 
 
-            client.guilds.cache.get(handler.getGuildID()).members.fetch(authorid).then((member) => {
+            client.guilds.cache.get(handler.getGuildID()).members.fetch(authorid).then(async (member) => {
                 if (!member) {
                     if (message != null && message != undefined) {
                         message.delete().catch((err) => { });
@@ -63,6 +64,9 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                     }
                 }).catch(err => { });
 
+                const selected_div = divisions.find(d => d.short == handler.getDivisionName());
+                const logo = await rbx.getLogo(selected_div.id);
+
                 const txt = new Discord.MessageEmbed()
                 .setTitle("Inactivity Notice Approved")
                 .setColor("#8f8c89")
@@ -72,8 +76,9 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                 const usermsg = new Discord.MessageEmbed()
                 .setTitle(":palm_tree: Your Inactivity Notice was accepted :palm_tree:")
-                .setDescription(`Departure Date: **${dateFormat(tempDate, "m/d/yy")}**\nReturn Date: **${dateFormat(endDate, "m/d/yy")}**\n__We hope to see you back soon.__`)
                 .setColor("#16e60b")
+                .setThumbnail(logo)
+                .setDescription(`Division: ${handler.getDivisionName()}\nDeparture Date: **${dateFormat(tempDate, "m/d/yy")}**\nReturn Date: **${dateFormat(endDate, "m/d/yy")}**\n__We hope to see you back soon.__`)
                 .setFooter(Index.footer)
                 .setTimestamp();
 
@@ -100,7 +105,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
 
 
-            client.guilds.cache.get(handler.getGuildID()).members.fetch(authorid).then((member) => {
+            client.guilds.cache.get(handler.getGuildID()).members.fetch(authorid).then(async (member) => {
                 if (!member) {
                     if (message != null && message != undefined) {
                         message.delete().catch((err) => { });
@@ -115,6 +120,9 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                     }
                 }).catch(err => { });
 
+                const selected_div = divisions.find(d => d.short == handler.getDivisionName());
+                const logo = await rbx.getLogo(selected_div.id);
+
                 const txt = new Discord.MessageEmbed()
                     .setTitle("Inactivity Notice Declined")
                     .setColor("#ed0909")
@@ -124,6 +132,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
                 const usermsg = new Discord.MessageEmbed()
                     .setTitle(":x: Your Inactivity Notice was declined :x:")
+                    .setThumbnail(logo)
                     .setDescription(`Division: ${handler.getDivisionName()}\n__Contact <@${user.id}> if you think this is wrong.__`)
                     .setColor("#ed0909")
                     .setFooter(Index.footer)
