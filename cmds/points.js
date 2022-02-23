@@ -296,7 +296,7 @@ module.exports = {
 
                 const newpoints = args[2];
     
-                if(!parseInt(newpoints)){
+                if(!parseFloat(newpoints)){
                   const embed = new Discord.MessageEmbed()
                   .setTitle('Error :warning:')
                   .setColor("#ed0909")
@@ -308,7 +308,7 @@ module.exports = {
                   return;
                 }
 
-                if(parseInt(newpoints) < 0){
+                if(parseFloat(newpoints) < 0){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Error :warning:')
                     .setColor("#ed0909")
@@ -525,7 +525,7 @@ module.exports = {
 
                 const newpoints = args[2];
     
-                if(!parseInt(newpoints)){
+                if(!parseFloat(newpoints)){
                   const embed = new Discord.MessageEmbed()
                   .setTitle('Error :warning:')
                   .setColor("#ed0909")
