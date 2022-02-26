@@ -1135,15 +1135,6 @@ async function awaitMessage(filter, channel){
             return resolve(collected.first());
         })
         .catch(collected =>{
-
-            const embed = new Discord.MessageEmbed()
-            .setTitle('Setup process cancelled :x:')
-            .setColor("#ed0909")
-            .setDescription(`The setup process was cancelled due to inactivity.`)
-            .setFooter(Index.footer)
-            .setTimestamp();
-                      
-            channel.send({embeds: [embed]})
             return resolve({
                 content: "cancel"
             });
