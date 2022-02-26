@@ -45,7 +45,7 @@ module.exports = {
                 reply: "Sucessfully set the divisional-color to: "
             },
             {
-                question: "WWould you like to enable patrols? :three:",
+                question: "Would you like to enable patrols? :three:",
                 key: "Patrols",
                 desc: "Please reply with Yes or No",
                 reply: "Sucessfully set patrol support to: "
