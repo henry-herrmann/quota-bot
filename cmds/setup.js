@@ -330,7 +330,6 @@ module.exports = {
                 desc: "Please reply with a number.",
                 reply: "Minimum number of days for INs set to: "
             },
-            ,
             {
                 question: "What's the maximum number of days of an Inactivity Notice? :four::three:",
                 key: "Inactivity-Notice-Maximum",
