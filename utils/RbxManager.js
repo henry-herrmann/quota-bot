@@ -14,7 +14,7 @@ module.exports = {
         return false;
     },
     async acceptIntotheGroup(rbx, handler, id){
-        rbx.handleJoinRequest(parseInt((await handler.getConfig("Roblox-Group-Id"))).Value, id, true)
+        rbx.handleJoinRequest(parseInt((await handler.getConfig("Roblox-Group-Id").Value)), id, true)
         .catch((err) =>{
             return false;
         })
