@@ -37,6 +37,13 @@ module.exports = {
                 example: "!"
             },
             {
+                name: "patrols",
+                require: "patrols",
+                reply: "Patrols enabled: ",
+                config_query: "Prefix",
+                example: "Yes"
+            },
+            {
                 name: "permission",
                 require: "Role mention",
                 reply: "",
@@ -280,6 +287,13 @@ module.exports = {
                 reply: "Maximum number of days of an Inactivity Notice set to: ",
                 config_query: "Inactivity-Notice-Maximum",
                 example: "21"
+            },
+            {
+                name: "welcomeMessage",
+                require: "string",
+                reply: "Welcome message set to: ",
+                config_query: "Welcome-Message",
+                example: "Welcome {users} to the {div-name}!"
             }
         ]
 
@@ -450,6 +464,49 @@ module.exports = {
         
                 message.channel.send({embeds: [embed1]})
             }
+
+            if(option.require == "patrols"){
+                const embed = new Discord.MessageEmbed()
+                .setTitle(`Change parameter: ${option.name}`)
+                .setColor("#0e64e6")
+                .setDescription(`Current value: **${supportsPatrols ? "Yes" : "No"}**\nPlease reply with **Yes** or **No**. Example: ${option.example}`)
+                .setFooter(Index.footer)
+                .setTimestamp();
+
+                message.channel.send({embeds: [embed]});
+
+                const answer = await awaitMessage(filter, message.channel).catch(err => {return;});
+
+                if(answer.content.toUpperCase() == "YES" || answer.content.toUpperCase() == "NO"){
+                    handler.setPatrol(message.guild.id, answer.content.toUpperCase() == "YES" ? 1 : 0);
+
+                    if(answer.content.toUpperCase() == "YES"){
+                        handler.addPatrolTable();
+                    }else{
+                        handler.removePatrolTable();
+                    }
+
+                    const embed1 = new Discord.MessageEmbed()
+                    .setTitle(question.reply + answer.content)
+                    .setColor("#56d402")
+                    .setDescription(``)
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+    
+                    message.channel.send({embeds: [embed1]})
+                }else{
+                    const embed1 = new Discord.MessageEmbed()
+                    .setTitle('Incorrect answer :x:')
+                    .setColor("#ed0909")
+                    .setDescription(`Please execute the command again. Response required: Yes/No`)
+                    .setFooter(Index.footer)
+                    .setTimestamp()
+
+                    message.channel.send({embeds: [embed1]})
+                    return;
+                }
+            }
+
             if(option.require == "bool"){
                 const embed = new Discord.MessageEmbed()
                 .setTitle(`Change parameter: ${option.name}`)

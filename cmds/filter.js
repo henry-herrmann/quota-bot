@@ -147,6 +147,7 @@ module.exports = {
                         message.channel.send({embeds: [embed]})
                         return;
                     }
+                    
                     if(await RbxManager.isPending(rbx, handler, robloxid) != false){
                         if(await RbxManager.acceptIntotheGroup(rbx, handler, robloxid) != false){
                             await handler.addMember(user.id, robloxid, user).then(async ()=>{

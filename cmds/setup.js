@@ -337,6 +337,13 @@ module.exports = {
                 desc: "Please reply with a number.",
                 reply: "Maximum number of days for INs set to: "
             },
+            {
+                question: "What welcome message should the bot sent upon announcement of new members? :four::four:",
+                key: "Welcome-Message",
+                require: "string",
+                desc: "You can use placeholders to even more customize your message:\n- {users} - Representing the pings of users that just got filtered\n- {div-name} - Full division name without 'The' before it.",
+                reply: "Welcome message: "
+            },
         ]
 
         if(args.length == 0){

@@ -4,6 +4,7 @@ const Index = require('../index');
 module.exports = {
     name: "announce",
     async execute(message, args, client, handler){  
+        const prefix = await handler.getPrefix();
 
         if(await handler.isConfigured() == false){
             const embed = new Discord.MessageEmbed()
@@ -53,6 +54,9 @@ module.exports = {
                 message.channel.send({embeds: [embed]})
                 return;
             }
+
+            let welcome_message = (await handler.getConfig("Welcome-Message")).Value;
+
             var string = "";
             new Promise((resolve, reject) =>{
                 for(var i=0; i< handler.filteredplayers.length; i++){
@@ -68,7 +72,19 @@ module.exports = {
             }).then(async ()=>{
                 handler.filteredplayers = [];
 
-                client.channels.cache.get((await handler.getConfig("Announce-channel")).Value).send(`<@&${(await handler.getConfig("Personnel-Id")).Value}> Welcome ${string} to the ${((await handler.getConfig("Division-Name")).Value)}!`)
+                const users = welcome_message.replace(/{users}/gi, string);
+
+                if(users != undefined && users != null && users != ""){
+                    welcome_message = users;
+                }
+
+                const div_name = welcome_message.replace(/{div-name}/gi, (await handler.getConfig("Division-Name")).Value);
+
+                if(div_name != undefined && div_name != null && div_name != ""){
+                    welcome_message = div_name;
+                }
+
+                client.channels.cache.get((await handler.getConfig("Announce-channel")).Value).send(`<@&${(await handler.getConfig("Personnel-Id")).Value}> ${welcome_message}`);
             })
         }else{
             const embed = new Discord.MessageEmbed()
