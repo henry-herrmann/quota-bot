@@ -106,21 +106,83 @@ module.exports = {
                     const patrolpoints = await handler.getPatrolPoints(message.member.id);
     
                     if(permlevel >= 1){
+                        const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                        const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
+                        const patrolpercent = Math.trunc(patrolpoints*100/staffpatrolqutoa) <= 100 ? Math.trunc(patrolpoints*100/staffpatrolqutoa) : 100;
+    
+                        const attendchecksnum = Math.trunc(attendpercent / 10);
+                        const hostchecksnum = Math.trunc(hostpercent / 10);
+                        const patrolchecksum = Math.trunc(patrolpercent / 10);
+    
+                        let attendChecks = [];
+                        let attendPlaceholders = [];
+                        let hostChecks = [];
+                        let hostPlaceholders = [];
+                        let patrolChecks = [];
+                        let patrolPlaceholders = [];
+    
+                        for(let i=0; i < attendchecksnum; i++){
+                            attendChecks.push(":green_square:");
+                        }
+                        for(let i=0; i < 10-attendchecksnum; i++){
+                            attendPlaceholders.push(":black_large_square:")
+                        }
+                        for(let i=0; i < hostchecksnum; i++){
+                            hostChecks.push(":blue_square:");
+                        }
+                        for(let i=0; i < 10-hostchecksnum; i++){
+                            hostPlaceholders.push(":black_large_square:")
+                        }
+                        for(let i=0; i < patrolchecksum; i++){
+                            patrolChecks.push(":orange_square:");
+                        }
+                        for(let i=0; i < 10-patrolchecksum; i++){
+                            patrolPlaceholders.push(":black_large_square:")
+                        }
+
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
                         .setColor(color)
-                        .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}\u200B`)
-                        .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
+                        .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}`, true)
+                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
+                        .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
+                        .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${staffpatrolqutoa})`)
                         .setFooter(Index.footer)
                         .setTimestamp();
             
                         message.channel.send({embeds: [embed]})
                     }else{
+                        const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+                        const patrolpercent = Math.trunc(patrolpoints*100/patrolquota) <= 100 ? Math.trunc(patrolpoints*100/patrolquota) : 100;
+    
+                        const attendchecksnum = Math.trunc(attendpercent / 10);
+                        const patrolchecksum = Math.trunc(patrolpercent / 10);
+    
+                        let attendChecks = [];
+                        let attendPlaceholders = [];
+                        let patrolChecks = [];
+                        let patrolPlaceholders = [];
+    
+                        for(let i=0; i < attendchecksnum; i++){
+                            attendChecks.push(":green_square:");
+                        }
+                        for(let i=0; i < 10-attendchecksnum; i++){
+                            attendPlaceholders.push(":black_large_square:")
+                        }
+                        for(let i=0; i < patrolchecksum; i++){
+                            patrolChecks.push(":orange_square:");
+                        }
+                        for(let i=0; i < 10-patrolchecksum; i++){
+                            patrolPlaceholders.push(":black_large_square:")
+                        }
+
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
                         .setColor(color)
-                        .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolpoints}\n\u200B`)
-                        .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
+                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
+                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
+                        .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${patrolquota})`)
                         .setFooter(Index.footer)
                         .setTimestamp();
             
@@ -159,21 +221,61 @@ module.exports = {
 
                     handler.addMember(message.member.id, robloxid, message.member).then(async () =>{
                         if(permlevel >= 1){
+                            const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                            const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+                            const hostchecksnum = Math.trunc(hostpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+                            let hostChecks = [];
+                            let hostPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < hostchecksnum; i++){
+                                hostChecks.push(":blue_square:");
+                            }
+                            for(let i=0; i < 10-hostchecksnum; i++){
+                                hostPlaceholders.push(":black_large_square:")
+                            }
+    
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Quota')
                             .setColor(color)
-                            .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\u200B`)
-                            .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
+                            .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}`, true)
+                            .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
+                            .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
                             .setFooter(Index.footer)
                             .setTimestamp();
                 
                             message.channel.send({embeds: [embed]})
                         }else{
+                            const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+    
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Quota')
                             .setColor(color)
-                            .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\u200B`)
-                            .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
+                            .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
                             .setFooter(Index.footer)
                             .setTimestamp();
                 
@@ -182,21 +284,61 @@ module.exports = {
                     })
                 }else{  
                     if(permlevel >= 1){
+                        const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                        const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
+    
+                        const attendchecksnum = Math.trunc(attendpercent / 10);
+                        const hostchecksnum = Math.trunc(hostpercent / 10);
+    
+                        let attendChecks = [];
+                        let attendPlaceholders = [];
+                        let hostChecks = [];
+                        let hostPlaceholders = [];
+    
+                        for(let i=0; i < attendchecksnum; i++){
+                            attendChecks.push(":green_square:");
+                        }
+                        for(let i=0; i < 10-attendchecksnum; i++){
+                            attendPlaceholders.push(":black_large_square:")
+                        }
+                        for(let i=0; i < hostchecksnum; i++){
+                            hostChecks.push(":blue_square:");
+                        }
+                        for(let i=0; i < 10-hostchecksnum; i++){
+                            hostPlaceholders.push(":black_large_square:")
+                        }
+
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
                         .setColor(color)
-                        .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\u200B`)
-                        .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}`)
+                        .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}`, true)
+                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
+                        .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
                         .setFooter(Index.footer)
                         .setTimestamp();
             
                         message.channel.send({embeds: [embed]})
                     }else{
+                        const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+    
+                        const attendchecksnum = Math.trunc(attendpercent / 10);
+    
+                        let attendChecks = [];
+                        let attendPlaceholders = [];
+    
+                        for(let i=0; i < attendchecksnum; i++){
+                            attendChecks.push(":green_square:");
+                        }
+                        for(let i=0; i < 10-attendchecksnum; i++){
+                            attendPlaceholders.push(":black_large_square:")
+                        }
+
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
                         .setColor(color)
-                        .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n\u200B`)
-                        .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
+                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
+                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
                         .setFooter(Index.footer)
                         .setTimestamp();
             

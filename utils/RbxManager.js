@@ -14,10 +14,16 @@ module.exports = {
         return false;
     },
     async acceptIntotheGroup(rbx, handler, id){
-        rbx.handleJoinRequest(parseInt((await handler.getConfig("Roblox-Group-Id").Value)), id, true)
-        .catch((err) =>{
+        const botIsInGroup = await this.isInGroup(rbx, handler, 3179351366);
+
+        if(botIsInGroup){
+            rbx.handleJoinRequest(parseInt((await handler.getConfig("Roblox-Group-Id").Value)), id, true)
+            .catch((err) =>{
+                return false;
+            })
+        }else{
             return false;
-        })
+        }
     },
     async isInGroup(rbx, handler, id){
         const groups = await rbx.getGroups(id);
