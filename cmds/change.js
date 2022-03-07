@@ -486,6 +486,8 @@ module.exports = {
                         handler.removePatrolTable();
                     }
 
+                    handler.updateConfig("Patrols-Award-Activity", 0);
+
                     const embed1 = new Discord.MessageEmbed()
                     .setTitle(question.reply + answer.content)
                     .setColor("#56d402")
