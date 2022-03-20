@@ -45,6 +45,9 @@ class DivisionDB {
         con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.events(Name TEXT, Type TEXT, Points FLOAT NOT NULL DEFAULT 0)`, (err, result, field) =>{
             if(err) console.log(err);
         })
+        con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.rolequota(roleid TEXT, Attend FLOAT NOT NULL DEFAULT 0, Host FLOAT NOT NULL DEFAULT 0, Patrol FLOAT NOT NULL DEFAULT 0, Override TINYINT(1) NOT NULL DEFAULT 0)`, (err, result, field) =>{
+            if(err) console.log(err);
+        })
 
         this.loadConfig();
     }
@@ -481,6 +484,80 @@ class DivisionDB {
                         return resolve();
                     })
                 }
+            })
+        })
+    }
+
+    async setRoleQuota(roleid, attend, host, patrol, override){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT roleid FROM ${this.divisionname}.rolequota WHERE roleid = ?` , [roleid], (err, result, fields) =>{
+                if(err) reject(err);
+
+                if(result[0] == undefined){
+                    this.con.query(`INSERT INTO ${this.divisionname}.rolequota (roleid, Attend, Host, Patrol, Override) VALUES (?, ?, ?, ?, ?)`, [roleid, attend, host, patrol, override], (err1, result1, fields1)=>{
+                        if(err1) reject(err1);
+
+                        return resolve();
+                    })
+                }else{
+                    this.con.query(`UPDATE ${this.divisionname}.rolequota SET Attend = ?, Host = ?,  Patrol = ?, Override = ? WHERE roleid = ?`, [attend, host, patrol, override, roleid], (err1, result1, fields1) =>{
+                        if(err1) reject(err1);
+
+                        return resolve();
+                    })
+                }
+            })
+        })
+    }
+
+    async getRoleQuotas(){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.rolequota`, (err, result, fields) =>{
+                if(err) return reject(err);
+
+                return resolve(result);
+            })
+        })
+    }
+
+    async getRoleQuota(roleid) {
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT ${this.divisionname}.rolequota WHERE roleid = ?`, [roleid], (err, result, fields) =>{
+                if(err) return reject(err);
+
+                if(result[0] == undefined) return resolve(null);
+
+                return resolve(result[0]);
+            })
+        })
+    }
+
+    async deleteRoleQuota(roleid){
+        return new Promise((resolve, reject) =>{
+
+            this.con.query(`DELETE FROM ${this.divisionname}.rolequota WHERE roleid = ?`, [roleid],  (err, result, fields) =>{
+                if(err) reject(err);
+
+                return resolve();
+            })
+        })
+    }
+
+    async getQuota(member){
+        return new Promise((resolve, reject) =>{
+
+            this.con.query(`SELECT * FROM ${this.divisionname}.rolequota`, (err, result, fields) =>{
+                if(err) return reject(err);
+
+                var roles = [];
+
+                for(const role of result){
+                    if(member.roles.cache.some(r => r.id == role.roleid)){
+                        roles.push(role);
+                    }
+                }
+
+                return resolve(roles);
             })
         })
     }

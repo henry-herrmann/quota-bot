@@ -45,6 +45,8 @@ module.exports = {
             const attendpoints = await handler.getAttendancePoints(message.member.id);
             const hostpoints = await handler.getHostingPoints(message.member.id);
 
+            const rolequota = await handler.getQuota(message.member);
+
             if(supportsPatrols){
                 const patrolquota = await handler.getPatrolQuota();
                 const staffpatrolqutoa = await handler.getStaffPatrolQuota();
@@ -81,112 +83,486 @@ module.exports = {
                         const patrolpoints = await handler.getPatrolPoints(message.member.id);
     
                         if(permlevel >= 1){
-                            const embed = new Discord.MessageEmbed()
-                            .setTitle('Quota')
-                            .setColor(color)
-                            .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolquota}\n\n__Staff__:\n- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}\u200B`)
-                            .addField("**Your stats:**", `- Hosting: ${hostpoints}\n- Attendance: ${attendpoints}\n- Patrol: ${patrolpoints}`)
-                            .setFooter(Index.footer)
-                            .setTimestamp();
-                
-                            message.channel.send({embeds: [embed]})
+                            if(rolequota.length > 0){
+                                let max;
+            
+                                for(const quota of rolequota){
+                                    const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+            
+                                    if(max == null) {
+                                        max = role;
+                                    }
+            
+                                    if(role.position > max){
+                                        max = role;
+                                    }
+                                }
+            
+                                const quotaarray = [];
+            
+                                for(const quota of rolequota){
+                                    if(quota.Override == 1 || quota.roleid == max.id){
+                                        quotaarray.push(quota);
+                                    }
+                                }
+            
+                                const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                                const rolehostquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                                const rolepatrolquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+
+                                const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+                                const hostpercent = Math.trunc(hostpoints*100/rolehostquota) <= 100 ? Math.trunc(hostpoints*100/rolehostquota) : 100;
+                                const patrolpercent = Math.trunc(patrolpoints*100/rolepatrolquota) <= 100 ? Math.trunc(patrolpoints*100/rolepatrolquota) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+                                const hostchecksnum = Math.trunc(hostpercent / 10);
+                                const patrolchecksum = Math.trunc(patrolpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+                                let hostChecks = [];
+                                let hostPlaceholders = [];
+                                let patrolChecks = [];
+                                let patrolPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < hostchecksnum; i++){
+                                    hostChecks.push(":blue_square:");
+                                }
+                                for(let i=0; i < 10-hostchecksnum; i++){
+                                    hostPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < patrolchecksum; i++){
+                                    patrolChecks.push(":orange_square:");
+                                }
+                                for(let i=0; i < 10-patrolchecksum; i++){
+                                    patrolPlaceholders.push(":black_large_square:")
+                                }
+
+                                const names = [];
+
+                                quotaarray.map(cur => cur.roleid).forEach(async (element) =>{
+                                    const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                    names.push(role.name);
+                                })
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField(`${names.join(", ")} Quota:`, `- Hosting: ${rolehostquota}\n- Attendance: ${roleattendquota}\n- Patrol: ${rolepatrolquota}`, true)
+                                .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${rolehostquota})`)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                                .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${rolepatrolquota})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+            
+                                
+                            }else{
+                                const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                                const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
+                                const patrolpercent = Math.trunc(patrolpoints*100/staffpatrolqutoa) <= 100 ? Math.trunc(patrolpoints*100/staffpatrolqutoa) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+                                const hostchecksnum = Math.trunc(hostpercent / 10);
+                                const patrolchecksum = Math.trunc(patrolpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+                                let hostChecks = [];
+                                let hostPlaceholders = [];
+                                let patrolChecks = [];
+                                let patrolPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < hostchecksnum; i++){
+                                    hostChecks.push(":blue_square:");
+                                }
+                                for(let i=0; i < 10-hostchecksnum; i++){
+                                    hostPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < patrolchecksum; i++){
+                                    patrolChecks.push(":orange_square:");
+                                }
+                                for(let i=0; i < 10-patrolchecksum; i++){
+                                    patrolPlaceholders.push(":black_large_square:")
+                                }
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}`, true)
+                                .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
+                                .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
+                                .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${staffpatrolqutoa})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }
                         }else{
-                            const embed = new Discord.MessageEmbed()
-                            .setTitle('Quota')
-                            .setColor(color)
-                            .addField(`Current quota:`, `__Non-Staff__:\n- Attendance: ${attendquota}\n- Patrol: ${patrolpoints}\n\u200B`)
-                            .addField("**Your stats:**", `- Attendance: ${attendpoints}`)
-                            .setFooter(Index.footer)
-                            .setTimestamp();
-                
-                            message.channel.send({embeds: [embed]})
+                            if(rolequota.length > 0){
+                                let max;
+            
+                                for(const quota of rolequota){
+                                    const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+            
+                                    if(max == null) {
+                                        max = role;
+                                    }
+            
+                                    if(role.position > max){
+                                        max = role;
+                                    }
+                                }
+            
+                                const quotaarray = [];
+            
+                                for(const quota of rolequota){
+                                    if(quota.Override == 1 || quota.roleid == max.id){
+                                        quotaarray.push(quota);
+                                    }
+                                }
+            
+                                const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                                const rolepatrolquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+
+                                const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+                                const patrolpercent = Math.trunc(patrolpoints*100/rolepatrolquota) <= 100 ? Math.trunc(patrolpoints*100/rolepatrolquota) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+                                const patrolchecksum = Math.trunc(patrolpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+                                let patrolChecks = [];
+                                let patrolPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < patrolchecksum; i++){
+                                    patrolChecks.push(":orange_square:");
+                                }
+                                for(let i=0; i < 10-patrolchecksum; i++){
+                                    patrolPlaceholders.push(":black_large_square:")
+                                }
+
+                                const names = [];
+
+                                quotaarray.map(cur => cur.roleid).forEach(async (element) =>{
+                                    const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                    names.push(role.name);
+                                })
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField(`${names.join(", ")} Quota:`, `- Attendance: ${roleattendquota}\n- Patrol: ${rolepatrolquota}`, true)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                                .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${rolepatrolquota})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+            
+                                
+                            }else{
+                                const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                                const patrolpercent = Math.trunc(patrolpoints*100/staffpatrolqutoa) <= 100 ? Math.trunc(patrolpoints*100/staffpatrolqutoa) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+                                const patrolchecksum = Math.trunc(patrolpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+                                let patrolChecks = [];
+                                let patrolPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < patrolchecksum; i++){
+                                    patrolChecks.push(":orange_square:");
+                                }
+                                for(let i=0; i < 10-patrolchecksum; i++){
+                                    patrolPlaceholders.push(":black_large_square:")
+                                }
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField("Your quota: ", `- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}`, true)
+                                .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
+                                .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${staffpatrolqutoa})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }
                         }
                     })
                 }else{
                     const patrolpoints = await handler.getPatrolPoints(message.member.id);
     
                     if(permlevel >= 1){
-                        const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
-                        const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
-                        const patrolpercent = Math.trunc(patrolpoints*100/staffpatrolqutoa) <= 100 ? Math.trunc(patrolpoints*100/staffpatrolqutoa) : 100;
-    
-                        const attendchecksnum = Math.trunc(attendpercent / 10);
-                        const hostchecksnum = Math.trunc(hostpercent / 10);
-                        const patrolchecksum = Math.trunc(patrolpercent / 10);
-    
-                        let attendChecks = [];
-                        let attendPlaceholders = [];
-                        let hostChecks = [];
-                        let hostPlaceholders = [];
-                        let patrolChecks = [];
-                        let patrolPlaceholders = [];
-    
-                        for(let i=0; i < attendchecksnum; i++){
-                            attendChecks.push(":green_square:");
-                        }
-                        for(let i=0; i < 10-attendchecksnum; i++){
-                            attendPlaceholders.push(":black_large_square:")
-                        }
-                        for(let i=0; i < hostchecksnum; i++){
-                            hostChecks.push(":blue_square:");
-                        }
-                        for(let i=0; i < 10-hostchecksnum; i++){
-                            hostPlaceholders.push(":black_large_square:")
-                        }
-                        for(let i=0; i < patrolchecksum; i++){
-                            patrolChecks.push(":orange_square:");
-                        }
-                        for(let i=0; i < 10-patrolchecksum; i++){
-                            patrolPlaceholders.push(":black_large_square:")
-                        }
+                        if(rolequota.length > 0){
+                            let max;
+        
+                            for(const quota of rolequota){
+                                const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+        
+                                if(max == null) {
+                                    max = role;
+                                }
+        
+                                if(role.position > max){
+                                    max = role;
+                                }
+                            }
+        
+                            const quotaarray = [];
+        
+                            for(const quota of rolequota){
+                                if(quota.Override == 1 || quota.roleid == max.id){
+                                    quotaarray.push(quota);
+                                }
+                            }
+        
+                            const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                            const rolehostquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                            const rolepatrolquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
 
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Quota')
-                        .setColor(color)
-                        .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}`, true)
-                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
-                        .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
-                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
-                        .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${staffpatrolqutoa})`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
-            
-                        message.channel.send({embeds: [embed]})
+                            const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+                            const hostpercent = Math.trunc(hostpoints*100/rolehostquota) <= 100 ? Math.trunc(hostpoints*100/rolehostquota) : 100;
+                            const patrolpercent = Math.trunc(patrolpoints*100/rolepatrolquota) <= 100 ? Math.trunc(patrolpoints*100/rolepatrolquota) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+                            const hostchecksnum = Math.trunc(hostpercent / 10);
+                            const patrolchecksum = Math.trunc(patrolpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+                            let hostChecks = [];
+                            let hostPlaceholders = [];
+                            let patrolChecks = [];
+                            let patrolPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < hostchecksnum; i++){
+                                hostChecks.push(":blue_square:");
+                            }
+                            for(let i=0; i < 10-hostchecksnum; i++){
+                                hostPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < patrolchecksum; i++){
+                                patrolChecks.push(":orange_square:");
+                            }
+                            for(let i=0; i < 10-patrolchecksum; i++){
+                                patrolPlaceholders.push(":black_large_square:")
+                            }
+
+                            const names = [];
+
+                            const roles = quotaarray.map(cur => cur.roleid)
+
+                            await new Promise(async (resolve, reject) =>{
+                                for(const element of roles){
+                                    const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                    names.push(role.name);
+                                }
+                                resolve();
+                            })
+    
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Quota')
+                            .setColor(color)
+                            .addField(`${names.join(", ")} Quota:`, `- Hosting: ${rolehostquota}\n- Attendance: ${roleattendquota}\n- Patrol: ${rolepatrolquota}`, true)
+                            .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${rolehostquota})`)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                            .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${rolepatrolquota})`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+        
+                            
+                        }else{
+                            const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                            const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
+                            const patrolpercent = Math.trunc(patrolpoints*100/staffpatrolqutoa) <= 100 ? Math.trunc(patrolpoints*100/staffpatrolqutoa) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+                            const hostchecksnum = Math.trunc(hostpercent / 10);
+                            const patrolchecksum = Math.trunc(patrolpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+                            let hostChecks = [];
+                            let hostPlaceholders = [];
+                            let patrolChecks = [];
+                            let patrolPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < hostchecksnum; i++){
+                                hostChecks.push(":blue_square:");
+                            }
+                            for(let i=0; i < 10-hostchecksnum; i++){
+                                hostPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < patrolchecksum; i++){
+                                patrolChecks.push(":orange_square:");
+                            }
+                            for(let i=0; i < 10-patrolchecksum; i++){
+                                patrolPlaceholders.push(":black_large_square:")
+                            }
+    
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Quota')
+                            .setColor(color)
+                            .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}`, true)
+                            .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
+                            .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
+                            .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${staffpatrolqutoa})`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                        }
                     }else{
-                        const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
-                        const patrolpercent = Math.trunc(patrolpoints*100/patrolquota) <= 100 ? Math.trunc(patrolpoints*100/patrolquota) : 100;
+                        if(rolequota.length > 0){
+                            let max;
+        
+                            for(const quota of rolequota){
+                                const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+        
+                                if(max == null) {
+                                    max = role;
+                                }
+        
+                                if(role.position > max){
+                                    max = role;
+                                }
+                            }
+        
+                            const quotaarray = [];
+        
+                            for(const quota of rolequota){
+                                if(quota.Override == 1 || quota.roleid == max.id){
+                                    quotaarray.push(quota);
+                                }
+                            }
     
-                        const attendchecksnum = Math.trunc(attendpercent / 10);
-                        const patrolchecksum = Math.trunc(patrolpercent / 10);
+                            const names = [];
     
-                        let attendChecks = [];
-                        let attendPlaceholders = [];
-                        let patrolChecks = [];
-                        let patrolPlaceholders = [];
+                            quotaarray.map(cur => cur.roleid).forEach(async (element) =>{
+                                const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                names.push(role.name);
+                            })
+        
+                            const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                            const rolepatrolquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                        
+                            const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+                            const patrolpercent = Math.trunc(patrolpoints*100/rolepatrolquota) <= 100 ? Math.trunc(patrolpoints*100/rolepatrolquota) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+                            const patrolchecksum = Math.trunc(patrolpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+                            let patrolChecks = [];
+                            let patrolPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < patrolchecksum; i++){
+                                patrolChecks.push(":orange_square:");
+                            }
+                            for(let i=0; i < 10-patrolchecksum; i++){
+                                patrolPlaceholders.push(":black_large_square:")
+                            }
     
-                        for(let i=0; i < attendchecksnum; i++){
-                            attendChecks.push(":green_square:");
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Quota')
+                            .setColor(color)
+                            .addField(`${names.join(", ")} Quota`, `- Attendance: ${roleattendquota}\n- Patrol: ${rolepatrolquota}`, true)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                            .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${rolepatrolquota})`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                        }else{
+                            const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+                            const patrolpercent = Math.trunc(patrolpoints*100/rolepatrolquota) <= 100 ? Math.trunc(patrolpoints*100/patrolquota) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+                            const patrolchecksum = Math.trunc(patrolpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+                            let patrolChecks = [];
+                            let patrolPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < patrolchecksum; i++){
+                                patrolChecks.push(":orange_square:");
+                            }
+                            for(let i=0; i < 10-patrolchecksum; i++){
+                                patrolPlaceholders.push(":black_large_square:")
+                            }
+    
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Quota')
+                            .setColor(color)
+                            .addField(`Your quota`, `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
+                            .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${patrolquota})`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
                         }
-                        for(let i=0; i < 10-attendchecksnum; i++){
-                            attendPlaceholders.push(":black_large_square:")
-                        }
-                        for(let i=0; i < patrolchecksum; i++){
-                            patrolChecks.push(":orange_square:");
-                        }
-                        for(let i=0; i < 10-patrolchecksum; i++){
-                            patrolPlaceholders.push(":black_large_square:")
-                        }
-
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Quota')
-                        .setColor(color)
-                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
-                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
-                        .addField("Your patrol points:", `${patrolChecks.join("")}${patrolPlaceholders.join("")} ${patrolpercent}% (${patrolpoints}/${patrolquota})`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
-            
-                        message.channel.send({embeds: [embed]})
                     }
                 }
             }else{
@@ -221,6 +597,276 @@ module.exports = {
 
                     handler.addMember(message.member.id, robloxid, message.member).then(async () =>{
                         if(permlevel >= 1){
+                            if(rolequota.length > 0){
+                                let max;
+            
+                                for(const quota of rolequota){
+                                    const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+            
+                                    if(max == null) {
+                                        max = role;
+                                    }
+            
+                                    if(role.position > max){
+                                        max = role;
+                                    }
+                                }
+            
+                                const quotaarray = [];
+            
+                                for(const quota of rolequota){
+                                    if(quota.Override == 1 || quota.roleid == max.id){
+                                        quotaarray.push(quota);
+                                    }
+                                }
+            
+                                const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                                const rolehostquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+    
+                                const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+                                const hostpercent = Math.trunc(hostpoints*100/rolehostquota) <= 100 ? Math.trunc(hostpoints*100/rolehostquota) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+                                const hostchecksnum = Math.trunc(hostpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+                                let hostChecks = [];
+                                let hostPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < hostchecksnum; i++){
+                                    hostChecks.push(":blue_square:");
+                                }
+                                for(let i=0; i < 10-hostchecksnum; i++){
+                                    hostPlaceholders.push(":black_large_square:")
+                                }
+
+                                const names = [];
+    
+                                const roles = quotaarray.map(cur => cur.roleid)
+    
+                                await new Promise(async (resolve, reject) =>{
+                                    for(const element of roles){
+                                        const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                        names.push(role.name);
+                                    }
+                                    resolve();
+                                })
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField(`${names.join(", ")} Quota:`, `- Hosting: ${rolehostquota}\n- Attendance: ${roleattendquota}`, true)
+                                .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${rolehostquota})`)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+            
+                                
+                            }else{
+                                const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
+                                const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+                                const hostchecksnum = Math.trunc(hostpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+                                let hostChecks = [];
+                                let hostPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+                                for(let i=0; i < hostchecksnum; i++){
+                                    hostChecks.push(":blue_square:");
+                                }
+                                for(let i=0; i < 10-hostchecksnum; i++){
+                                    hostPlaceholders.push(":black_large_square:")
+                                }
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}\n- Patrol: ${staffpatrolqutoa}`, true)
+                                .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
+                                .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }
+                        }else{
+                            if(rolequota.length > 0){
+                                let max;
+            
+                                for(const quota of rolequota){
+                                    const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+            
+                                    if(max == null) {
+                                        max = role;
+                                    }
+            
+                                    if(role.position > max){
+                                        max = role;
+                                    }
+                                }
+            
+                                const quotaarray = [];
+            
+                                for(const quota of rolequota){
+                                    if(quota.Override == 1 || quota.roleid == max.id){
+                                        quotaarray.push(quota);
+                                    }
+                                }
+        
+                                const names = [];
+        
+                                quotaarray.map(cur => cur.roleid).forEach(async (element) =>{
+                                    const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                    names.push(role.name);
+                                })
+            
+                                const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                            
+                                const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField(`${names.join(", ")} Quota`, `- Attendance: ${roleattendquota}`, true)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }else{
+                                const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+            
+                                const attendchecksnum = Math.trunc(attendpercent / 10);
+            
+                                let attendChecks = [];
+                                let attendPlaceholders = [];
+            
+                                for(let i=0; i < attendchecksnum; i++){
+                                    attendChecks.push(":green_square:");
+                                }
+                                for(let i=0; i < 10-attendchecksnum; i++){
+                                    attendPlaceholders.push(":black_large_square:")
+                                }
+        
+                                const embed = new Discord.MessageEmbed()
+                                .setTitle('Quota')
+                                .setColor(color)
+                                .addField(`Your quota`, `- Attendance: ${attendquota}`, true)
+                                .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
+                                .setFooter(Index.footer)
+                                .setTimestamp();
+                    
+                                message.channel.send({embeds: [embed]})
+                            }
+                        }
+                    })
+                }else{  
+                    if(permlevel >= 1){
+                        if(rolequota.length > 0){
+                            let max;
+        
+                            for(const quota of rolequota){
+                                const role = await message.guild.roles.fetch(quota.roleid).catch(() =>{});
+        
+                                if(max == null) {
+                                    max = role;
+                                }
+        
+                                if(role.position > max){
+                                    max = role;
+                                }
+                            }
+        
+                            const quotaarray = [];
+        
+                            for(const quota of rolequota){
+                                if(quota.Override == 1 || quota.roleid == max.id){
+                                    quotaarray.push(quota);
+                                }
+                            }
+        
+                            const roleattendquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+                            const rolehostquota = quotaarray.reduce((a, b) => a + (b["Attend"] || 0), 0);
+
+                            const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/roleattendquota) : 100;
+                            const hostpercent = Math.trunc(hostpoints*100/rolehostquota) <= 100 ? Math.trunc(hostpoints*100/rolehostquota) : 100;
+        
+                            const attendchecksnum = Math.trunc(attendpercent / 10);
+                            const hostchecksnum = Math.trunc(hostpercent / 10);
+        
+                            let attendChecks = [];
+                            let attendPlaceholders = [];
+                            let hostChecks = [];
+                            let hostPlaceholders = [];
+        
+                            for(let i=0; i < attendchecksnum; i++){
+                                attendChecks.push(":green_square:");
+                            }
+                            for(let i=0; i < 10-attendchecksnum; i++){
+                                attendPlaceholders.push(":black_large_square:")
+                            }
+                            for(let i=0; i < hostchecksnum; i++){
+                                hostChecks.push(":blue_square:");
+                            }
+                            for(let i=0; i < 10-hostchecksnum; i++){
+                                hostPlaceholders.push(":black_large_square:")
+                            }
+
+                            const names = [];
+
+                            const roles = quotaarray.map(cur => cur.roleid)
+
+                            await new Promise(async (resolve, reject) =>{
+                                for(const element of roles){
+                                    const role = await message.guild.roles.fetch(element).catch(() =>{});
+                                    names.push(role.name);
+                                }
+                                resolve();
+                            })
+    
+                            const embed = new Discord.MessageEmbed()
+                            .setTitle('Quota')
+                            .setColor(color)
+                            .addField(`${names.join(", ")} Quota:`, `- Hosting: ${rolehostquota}\n- Attendance: ${roleattendquota}`, true)
+                            .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${rolehostquota})`)
+                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${roleattendquota})`)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                
+                            message.channel.send({embeds: [embed]})
+                            
+                        }else{
                             const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
                             const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
         
@@ -249,76 +895,14 @@ module.exports = {
                             .setTitle('Quota')
                             .setColor(color)
                             .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}`, true)
-                            .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
+                            .addField("Non-Staff quota:", `- Attendance: ${attendquota}\n- Patrol: ${patrolquota}`, true)
                             .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
                             .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
                             .setFooter(Index.footer)
                             .setTimestamp();
                 
                             message.channel.send({embeds: [embed]})
-                        }else{
-                            const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
-        
-                            const attendchecksnum = Math.trunc(attendpercent / 10);
-        
-                            let attendChecks = [];
-                            let attendPlaceholders = [];
-        
-                            for(let i=0; i < attendchecksnum; i++){
-                                attendChecks.push(":green_square:");
-                            }
-                            for(let i=0; i < 10-attendchecksnum; i++){
-                                attendPlaceholders.push(":black_large_square:")
-                            }
-    
-                            const embed = new Discord.MessageEmbed()
-                            .setTitle('Quota')
-                            .setColor(color)
-                            .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
-                            .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
-                            .setFooter(Index.footer)
-                            .setTimestamp();
-                
-                            message.channel.send({embeds: [embed]})
                         }
-                    })
-                }else{  
-                    if(permlevel >= 1){
-                        const attendpercent = Math.trunc(attendpoints*100/staffattendquota) <= 100 ? Math.trunc(attendpoints*100/staffattendquota) : 100;
-                        const hostpercent = Math.trunc(hostpoints*100/hostingquota) <= 100 ? Math.trunc(hostpoints*100/hostingquota) : 100;
-    
-                        const attendchecksnum = Math.trunc(attendpercent / 10);
-                        const hostchecksnum = Math.trunc(hostpercent / 10);
-    
-                        let attendChecks = [];
-                        let attendPlaceholders = [];
-                        let hostChecks = [];
-                        let hostPlaceholders = [];
-    
-                        for(let i=0; i < attendchecksnum; i++){
-                            attendChecks.push(":green_square:");
-                        }
-                        for(let i=0; i < 10-attendchecksnum; i++){
-                            attendPlaceholders.push(":black_large_square:")
-                        }
-                        for(let i=0; i < hostchecksnum; i++){
-                            hostChecks.push(":blue_square:");
-                        }
-                        for(let i=0; i < 10-hostchecksnum; i++){
-                            hostPlaceholders.push(":black_large_square:")
-                        }
-
-                        const embed = new Discord.MessageEmbed()
-                        .setTitle('Quota')
-                        .setColor(color)
-                        .addField("Staff quota (Your quota): ", `- Hosting: ${hostingquota}\n- Attendance: ${staffattendquota}`, true)
-                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
-                        .addField("Your hosting points:", `${hostChecks.join("")}${hostPlaceholders.join("")} ${hostpercent}% (${hostpoints}/${hostingquota})`)
-                        .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${staffattendquota})`)
-                        .setFooter(Index.footer)
-                        .setTimestamp();
-            
-                        message.channel.send({embeds: [embed]})
                     }else{
                         const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
     
@@ -337,7 +921,7 @@ module.exports = {
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Quota')
                         .setColor(color)
-                        .addField("Non-Staff quota:", `- Attendance: ${attendquota}`, true)
+                        .addField("Your quota:", `- Attendance: ${attendquota}`, true)
                         .addField("Your attendance points:", `${attendChecks.join("")}${attendPlaceholders.join("")} ${attendpercent}% (${attendpoints}/${attendquota})`)
                         .setFooter(Index.footer)
                         .setTimestamp();

@@ -178,7 +178,7 @@ async function logInactivity(message, client, handler){
             var robloxid;
 
             try{
-                robloxid = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                robloxid = await DivisionHandler.getRobloxId(message.author.id, handler.getGuildID());
             }catch(error){
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Error :warning:')
@@ -192,7 +192,6 @@ async function logInactivity(message, client, handler){
             }
 
             handler.addMember(message.author.id, robloxid, message.member).then(async ()=>{
-                await timer(1000)
                 var length = args[0];
 
                 if(isNaN(length)){

@@ -161,6 +161,8 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("events").execute(message, args, handler);
     }else if(command == "division"){
         client.commands.get("division").execute(message, args, handler, rbx);
+    }else if(command == "quota"){
+        client.commands.get("quota").execute(message, args, handler, client)
     }
 })
 
