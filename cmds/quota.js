@@ -285,6 +285,16 @@ module.exports = {
                 .setTimestamp();
 
                 message.channel.send({embeds: [embed]});
+            }else{
+                const embed = new Discord.MessageEmbed()
+                .setTitle('Incorrect usage :warning:')
+                .setColor("#ed0909")
+                .setDescription(`>>> ${prefix}quota <set, remove, list>`)
+                .setFooter(Index.footer)
+                .setTimestamp();
+    
+                message.channel.send({embeds: [embed]})
+                return; 
             }
         }else{
             const embed = new Discord.MessageEmbed()
