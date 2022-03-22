@@ -1136,7 +1136,7 @@ module.exports = {
 
 async function awaitMessage(filter, channel){
     return new Promise(async (resolve, reject) =>{
-        await channel.awaitMessages({filter, max: 1, time: 240000, errors: ['time']})
+        await channel.awaitMessages({filter, max: 1, time: 600000, errors: ['time']})
         .then(collected =>{
             return resolve(collected.first());
         })
