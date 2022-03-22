@@ -32,13 +32,13 @@ module.exports = {
                 message.channel.send({embeds: [embed]})
                 return;
             }
-            
+
             if(args[0] == "set"){
 
                 let role;
 
                 if(message.mentions.roles.first() == undefined){
-                    if(isNaN(args[1])){
+                    if(args[1] == undefined || isNaN(args[1])){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')
                         .setColor("#ed0909")
