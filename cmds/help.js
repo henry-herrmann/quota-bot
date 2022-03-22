@@ -18,7 +18,7 @@ module.exports = {
                 .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                 .setDescription(`These are the commands for all personnel with permission level 4 or higher: `)
                 .addField(`**Points**`, `>>> **${prefix}points** __<add,remove> <attend, host${supportsPatrols ? ", patrol" : ""}> <amount> <@User>__ - Adds/removes points to the user(s)\n**${prefix}points** __get <@User>__ - Displays the user's points.`)
-                .addField(`**Quota**`, `>>> **${prefix}change** __<Parameter>__\n**${prefix}setup**\n**${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.`)
+                .addField(`**Quota**`, `>>> **${prefix}change** __<Parameter>__\n**${prefix}setup**\n**${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.\n**${prefix}quota** <set, remove, list> (<@Role or roleid>) - Sets the quota for individual roles.`)
                 .addField(`**Filtering**`, `>>> **${prefix}filter** __<@User>__ - Filters a user in.${announceMembers == 1 ? `\n**${prefix}announce** - Announces filtered members in on-duty.` : ""}`)
                 .addField(`**Moderation**`, `>>> **${prefix}kick** __@User (<Reason>)__ - Kicks them, removes them from the database and, if enabled, from the group.\n**${prefix}ban** __<@User> (<Reason>)__ - Bans them, removes them from the database and, if enabled, from the group.\n**${prefix}discharge** __<@User>__ - Removes the user from the database and, if enabled, from the group.\n**${prefix}notice** __<@User or @Role or nothing> <Message>__ - Sends a DM to the mentioned user(s)/role(s)\n**${prefix}purge** __<Amount>__ - Deletes a specified amount of messages.\n**${prefix}inactivity** __<add,remove> <(Length for add only)> <@User>__ - Adds/removes INs.\n**${prefix}inactivity** __<list>__ - Displays all INs.`)
                 .addField(`**Misc**`, `>>> **${prefix}update** (<@User>)\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
@@ -32,7 +32,7 @@ module.exports = {
                 .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                 .setDescription(`These are the commands for all personnel with permission level 4 or higher: `)
                 .addField(`**Points**`, `>>> **${prefix}points** __<add,remove> <attend, host${supportsPatrols ? ", patrol" : ""}> <amount> <@User>__ - Adds/removes points to the user(s)\n**${prefix}points** __get <@User>__ - Displays the user's points.`)
-                .addField(`**Quota**`, `>>> **${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.`)
+                .addField(`**Quota**`, `>>> **${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.\n**${prefix}quota** <set, remove, list> (<@Role or roleid>) - Sets the quota for individual roles.`)
                 .addField(`**Filtering**`, `>>> **${prefix}filter** __<@User>__ - Filters a user in.${announceMembers == 1 ? `\n**${prefix}announce** - Announces filtered members in on-duty.` : ""}`)
                 .addField(`**Moderation**`, `>>> **${prefix}kick** __@User (<Reason>)__ - Kicks them, removes them from the database and, if enabled, from the group.\n**${prefix}ban** __<@User> (<Reason>)__ - Bans them, removes them from the database and, if enabled, from the group.\n**${prefix}discharge** __<@User>__ - Removes the user from the database and, if enabled, from the group.\n**${prefix}notice** __<@User or @Role or nothing> <Message>__ - Sends a DM to the mentioned user(s)/role(s)\n**${prefix}purge** __<Amount>__ - Deletes a specified amount of messages.\n**${prefix}inactivity** __<add,remove> <(Length for add only)> <@User>__ - Adds/removes INs.\n**${prefix}inactivity** __<list>__ - Displays all INs.`)
                 .addField(`**Misc**`, `>>> **${prefix}update** (<@User>)\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
@@ -49,7 +49,7 @@ module.exports = {
                     .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                     .setDescription(`These are the commands for all personnel with permission level 1 or higher: `)
                     .addField(`**Points**`, `>>> **${prefix}points** - Displays your points.\n**${prefix}points** __get <@User>__ - Displays the user's points.`)
-                    .addField(`**Quota**`, `>>> **${prefix}top** - Displays the top 5 leaderboard.`)
+                    .addField(`**Quota**`, `>>> **${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}quota** - Displays the current quota.`)
                     .addField(`**Filtering**`, `>>> **${prefix}filter** __<@User>__ - Filters a user in.${announceMembers == 1 ? `\n**${prefix}announce** - Announces filtered members in on-duty.` : ""}`)
                     .addField(`**Misc**`, `>>> **${prefix}update**\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
                     .setFooter({text: "Contact PriorAdjudicator#4723 (Henryhre) in case you encounter any bugs.", iconURL: "https://cdn.discordapp.com/attachments/702147293150707805/928638065554112552/99d00e7d655bdba754a68df0f8ad3e49.png"})
@@ -62,7 +62,7 @@ module.exports = {
                     .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                     .setDescription(`These are the commands for all personnel with permission level 1 or higher: `)
                     .addField(`**Points**`, `>>> **${prefix}points** - Displays your points.\n**${prefix}points** __get <@User>__ - Displays the user's points.`)
-                    .addField(`**Quota**`, `>>> **${prefix}top** - Displays the top 5 leaderboard.`)
+                    .addField(`**Quota**`, `>>> **${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}quota** - Displays the current quota.`)
                     .addField(`**Misc**`, `>>> **${prefix}update**\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
                     .setFooter({text: "Contact PriorAdjudicator#4723 (Henryhre) in case you encounter any bugs.", iconURL: "https://cdn.discordapp.com/attachments/702147293150707805/928638065554112552/99d00e7d655bdba754a68df0f8ad3e49.png"})
         
@@ -76,7 +76,7 @@ module.exports = {
                 .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                 .setDescription(`These are the commands for standard division members: `)
                 .addField(`**Points**`, `>>> **${prefix}points** - Displays your points.`)
-                .addField(`**Quota**`, `>>> **${prefix}top** - Displays the top 5 leaderboard.`)
+                .addField(`**Quota**`, `>>> **${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}quota** - Displays the current quota.`)
                 .addField(`**Misc**`, `>>> **${prefix}update**\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
                 .setFooter({text: "Contact PriorAdjudicator#4723 in case you encounter any bugs.", iconURL: "https://cdn.discordapp.com/attachments/702147293150707805/928638065554112552/99d00e7d655bdba754a68df0f8ad3e49.png"})
     
@@ -217,6 +217,13 @@ module.exports = {
                         category: "misc",
                         usage: `${prefix}update <@User>\n${prefix}update`,
                         example: `${prefix}update <@282590125408387073>`
+                    },
+                    {
+                        name: "quota",
+                        description: "Sets and removes the quota for an individual role.",
+                        category: "quota",
+                        usage: `${prefix}quota <set, remove, list> (<@Role or role id>)`,
+                        example: `${prefix}quota remove 855578622264737853`
                     }
                 ]
 
@@ -375,6 +382,13 @@ module.exports = {
                         category: "misc",
                         usage: `${prefix}update <@User>\n${prefix}update`,
                         example: `${prefix}update <@282590125408387073>`
+                    },
+                    {
+                        name: "quota",
+                        description: "Sets and removes the quota for an individual role.",
+                        category: "quota",
+                        usage: `${prefix}quota <set, remove, list> (<@Role or role id>)`,
+                        example: `${prefix}quota remove 855578622264737853`
                     }
                 ]
 
@@ -463,6 +477,13 @@ module.exports = {
                         category: "misc",
                         usage: `${prefix}update <@User>\n${prefix}update`,
                         example: `${prefix}update <@282590125408387073>`
+                    },
+                    {
+                        name: "quota",
+                        description: "Displays the current quota or the quota that was assigned to one of your roles.",
+                        category: "quota",
+                        usage: `${prefix}quota`,
+                        example: `${prefix}quota`
                     }
                 ]
 
@@ -544,6 +565,13 @@ module.exports = {
                         category: "misc",
                         usage: `${prefix}update`,
                         example: `${prefix}update`
+                    },
+                    {
+                        name: "quota",
+                        description: "Displays the current quota or the quota that was assigned to one of your roles.",
+                        category: "quota",
+                        usage: `${prefix}quota`,
+                        example: `${prefix}quota`
                     }
                 ]
 
@@ -608,6 +636,13 @@ module.exports = {
                         category: "misc",
                         usage: `${prefix}update`,
                         example: `${prefix}update`
+                    },
+                    {
+                        name: "quota",
+                        description: "Displays the current quota or the quota that was assigned to one of your roles.",
+                        category: "quota",
+                        usage: `${prefix}quota`,
+                        example: `${prefix}quota`
                     }
                 ]
 

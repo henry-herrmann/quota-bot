@@ -4,16 +4,6 @@ const Index = require("../index");
 module.exports = {
     name: "quota",
     async execute(message, args, handler, client){
-        if(await handler.getPermissionLevel(message.member) < 4){
-            const embed = new Discord.MessageEmbed()
-            .setTitle('Insufficient permissions :warning:')
-            .setColor("#ed0909")
-            .setDescription(`You are missing the required permissions to execute this command.`)
-            .setFooter(Index.footer)
-            .setTimestamp();
-            message.channel.send({embeds: [embed]})
-            return;
-        }
 
         const prefix = await handler.getPrefix();
 
@@ -32,6 +22,17 @@ module.exports = {
         if(args.length == 0){
             require("./points").execute(message, args, handler, client);
         }else if(args.length == 2){
+            if(await handler.getPermissionLevel(message.member) < 4){
+                const embed = new Discord.MessageEmbed()
+                .setTitle('Insufficient permissions :warning:')
+                .setColor("#ed0909")
+                .setDescription(`You are missing the required permissions to execute this command.`)
+                .setFooter(Index.footer)
+                .setTimestamp();
+                message.channel.send({embeds: [embed]})
+                return;
+            }
+            
             if(args[0] == "set"){
 
                 let role;
