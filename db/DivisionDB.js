@@ -665,7 +665,7 @@ class DivisionDB {
         return new Promise((resolve, reject) =>{
             let rankids = [];
 
-            this.con.query(`SELECT * FROM ${this.divisionname}.roles`, (err, result, fields) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.roles WHERE type = "staff"`, (err, result, fields) =>{
                 if(err) reject(err);
 
                 for(const role of result){

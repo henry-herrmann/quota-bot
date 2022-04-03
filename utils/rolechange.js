@@ -201,12 +201,12 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                 if(RbxManager.setRank(rbx, handler, id, isincompany.rankid) != false){
                                                 }
                                             }else{
-                                                if(member.roles.cache.some(r => r.id == trooperrole.id)){
-                                                    if(RbxManager.setRank(rbx, handler, id, trooperrole.rankid) != false){
+                                                if(member.roles.cache.some(r => r.id == trooperrole[0].id)){
+                                                    if(RbxManager.setRank(rbx, handler, id, trooperrole[0].rankid) != false){
         
                                                     }
                                                 }else{
-                                                    if(RbxManager.setRank(rbx, handler, id, enlistrole.rankid) != false){
+                                                    if(RbxManager.setRank(rbx, handler, id, enlistrole[0].rankid) != false){
         
                                                     }
                                                 }
@@ -239,12 +239,12 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
         
                                                 }
                                             }else{
-                                                if(member.roles.cache.some(r => r.id == trooperrole.id)){
-                                                    if(RbxManager.setRank(rbx, handler, robloxid, trooperrole.rankid) != false){
+                                                if(member.roles.cache.some(r => r.id == trooperrole[0].id)){
+                                                    if(RbxManager.setRank(rbx, handler, robloxid, trooperrole[0].rankid) != false){
         
                                                     }
                                                 }else{
-                                                    if(RbxManager.setRank(rbx, handler, robloxid, enlistrole.rankid) != false){
+                                                    if(RbxManager.setRank(rbx, handler, robloxid, enlistrole[0].rankid) != false){
         
                                                     }
                                                 }
@@ -292,12 +292,12 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                 if(bool){
                                                     var id = await handler.getRobloxId(member.id);
 
-                                                    if(!member.roles.cache.some(r => r.id == trooperrole.id)){
-                                                        if(RbxManager.setRank(rbx, handler, id, enlistrole.rankid) != false){
+                                                    if(!member.roles.cache.some(r => r.id == trooperrole[0].id)){
+                                                        if(RbxManager.setRank(rbx, handler, id, enlistrole[0].rankid) != false){
                     
                                                         }
                                                     }else{
-                                                        if(RbxManager.setRank(rbx, handler, id, trooperrole.rankid) != false){
+                                                        if(RbxManager.setRank(rbx, handler, id, trooperrole[0].rankid) != false){
                     
                                                         }
                                                     }
@@ -310,12 +310,12 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                         return;
                                                     }
 
-                                                    if(!member.roles.cache.some(r => r.id == trooperrole.id)){
-                                                        if(RbxManager.setRank(rbx, handler, robloxid, enlistrole.rankid) != false){
+                                                    if(!member.roles.cache.some(r => r.id == trooperrole[0].id)){
+                                                        if(RbxManager.setRank(rbx, handler, robloxid, enlistrole[0].rankid) != false){
                     
                                                         }
                                                     }else{
-                                                        if(RbxManager.setRank(rbx, handler, robloxid, trooperrole.rankid) != false){
+                                                        if(RbxManager.setRank(rbx, handler, robloxid, trooperrole[0].rankid) != false){
                     
                                                         }
                                                     }
@@ -349,7 +349,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                 if(bool){
                                                     const id = await handler.getRobloxId(member.id);
 
-                                                    if(RbxManager.setRank(rbx, handler, id, enlistrole.rankid) != false){
+                                                    if(RbxManager.setRank(rbx, handler, id, enlistrole[0].rankid) != false){
             
                                                     }
                                                 }else{
@@ -361,7 +361,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                         return;
                                                     }
 
-                                                    if(RbxManager.setRank(rbx, handler, robloxid, enlistrole.rankid) != false){
+                                                    if(RbxManager.setRank(rbx, handler, robloxid, enlistrole[0].rankid) != false){
             
                                                     }
                                                 }

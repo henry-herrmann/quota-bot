@@ -528,8 +528,8 @@ module.exports = {
                 
                             message.channel.send({embeds: [embed]})
                         }else{
-                            const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
-                            const patrolpercent = Math.trunc(patrolpoints*100/rolepatrolquota) <= 100 ? Math.trunc(patrolpoints*100/patrolquota) : 100;
+                            const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+                            const patrolpercent = Math.trunc(patrolpoints*100/patrolquota) <= 100 ? Math.trunc(patrolpoints*100/patrolquota) : 100;
         
                             const attendchecksnum = Math.trunc(attendpercent / 10);
                             const patrolchecksum = Math.trunc(patrolpercent / 10);
@@ -765,7 +765,7 @@ module.exports = {
                     
                                 message.channel.send({embeds: [embed]})
                             }else{
-                                const attendpercent = Math.trunc(attendpoints*100/roleattendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
+                                const attendpercent = Math.trunc(attendpoints*100/attendquota) <= 100 ? Math.trunc(attendpoints*100/attendquota) : 100;
             
                                 const attendchecksnum = Math.trunc(attendpercent / 10);
             
