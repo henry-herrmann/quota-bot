@@ -982,15 +982,11 @@ class DivisionDB {
 
     async getStaffAttendQuota(){
         return new Promise((resolve, reject) =>{
-            if(this.patrols){
-                this.con.query(`SELECT Value FROM ${this.divisionname}.config WHERE Name = ?`, ["Staff-Attendance-Quota"], (err, result, fields) =>{
-                    if(err) reject(err);
-    
-                    return resolve(parseFloat(result[0].Value));
-                })
-            }else{
-                return resolve(0);
-            }
+            this.con.query(`SELECT Value FROM ${this.divisionname}.config WHERE Name = ?`, ["Staff-Attendance-Quota"], (err, result, fields) =>{
+                if(err) reject(err);
+
+                return resolve(parseFloat(result[0].Value));
+            })
         })
     }
 
