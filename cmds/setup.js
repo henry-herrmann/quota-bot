@@ -18,7 +18,7 @@ module.exports = {
         }
 
         if(await handler.isConfigured() == true){
-            /*const embed = new Discord.MessageEmbed()
+            const embed = new Discord.MessageEmbed()
             .setTitle('Division already configured :warning:')
             .setColor("#ed0909")
             .setDescription(`The setup process is finished already. Please use the **${prefix}change** command.`)
@@ -26,7 +26,7 @@ module.exports = {
             .setTimestamp();
                   
             message.channel.send({embeds: [embed]})
-            return;*/
+            return;
         }
 
 
