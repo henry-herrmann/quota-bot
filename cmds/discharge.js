@@ -226,32 +226,118 @@ async execute(message, args, client, handler, rbx){
             
           }else if(args.length == 2){
             if(args[0] == "force"){
-              if(message.mentions.users.first() == undefined){
+              if(message.mentions.users.first() == undefined && isNaN(args[1])){
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Error :warning:')
                 .setColor("#ed0909")
-                .setDescription(`Mention a user.`)
+                .setDescription(`Mention a user or provide a user id.`)
                 .setFooter(Index.footer)
                 .setTimestamp();
   
                 message.channel.send({embeds: [embed]})
                 return;
               }
-              const mention = message.mentions.users.first() || client.users.cache.get(args[1]);
-  
-              if(!mention){
-                const embed = new Discord.MessageEmbed()
-                .setTitle('Error :warning:')
-                .setColor("#ed0909")
-                .setDescription(`Mention a user.`)
-                .setFooter(Index.footer)
-                .setTimestamp();
-  
-                message.channel.send({embeds: [embed]})
-                return;
-              }
+
               var member = message.mentions.users.first(), user;
               if(member) user = await message.guild.members.fetch(member);
+
+              if(user == undefined){
+                if(await handler.isOnInactivityNotice(args[1])){
+                  const inactivitychannelid = (await handler.getConfig("Inactivity-Channel")).Value;
+  
+                  client.channels.cache.get(inactivitychannelid).messages.fetch({limit: 100}).then((messages) =>{
+                      const msgs = messages.filter(m => m.author.id === args[1]);
+                      msgs.forEach((msg) =>{
+                        if(msg != null && msg != undefined){
+                          msg.delete().catch(() =>{});
+                          return;
+                        }
+                      })
+                  })
+    
+    
+                  handler.removeInactivityNotice(args[1]);
+                }
+                const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
+  
+            
+                handler.isOnSpreadsheet(args[1]).then(async (bool) =>{
+                  if(bool){
+                      if(autorank == 1){
+                        var robloxid = await handler.getRobloxId(args[1]);
+                        await RbxManager.exileUser(rbx, handler, robloxid);
+                      }
+
+                      await handler.removeMember(args[1]);
+                      const embed = new Discord.MessageEmbed()
+                      .setTitle('User removed from the spreadsheet :white_check_mark:')
+                      .setColor("#56d402")
+                      .setDescription(`Successfully removed <@${args[1]}> from the spreadsheet. `)
+                      .setFooter(Index.footer)
+                      .setTimestamp();
+                      message.channel.send({embeds: [embed]})
+  
+                      const txt = new Discord.MessageEmbed()
+                      .setTitle("User Discharged")
+                      .setColor("#42f581")
+                      .setDescription(`User: <@${args[1]}>\nDischarged by: <@${message.author.id}>`)
+                      .setFooter(Index.footer)
+                      .setTimestamp();
+                                  
+                      client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
+                  }else{
+                    if(autorank == 1){
+                      var robloxid1;
+
+                      try{
+                          robloxid1 = await DivisionHandler.getRobloxId(args[1], handler.getGuildID());
+                      }catch(error){
+                          const embed = new Discord.MessageEmbed()
+                          .setTitle('Error :warning:')
+                          .setColor("#ed0909")
+                          .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                          .setFooter(Index.footer)
+                          .setTimestamp();
+            
+                          message.channel.send({embeds: [embed]})
+                          return;
+                      }
+        
+                      if(robloxid1 == undefined || robloxid1 == null){
+                          const embed = new Discord.MessageEmbed()
+                          .setTitle('Error :warning:')
+                          .setColor("#ed0909")
+                          .setDescription(`The user is not linked with Bloxlink. He has to run the /verify command.`)
+                          .setFooter(Index.footer)
+                          .setTimestamp();
+            
+                          message.channel.send({embeds: [embed]})
+                          return;
+                      }
+                      await RbxManager.exileUser(rbx, handler, robloxid1)
+                    }
+
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle('User not on the spreadsheet :warning:')
+                    .setColor("#ed0909")
+                    .setDescription(`<@${args[1]}> is not on the spreadsheet, he is good to go.`)
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+
+                    message.channel.send({embeds: [embed]})
+  
+                    const txt = new Discord.MessageEmbed()
+                    .setTitle("User Discharged")
+                    .setColor("#42f581")
+                    .setDescription(`User: <@${args[1]}>\nDischarged by: <@${message.author.id}>`)
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+                                 
+                    client.channels.cache.get(await handler.getChannel("react-logs")).send({embeds: [txt]});
+                  }
+                })
+                return;
+              }
 
               if(await  handler.getPermissionLevel(user) >= await  handler.getPermissionLevel(message.member)){
                 const embed = new Discord.MessageEmbed()
