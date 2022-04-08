@@ -36,6 +36,7 @@ module.exports = {
         if(args.length == 1){
             if(args[0].toUpperCase() == "LIST"){
                 const notices = await handler.getInactivityNotices();
+
                 let arr = [];
     
                 for(const notice of notices){
@@ -44,7 +45,7 @@ module.exports = {
                     var start = dateFormat(startDate, "m/d/yy");
                     var end = dateFormat(endDate, "m/d/yy");
     
-                    arr.push(`- [<@${notice.id}>]: Start: ${start}, End: ${end}, Reason: ${notice.reason}, MessageId: ${notice.MessageID}`);
+                    arr.push(`- [<@${notice.Id}>]: Start: ${start}, End: ${end}, Reason: ${notice.reason}, MessageId: ${notice.MessageID}`);
                 }
                 const msg = arr.join("\n");
                 const string = await Util.splitMessage(msg, { maxLength: 2000 });
