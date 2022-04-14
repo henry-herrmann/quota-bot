@@ -1162,6 +1162,46 @@ class DivisionDB {
             })
         })
     }
+
+    async getBlacklist(name){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.blacklist WHERE Name = ?`, [name], (err, result, fields) =>{
+                if(err) return reject(err);
+
+                return resolve(result);
+            })
+        })
+    }
+
+    async addBlacklist(name, length, reason) {
+        return new Promise((resolve, reject) =>{
+            this.con.query(`INSERT INTO ${this.divisionname}.blacklist (Name, Length, Reason) VALUES (?,?,?)`, [name, length, reason], (err, result, fields) =>{
+                if(err) return reject(err);
+
+                return resolve();
+            })
+        })
+    }
+
+    async removeBlacklist(name){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`DELETE FROM ${this.divisionname}.blacklist WHERE Name = ?`, [name], (err, result, fields) =>{
+                if(err) return reject(err);
+
+                return resolve();
+            })
+        })
+    }
+
+    async getBlacklists(){
+        return new Promise((resolve, reject) =>{
+            this.con.query(`SELECT * FROM ${this.divisionname}.blacklist`, (err, result, fields) =>{
+                if(err) return reject(err);
+
+                return resolve(result);
+            })
+        })
+    }
 }
 
 module.exports = DivisionDB;

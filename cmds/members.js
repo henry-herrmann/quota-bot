@@ -47,7 +47,9 @@ module.exports = {
             const string = Util.splitMessage(msg, { maxLength: 2000 });
             message.channel.send("Members: \n")
             for(s of string){
-                message.channel.send(s);
+                if(s != ""){
+                    message.channel.send(s);
+                }
             }
         }else{
             const embed = new Discord.MessageEmbed()

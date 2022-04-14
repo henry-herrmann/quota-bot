@@ -29,7 +29,7 @@ module.exports = {
                     var robloxid;
 
                     try{
-                        robloxid = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                        robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                     }catch(error){
                         return;
                     }
@@ -37,6 +37,25 @@ module.exports = {
                     await RbxManager.exileUser(rbx, handler, robloxid);
                 }
             })
+        }else{
+            const isOnSpreadsheet = await handler.isOnSpreadsheet(member.id);
+
+            if(isOnSpreadsheet){
+                await handler.removeMember(member.id);
+
+                var id = await handler.getRobloxId(member.id);
+                await RbxManager.exileUser(rbx, handler, id);
+            }else{
+                var robloxid;
+
+                try{
+                    robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                }catch(error){
+                    return;
+                }
+
+                await RbxManager.exileUser(rbx, handler, robloxid);
+            }
         }
         
     }

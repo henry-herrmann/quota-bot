@@ -1,4 +1,5 @@
 const RbxManager = require('./RbxManager');
+const DivisionHandler = require("../db/DivisionHandler")
 
 async function roleChanged(oldMember, newMember, handler, client, rbx){
     const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
@@ -45,6 +46,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                         try{
                                             robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                                         }catch(error){
+                                            console.log(error)
                                             return;
                                         }
 
@@ -94,6 +96,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                             try{
                                                 robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                                             }catch(error){
+                                                console.log(error)
                                                 return;
                                             }
     
@@ -130,6 +133,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                             try{
                                                 robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                                             }catch(error){
+                                                console.log(error)
                                                 return;
                                             }
     
@@ -217,6 +221,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                             try{
                                                 robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                                             }catch(error){
+                                                console.log(error)
                                                 return;
                                             }
 
@@ -307,6 +312,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                     try{
                                                         robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                                                     }catch(error){
+                                                        console.log(error)
                                                         return;
                                                     }
 
@@ -358,6 +364,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                     try{
                                                         robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
                                                     }catch(error){
+                                                        console.log(error)
                                                         return;
                                                     }
 
