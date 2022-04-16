@@ -45,7 +45,7 @@ module.exports = {
                     var start = dateFormat(startDate, "m/d/yy");
                     var end = dateFormat(endDate, "m/d/yy");
     
-                    arr.push(`- [<@${notice.Id}>]: Start: ${start}, End: ${end}, Reason: ${notice.Reason}, MessageId: ${notice.MessageID}`);
+                    arr.push(`- [<@${notice.Id}>]: Start: ${start}, End: ${end}, Reason: ${notice.Reason}, Message Id: ${notice.MessageID}`);
                 }
                 const msg = arr.join("\n");
                 const string = await Util.splitMessage(msg, { maxLength: 2000 });
