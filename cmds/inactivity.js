@@ -48,8 +48,12 @@ module.exports = {
                     arr.push(`- [<@${notice.Id}>]: Start: ${start}, End: ${end}, Reason: ${notice.Reason}, Message Id: ${notice.MessageID}`);
                 }
                 const msg = arr.join("\n");
-                const string = await Util.splitMessage(msg, { maxLength: 2000 });
-                message.channel.send("Inactivity Notices: \n" + string);
+                const string = Util.splitMessage(msg, { maxLength: 2000 });
+                message.channel.send("Inactivity Notices: \n");
+
+                for(s of string){
+                    message.channel.send(s);
+                }
             }else{
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Incorrect usage :warning:')

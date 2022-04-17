@@ -294,7 +294,7 @@ async function checkINs(client, handler){
 
     handler.getNotices().then(async notices =>{
         if(notices.length > 0){
-           for(notice of notices){
+           for(const notice of notices){
               const endDate = new Date(notice.EndDate);
 
 
@@ -302,7 +302,7 @@ async function checkINs(client, handler){
               const today = new Date(now.toString());
 
 
-                if(endDate.getDate() == today.getDate() && endDate.getMonth() == today.getMonth() && endDate.getFullYear() == today.getFullYear()){
+                if(endDate.getDate() <= today.getDate() && endDate.getMonth() <= today.getMonth() && endDate.getFullYear() <= today.getFullYear()){
                     client.guilds.cache.get(handler.getGuildID()).members.fetch(notice.Id).then(async member =>{
 
                         member.roles.remove(client.guilds.cache.get(handler.getGuildID()).roles.cache.find(r => r.id == inactivityid)).catch(err => {});
@@ -327,15 +327,23 @@ async function checkINs(client, handler){
                         .setTitle(":construction_worker: Inactivity Notice Over :construction_worker:")
                         .setColor("#42c5f5")
                         .setDescription(`**Your IN ended, welcome back.**`)
-                        .setFooter({text: Index.footer})
+                        .setFooter(Index.footer)
                         .setTimestamp();
 
                         member.send({embeds: [txt]}).catch(err => {});
 
     
                         handler.removeInactivityNotice(member.id)
+                    }).catch(async err => {
+                        await handler.removeMember(notice.Id);
+                        await handler.removeInactivityNotice(notice.Id);
+
+                        client.channels.cache.get(inactivitychannelid).messages.fetch(notice.MessageID).then((msg) =>{
+                            if(msg != undefined && msg != null){
+                                msg.delete().catch(err =>{});
+                            }
+                        }).catch(err => {});
                     })   
-                    await timer(3000);
                 }
             }
         }
