@@ -31,14 +31,19 @@ function getDBs(){
     return divisionDBs;
 }
 
+
 async function getRobloxId(discordid){
     await timer(1000);
     return new Promise(async (resolve, reject) =>{
-        axios.get(` https://v3.blox.link/developer/discord/${discordid}`).then(async (response) =>{
-            if(response.status != 200 || response.user == null){
+        axios({
+            method: "GET",
+            url: `https://v3.blox.link/developer/discord/${discordid}`,
+            headers: {"api-key": process.env.BLOX_LINK_API_KEY}
+        }).then(async (response) =>{
+            if(response.status != 200 || response.data.user == null){
                 return reject();
             }
-            return resolve(response.user.robloxId);
+            return resolve(response.data.user.robloxId);
         }).catch(async (err) =>{
             return reject(err);
         })
