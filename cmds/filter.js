@@ -125,6 +125,7 @@ module.exports = {
                     try{
                         robloxid = await DivisionHandler.getRobloxId(user.id);
                     }catch(error){
+                        console.log(error)
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')
                         .setColor("#ed0909")
