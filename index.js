@@ -62,7 +62,6 @@ login().then(async ()=>{
 setInterval(() =>{
     for(const handler of DivisionHandler.getDBs()){
         console.log(`[INFO] Checked inactivity notices for ${handler.getDivisionName()} at ${new Date().toString()}`)
-        client.channels.cache.get("702147293150707805").send("INs checked.");
         Inactivity.checkINs(client, handler);
     }
 }, 1000*60*60*2);
