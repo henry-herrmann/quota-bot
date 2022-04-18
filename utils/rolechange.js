@@ -44,7 +44,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                         var robloxid;
 
                                         try{
-                                            robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                            robloxid = await DivisionHandler.getRobloxId(member.id);
                                         }catch(error){
                                             console.log(error)
                                             return;
@@ -94,7 +94,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                             var robloxid;
     
                                             try{
-                                                robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                robloxid = await DivisionHandler.getRobloxId(member.id);
                                             }catch(error){
                                                 console.log(error)
                                                 return;
@@ -131,7 +131,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                             var robloxid;
     
                                             try{
-                                                robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                robloxid = await DivisionHandler.getRobloxId(member.id);
                                             }catch(error){
                                                 console.log(error)
                                                 return;
@@ -219,7 +219,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                             var robloxid;
     
                                             try{
-                                                robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                robloxid = await DivisionHandler.getRobloxId(member.id);
                                             }catch(error){
                                                 console.log(error)
                                                 return;
@@ -310,7 +310,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                     var robloxid;
     
                                                     try{
-                                                        robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                        robloxid = await DivisionHandler.getRobloxId(member.id);
                                                     }catch(error){
                                                         console.log(error)
                                                         return;
@@ -362,7 +362,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                                     var robloxid;
     
                                                     try{
-                                                        robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                        robloxid = await DivisionHandler.getRobloxId(member.id);
                                                     }catch(error){
                                                         console.log(error)
                                                         return;

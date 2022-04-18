@@ -55,7 +55,7 @@ module.exports = {
                     var robloxid;
 
                     try{
-                        robloxid = await DivisionHandler.getRobloxId(message.member.id, handler.getGuildID());
+                        robloxid = await DivisionHandler.getRobloxId(message.member.id);
                     }catch(error){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')
@@ -570,7 +570,7 @@ module.exports = {
                     var robloxid;
 
                     try{
-                        robloxid = await DivisionHandler.getRobloxId(message.member.id, handler.getGuildID());
+                        robloxid = await DivisionHandler.getRobloxId(message.member.id);
                     }catch(error){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')
@@ -1060,7 +1060,7 @@ module.exports = {
                             var robloxid;
 
                             try{
-                                robloxid = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                                robloxid = await DivisionHandler.getRobloxId(user.id);
                             }catch(error){
                                 const embed = new Discord.MessageEmbed()
                                 .setTitle('Error :warning:')
@@ -1277,7 +1277,7 @@ module.exports = {
                             var robloxid;
 
                             try{
-                                robloxid = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                                robloxid = await DivisionHandler.getRobloxId(user.id);
                             }catch(error){
                                 const embed = new Discord.MessageEmbed()
                                 .setTitle('Error :warning:')
@@ -1545,7 +1545,7 @@ module.exports = {
                         var robloxid;
 
                         try{
-                            robloxid = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                            robloxid = await DivisionHandler.getRobloxId(user.id);
                         }catch(error){
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Error :warning:')

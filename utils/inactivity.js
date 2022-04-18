@@ -178,7 +178,7 @@ async function logInactivity(message, client, handler){
             var robloxid;
 
             try{
-                robloxid = await DivisionHandler.getRobloxId(message.author.id, handler.getGuildID());
+                robloxid = await DivisionHandler.getRobloxId(message.author.id);
             }catch(error){
                 const embed = new Discord.MessageEmbed()
                 .setTitle('Error :warning:')

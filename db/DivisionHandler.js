@@ -31,38 +31,16 @@ function getDBs(){
     return divisionDBs;
 }
 
-async function getRobloxId(discordid, guildid){
+async function getRobloxId(discordid){
     await timer(1000);
     return new Promise(async (resolve, reject) =>{
-        axios.get(`https://api.blox.link/v1/user/${discordid}?guild=${guildid}`).then(async (response) =>{
-            if(response.data.status == 500){
-                await timer(1000);
-                axios.get(`https://api.blox.link/v1/user/${discordid}`).then((response1) =>{
-                    if(response1.data.status == "error"){
-                        return reject();
-                    }
-                    return resolve(response1.data.primaryAccount);
-                })
-            }
-            if(response.data.status == "error"){
+        axios.get(` https://v3.blox.link/developer/discord/${discordid}`).then(async (response) =>{
+            if(response.status != 200 || response.user == null){
                 return reject();
             }
-            if(response.data.matchingAccount != null){
-                return resolve(response.data.matchingAccount);
-            }
-            return resolve(response.data.primaryAccount);
+            return resolve(response.user.robloxId);
         }).catch(async (err) =>{
-            if(err.toJSON().status == 500){
-                await timer(1000);
-                axios.get(`https://api.blox.link/v1/user/${discordid}`).then((response1) =>{
-                    if(response1.data.status == "error"){
-                        return reject();
-                    }
-                    return resolve(response1.data.primaryAccount);
-                }).catch((err1) =>{
-                    return reject();
-                })
-            }
+            return reject(err);
         })
     })
 }

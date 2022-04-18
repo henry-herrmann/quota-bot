@@ -167,7 +167,7 @@ async execute(message, args, client, handler, rbx){
                     var robloxid1;
 
                     try{
-                        robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                        robloxid1 = await DivisionHandler.getRobloxId(user.id);
                     }catch(error){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')
@@ -290,7 +290,7 @@ async execute(message, args, client, handler, rbx){
                       var robloxid1;
 
                       try{
-                          robloxid1 = await DivisionHandler.getRobloxId(args[1], handler.getGuildID());
+                          robloxid1 = await DivisionHandler.getRobloxId(args[1]);
                       }catch(error){
                           const embed = new Discord.MessageEmbed()
                           .setTitle('Error :warning:')
@@ -411,7 +411,7 @@ async execute(message, args, client, handler, rbx){
                     var robloxid1;
 
                     try{
-                        robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                        robloxid1 = await DivisionHandler.getRobloxId(user.id);
                     }catch(error){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')

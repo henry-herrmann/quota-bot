@@ -29,7 +29,7 @@ module.exports = {
                     var robloxid;
 
                     try{
-                        robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                        robloxid = await DivisionHandler.getRobloxId(member.id);
                     }catch(error){
                         return;
                     }
@@ -49,7 +49,7 @@ module.exports = {
                 var robloxid;
 
                 try{
-                    robloxid = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                    robloxid = await DivisionHandler.getRobloxId(member.id);
                 }catch(error){
                     return;
                 }

@@ -119,7 +119,7 @@ module.exports = {
                         var robloxid1;
 
                         try{
-                            robloxid1 = await DivisionHandler.getRobloxId(user.id, handler.getGuildID());
+                            robloxid1 = await DivisionHandler.getRobloxId(user.id);
                         }catch(error){
                             const embed = new Discord.MessageEmbed()
                             .setTitle('Error :warning:')

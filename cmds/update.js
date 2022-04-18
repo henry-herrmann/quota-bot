@@ -53,12 +53,12 @@ module.exports = {
                     var robloxid;
 
                     try{
-                        robloxid = await DivisionHandler.getRobloxId(message.member.id, handler.getGuildID());
+                        robloxid = await DivisionHandler.getRobloxId(message.member.id);
                     }catch(error){
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Error :warning:')
                         .setColor("#ed0909")
-                        .setDescription(`You are not linked with bloxlink. Please visit https://blox.link/verify/ and select this discord server.`)
+                        .setDescription(`There was an error with Bloxlink, you are either not verified with Bloxlink or the bot reached the rate limit. First, go to https://blox.link/verify and execute the command again. Second, if you are sure you are verified and it still doesn't work contact Henryhre.`)
                         .setFooter(Index.footer)
                         .setTimestamp();
             

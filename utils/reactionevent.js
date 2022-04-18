@@ -254,7 +254,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                                 var robloxid1;
 
                                                 try{
-                                                    robloxid1 = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                    robloxid1 = await DivisionHandler.getRobloxId(member.id);
                                                 }catch(error){
                                                     const embed = new Discord.MessageEmbed()
                                                     .setTitle('Error :warning:')
@@ -696,7 +696,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                     var robloxid1;
 
                                     try{
-                                        robloxid1 = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                        robloxid1 = await DivisionHandler.getRobloxId(member.id);
                                     }catch(error){
                                         const embed = new Discord.MessageEmbed()
                                         .setTitle('Error :warning:')
@@ -806,7 +806,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                     var robloxid1;
 
                                     try{
-                                        robloxid1 = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                        robloxid1 = await DivisionHandler.getRobloxId(member.id);
                                     }catch(error){
                                         const embed = new Discord.MessageEmbed()
                                         .setTitle('Error :warning:')
@@ -938,7 +938,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                             var robloxid1;
 
                                             try{
-                                                robloxid1 = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                                robloxid1 = await DivisionHandler.getRobloxId(member.id);
                                             }catch(error){
                                                 const embed = new Discord.MessageEmbed()
                                                 .setTitle('Error :warning:')
@@ -1060,7 +1060,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                var robloxid1;
    
                                try{
-                                   robloxid1 = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                   robloxid1 = await DivisionHandler.getRobloxId(member.id);
                                }catch(error){
                                    const embed = new Discord.MessageEmbed()
                                    .setTitle('Error :warning:')
@@ -1142,7 +1142,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                 var robloxid1;
 
                                 try{
-                                    robloxid1 = await DivisionHandler.getRobloxId(member.id, handler.getGuildID());
+                                    robloxid1 = await DivisionHandler.getRobloxId(member.id);
                                 }catch(error){
                                     const embed = new Discord.MessageEmbed()
                                     .setTitle('Error :warning:')
