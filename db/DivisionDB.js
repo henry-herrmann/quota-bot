@@ -48,6 +48,9 @@ class DivisionDB {
         con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.rolequota(roleid TEXT, Attend FLOAT NOT NULL DEFAULT 0, Host FLOAT NOT NULL DEFAULT 0, Patrol FLOAT NOT NULL DEFAULT 0, Override TINYINT(1) NOT NULL DEFAULT 0)`, (err, result, field) =>{
             if(err) console.log(err);
         })
+        con.query(`CREATE TABLE IF NOT EXISTS ${divisionname}.blacklist(Name TEXT, Reason TEXT, Length TEXT, Author TEXT, Other TEXT)`, (err, result, field) =>{
+            if(err) console.log(err);
+        })
 
         this.loadConfig();
     }
