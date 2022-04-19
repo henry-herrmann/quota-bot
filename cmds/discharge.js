@@ -242,18 +242,20 @@ async execute(message, args, client, handler, rbx){
               if(member) user = await message.guild.members.fetch(member);
 
               if(user == undefined){
-                const fetcheduser = await message.guild.members.fetch(args[1]);
+                const fetcheduser = await message.guild.members.fetch(args[1]).catch((err) =>{});
 
-                if(await  handler.getPermissionLevel(fetcheduser) >= await  handler.getPermissionLevel(message.member)){
-                  const embed = new Discord.MessageEmbed()
-                  .setTitle('Unable to discharge :warning:')
-                  .setColor("#ed0909")
-                  .setDescription(`Cannot discharge someone with the same or higher permissions.`)
-                  .setFooter(Index.footer)
-                  .setTimestamp();
-  
-                  message.channel.send({embeds: [embed]})
-                  return;
+                if(fetcheduser != undefined){
+                  if(await  handler.getPermissionLevel(fetcheduser) >= await  handler.getPermissionLevel(message.member)){
+                    const embed = new Discord.MessageEmbed()
+                    .setTitle('Unable to discharge :warning:')
+                    .setColor("#ed0909")
+                    .setDescription(`Cannot discharge someone with the same or higher permissions.`)
+                    .setFooter(Index.footer)
+                    .setTimestamp();
+    
+                    message.channel.send({embeds: [embed]})
+                    return;
+                  }
                 }
                 if(await handler.isOnInactivityNotice(args[1])){
                   const inactivitychannelid = (await handler.getConfig("Inactivity-Channel")).Value;
