@@ -35,9 +35,9 @@ module.exports = {
             const filter = m => m.author.id === message.author.id;
 
             const robloxEmbed = new Discord.MessageEmbed()
-            .setColor("#003bed")
+            .setColor(color)
             .setTitle("Prompt will expire in 45 seconds")
-            .setDescription("❓ Are you sure you want to reset the database and point roles? **Reply with (Yes/No).**")
+            .setDescription("❓ Are you sure you want to reset the database? **Reply with (Yes/No).**")
             .setFooter(Index.footer)
             .setTimestamp();
             message.channel.send({embeds: [robloxEmbed]});
