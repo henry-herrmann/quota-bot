@@ -394,18 +394,6 @@ module.exports = {
             const filter = m => m.author.id === message.author.id;
             const supportsPatrols = handler.supportsPatrols();
 
-            if(option.name.toLocaleLowerCase().includes("patrol") && !supportsPatrols){
-                const embed = new Discord.MessageEmbed()
-                .setTitle('Patrols turned off :warning:')
-                .setColor("#ed0909")
-                .setDescription(`Unable to change settings for a disabled featuer. Use the ${prefix}change patrols command to enable it.`)
-                .setFooter(Index.footer)
-                .setTimestamp();
-    
-                message.channel.send({embeds: [embed]})
-                return; 
-            }
-
             if(option.require == "string"){
                 const embed = new Discord.MessageEmbed()
                 .setTitle(`Change parameter: ${option.name}`)
