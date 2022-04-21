@@ -630,7 +630,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                     .setTitle(`Change parameter: ${option.name}`)
                     .setColor("#0e64e6")
-                    .setDescription(`Current value: **${currentvalue}**\nPlease mention a channel or reply with 0 to disable the feature. Example: ${option.example}`)
+                    .setDescription(`Current value: **${currentvalue}**\nPlease mention a role or reply with 0 to disable the feature. Example: ${option.example}`)
                     .setFooter(Index.footer)
                     .setTimestamp();
                 
