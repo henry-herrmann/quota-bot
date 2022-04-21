@@ -477,7 +477,7 @@ module.exports = {
                     handler.updateConfig("Patrols-Award-Activity", 0);
 
                     const embed1 = new Discord.MessageEmbed()
-                    .setTitle(question.reply + answer.content)
+                    .setTitle(option.reply + answer.content)
                     .setColor("#56d402")
                     .setDescription(``)
                     .setFooter(Index.footer)

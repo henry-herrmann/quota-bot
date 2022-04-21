@@ -320,7 +320,7 @@ async function logPatrol(message, client, handler){
 
                 var time = args[0]
 
-                if(parseInt(time)< patrolminutes){
+                if(parseInt(time) < patrolminutes){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Patrol time too short :warning:')
                     .setColor("#ed0909")
@@ -442,7 +442,7 @@ async function logPatrol(message, client, handler){
             if(parseInt(twopictures) == 0){
                 var points = Math.trunc(parseInt(timespent) / patrolminutes);
 
-                if(parseInt(timespent)< 30){
+                if(parseInt(timespent) < patrolminutes){
                     const embed = new Discord.MessageEmbed()
                     .setTitle('Patrol time too short :warning:')
                     .setColor("#ed0909")
