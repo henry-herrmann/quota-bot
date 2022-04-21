@@ -344,6 +344,13 @@ module.exports = {
                 desc: "You can use placeholders to even more customize your message:\n- {users} - Representing the pings of users that just got filtered\n- {div-name} - Full division name without 'The' before it.",
                 reply: "Welcome message: "
             },
+            {
+                question: "If you have a role for quota exemption, please ping it. :four::five:",
+                key: "Exempt-Role-Id",
+                require: "Role-Mention",
+                desc: "This role grants those who have it quota exemption.",
+                reply: "Quota exemption role id: "
+            },
         ]
 
         if(args.length == 0){

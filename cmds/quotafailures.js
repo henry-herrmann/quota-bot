@@ -44,6 +44,7 @@ module.exports = {
                     const inactivityid = (await handler.getConfig("Inacitivty-Role-Id")).Value;
                     const newstaffid = (await handler.getConfig("New-Staff-Role-Id")).Value;
                     const newid = (await handler.getConfig("New-Role-Id")).Value;
+                    const exemptRoleId = (await handler.getConfig("Exempt-Role-Id")).Value;
 
                     if(handler.supportsPatrols()){
                         const patrolquota = await handler.getPatrolQuota();
@@ -58,7 +59,7 @@ module.exports = {
                                         const id = doc[i].Id;
         
                                         if(member.id == id){
-                                            if(await handler.getPermissionLevel(member) < 4 && !member.roles.cache.some(r => r.id == inactivityid) && !member.roles.cache.some(r => r.id == newstaffid) && !member.roles.cache.some(r => r.id == newid)){
+                                            if(await handler.getPermissionLevel(member) < 4 && !member.roles.cache.some(r => r.id == inactivityid) && !member.roles.cache.some(r => r.id == newstaffid) && !member.roles.cache.some(r => r.id == newid) && !member.roles.cache.some(r => r.id == exemptRoleId)){
                                                 if(doc[i].Staff == "yes"){
                                                     var attendpoints = await handler.getAttendancePoints(member.id);
                                                     var hostpoints = await handler.getHostingPoints(member.id);
@@ -93,10 +94,19 @@ module.exports = {
                                 }
                             }
 
-                            const staffstringsplit = await Util.splitMessage(staffstring.join("\n"), { maxLength: 2000 });
-                            const normalstringsplit = await Util.splitMessage(normalsting.join("\n"), { maxLength: 2000});
-                            message.channel.send("Staff Quota Failures: \n" + staffstringsplit);
-                            message.channel.send("Normal Failures: \n" + normalstringsplit);
+                            const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 2000 });
+                            const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 2000});
+
+                            message.channel.send("Staff Quota Failures: \n");
+                    
+                            for(const string of staffstringsplit){
+                                message.channel.send(string);
+                            }
+                            message.channel.send("Normal Failures: \n");
+
+                            for(const string of normalstringsplit){
+                                message.channel.send(string);
+                            }
                         })
                     }else{
                         new Promise(async (resolve, reject) =>{
@@ -108,7 +118,7 @@ module.exports = {
                                         const id = doc[i].Id;
         
                                         if(member.id == id){
-                                            if(await handler.getPermissionLevel(member) < 4 && !member.roles.cache.some(r => r.id == inactivityid) && !member.roles.cache.some(r => r.id == newstaffid) && !member.roles.cache.some(r => r.id == newid)){
+                                            if(await handler.getPermissionLevel(member) < 4 && !member.roles.cache.some(r => r.id == inactivityid) && !member.roles.cache.some(r => r.id == newstaffid) && !member.roles.cache.some(r => r.id == newid) && !member.roles.cache.some(r => r.id == exemptRoleId)){
                                                 if(doc[i].Staff == "yes"){
                                                     var attendpoints = await handler.getAttendancePoints(member.id);
                                                     var hostpoints = await handler.getHostingPoints(member.id);
@@ -141,10 +151,19 @@ module.exports = {
                                 }
                             }
     
-                            const staffstringsplit = await Util.splitMessage(staffstring.join("\n"), { maxLength: 2000 });
-                            const normalstringsplit = await Util.splitMessage(normalsting.join("\n"), { maxLength: 2000});
-                            message.channel.send("Staff Quota Failures: \n" + staffstringsplit);
-                            message.channel.send("Normal Failures: \n" + normalstringsplit);
+                            const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 2000 });
+                            const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 2000});
+
+                            message.channel.send("Staff Quota Failures: \n");
+                    
+                            for(const string of staffstringsplit){
+                                message.channel.send(string);
+                            }
+                            message.channel.send("Normal Failures: \n");
+
+                            for(const string of normalstringsplit){
+                                message.channel.send(string);
+                            }
                         })
                     }
                 })

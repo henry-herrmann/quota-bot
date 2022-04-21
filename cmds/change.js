@@ -294,6 +294,14 @@ module.exports = {
                 reply: "Welcome message set to: ",
                 config_query: "Welcome-Message",
                 example: "Welcome {users} to the {div-name}!\n**Placeholders:**\n- {users} - Representing the pings of users that just got filtered\n- {div-name} - Full division name without 'The' before it."
+            },
+            {
+                name: "exemptRole",
+                require: "Role mention",
+                switchable: true,
+                reply: "Quota exemption role id: ",
+                config_query: "Exempt-Role-Id",
+                example: "@Role"
             }
         ]
 
