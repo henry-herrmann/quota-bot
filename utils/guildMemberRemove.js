@@ -43,10 +43,10 @@ module.exports = {
             if(isOnSpreadsheet){
                 await handler.removeMember(member.id);
 
-                const stored_member = await handler.getMember(member.id);
+                var id = await handler.getRobloxId(member.id);
 
-                if(await RbxManager.isInGroup(rbx, handler, stored_member.RbxId)){
-                    await RbxManager.exileUser(rbx, handler, stored_member.RbxId);
+                if(await RbxManager.isInGroup(rbx, handler, id)){
+                    await RbxManager.exileUser(rbx, handler, id);
                 }
             }else{
                 var robloxid;

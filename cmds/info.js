@@ -26,16 +26,19 @@ module.exports = {
             const playerinfo = await rbx.getPlayerInfo(id);
             const robloxgroupid = (await handler.getConfig("Roblox-Group-Id")).Value;
             const thumbnail = await rbx.getPlayerThumbnail(id, 720, "png", false, "Headshot")
+
             let rank;
             if(await RbxManager.isInGroup(rbx, handler, id)){
                 rank = await rbx.getRankNameInGroup(robloxgroupid, id)
             }else{
                 rank = "N/A"
             }
+
             var oldNames = playerinfo.oldNames.join(", ");
             if(playerinfo.oldNames.length == 0 || oldNames == undefined){
                 oldNames = "N/A"
             }
+            
             const datestring = new Date(playerinfo.joinDate).toLocaleString('en-US', {timeZone: 'America/New_York'});
             var date = dateFormat(datestring, "ddd mmm d yyyy hh:MM TT")
             const embed = new Discord.MessageEmbed()
