@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Index = require("../index");
-const RbxManager =require("./RbxManager");
+const RbxManager = require("./RbxManager");
 
 module.exports = {
     async run(member, handler, client, rbx){
@@ -43,8 +43,11 @@ module.exports = {
             if(isOnSpreadsheet){
                 await handler.removeMember(member.id);
 
-                var id = await handler.getRobloxId(member.id);
-                await RbxManager.exileUser(rbx, handler, id);
+                const stored_member = await handler.getMember(member.id);
+
+                if(await RbxManager.isInGroup(rbx, handler, stored_member.RbxId)){
+                    await RbxManager.exileUser(rbx, handler, stored_member.RbxId);
+                }
             }else{
                 var robloxid;
 

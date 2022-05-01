@@ -69,6 +69,11 @@ setInterval(() =>{
 
 
 client.once('ready', async (ready) =>{
+
+    var string = "Henryhre\n30";
+    string = string.replace(/(\r\n|\n|\r)/gm, " ");
+
+    console.log(string.split(":").join(""));
     console.log("[INFO] Discord Bot started.");
 
     const activities_list = [
