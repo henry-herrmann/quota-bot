@@ -54,7 +54,7 @@ module.exports = {
                                             robloxid = await DivisionHandler.getRobloxId(member.id);
                                         }catch(error){
                                             console.log(error)
-                                            
+
                                             const embed = new Discord.MessageEmbed()
                                             .setTitle('Error :warning:')
                                             .setColor("#ed0909")
@@ -201,7 +201,9 @@ module.exports = {
                             .setDescription(`Please pend for this group: \nhttps://www.roblox.com/groups/${(await handler.getConfig("Roblox-Group-Id")).Value}\n**Once you pend for group DM a member of HiCom.**`)
                             .setFooter(Index.footer)
                             .setTimestamp();
+
                             user.send({embeds: [embed]})
+                            user.send(`https://www.roblox.com/groups/${(await handler.getConfig("Roblox-Group-Id")).Value}`);
                         }
                         
         
