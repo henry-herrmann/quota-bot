@@ -930,7 +930,7 @@ class DivisionDB {
             this.con.query(`SELECT * FROM ${this.divisionname}.quota WHERE Id = ?`, [id], (err, result, fields) =>{
                 if(err) reject(err);
 
-                return resolve(result[0] != undefined);
+                return resolve(result != undefined);
             })
         })
     }
