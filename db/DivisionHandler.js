@@ -45,7 +45,16 @@ async function getRobloxId(discordid){
             }
             return resolve(response.data.user.robloxId);
         }).catch(async (err) =>{
-            return reject(err);
+            axios({
+                method: "GET",
+                url: `https://api.blox.link/v1/user/${discordid}`,
+            }).then((response) =>{
+                if(response.data.status == "ok"){
+                    return resolve(response.data.primaryAccount);
+                }
+            }).catch((err) =>{
+                return reject(err);
+            })
         })
     })
 }

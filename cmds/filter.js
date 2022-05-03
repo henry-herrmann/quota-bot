@@ -46,30 +46,30 @@ module.exports = {
                             const member = memberArr[1];
 
                             if(!member.roles.cache.some(r => r.name.includes("Marshal Commander")) && !member.roles.cache.some(r => r.name.includes("Supreme Commander")) && !member.roles.cache.some(r => r.name.includes("Supreme Chancellor")) && !member.roles.cache.some(r => r.name.includes("Grand Marshal"))){
-                                var robloxid;
+                                handler.isOnSpreadsheet(member.id).then(async (bool)=> {
+                                    if(!bool){
+                                        var robloxid;
 
-                                try{
-                                    robloxid = await DivisionHandler.getRobloxId(member.id);
-                                }catch(error){
-                                    const embed = new Discord.MessageEmbed()
-                                    .setTitle('Error :warning:')
-                                    .setColor("#ed0909")
-                                    .setDescription(`<@${member.id}> is not linked with Bloxlink. He has to run the /verify command.`)
-                                    .setFooter(Index.footer)
-                                    .setTimestamp();
-                      
-                                    message.channel.send({embeds: [embed]})
-                                }
-    
-                                if(robloxid != undefined){
-                                    handler.isOnSpreadsheet(member.id).then(async (bool)=>{
-                                        if(!bool){
-                                            await handler.addMember(member.id, robloxid, member).then(() =>{
-                                                filtered++;
-                                            });
+                                        try{
+                                            robloxid = await DivisionHandler.getRobloxId(member.id);
+                                        }catch(error){
+                                            console.log(error)
+                                            
+                                            const embed = new Discord.MessageEmbed()
+                                            .setTitle('Error :warning:')
+                                            .setColor("#ed0909")
+                                            .setDescription(`<@${member.id}> is not linked with Bloxlink. He has to run the /verify command.`)
+                                            .setFooter(Index.footer)
+                                            .setTimestamp();
+                            
+                                            message.channel.send({embeds: [embed]})
                                         }
-                                    })
-                                } 
+                                        
+                                        await handler.addMember(member.id, robloxid, member).then(() =>{
+                                            filtered++;
+                                        });
+                                    }
+                                })
                             } 
                         }
                         resolve();
