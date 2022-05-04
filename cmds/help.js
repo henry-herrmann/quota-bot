@@ -18,10 +18,10 @@ module.exports = {
                 .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                 .setDescription(`These are the commands for all personnel with permission level 4 or higher: `)
                 .addField(`**Points**`, `>>> **${prefix}points** __<add,remove> <attend, host${supportsPatrols ? ", patrol" : ""}> <amount> <@User>__ - Adds/removes points to the user(s)\n**${prefix}points** __get <@User>__ - Displays the user's points.`)
-                .addField(`**Quota**`, `>>> **${prefix}change** __<Parameter>__\n**${prefix}setup**\n**${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.\n**${prefix}quota** <set, remove, list> (<@Role or roleid>) - Sets the quota for individual roles.`)
+                .addField(`**Quota**`, `>>> **${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}quotapasses** - Displays a list of members who passed the week's quota.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.\n**${prefix}quota** <set, remove, list> (<@Role or roleid>) - Sets the quota for individual roles.\n**${prefix}events** <set, unset> <attend,host> (<Amount of Points (Only necessary for set)>) <Event name> - Changes the points values for events.`)
                 .addField(`**Filtering**`, `>>> **${prefix}filter** __<@User>__ - Filters a user in.${announceMembers == 1 ? `\n**${prefix}announce** - Announces filtered members in on-duty.` : ""}`)
                 .addField(`**Moderation**`, `>>> **${prefix}kick** __@User (<Reason>)__ - Kicks them, removes them from the database and, if enabled, from the group.\n**${prefix}ban** __<@User> (<Reason>)__ - Bans them, removes them from the database and, if enabled, from the group.\n**${prefix}discharge** __<@User>__ - Removes the user from the database and, if enabled, from the group.\n**${prefix}notice** __<@User or @Role or nothing> <Message>__ - Sends a DM to the mentioned user(s)/role(s)\n**${prefix}purge** __<Amount>__ - Deletes a specified amount of messages.\n**${prefix}inactivity** __<add,remove> <(Length for add only)> <@User>__ - Adds/removes INs.\n**${prefix}inactivity** __<list>__ - Displays all INs.`)
-                .addField(`**Misc**`, `>>> **${prefix}update** (<@User>)\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
+                .addField(`**Misc**`, `>>> **${prefix}change** __<Parameter>__\n**${prefix}setup**\n**${prefix}update** (<@User>)\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
                 .setFooter({text: "Contact PriorAdjudicator#4723 (Henryhre) in case you encounter any bugs.", iconURL: "https://cdn.discordapp.com/attachments/702147293150707805/928638065554112552/99d00e7d655bdba754a68df0f8ad3e49.png"})
     
                 message.channel.send({embeds: [embed]});
@@ -32,7 +32,7 @@ module.exports = {
                 .setThumbnail("https://cdn.discordapp.com/attachments/702147293150707805/928629423824048218/tacticaldroid.png")
                 .setDescription(`These are the commands for all personnel with permission level 4 or higher: `)
                 .addField(`**Points**`, `>>> **${prefix}points** __<add,remove> <attend, host${supportsPatrols ? ", patrol" : ""}> <amount> <@User>__ - Adds/removes points to the user(s)\n**${prefix}points** __get <@User>__ - Displays the user's points.`)
-                .addField(`**Quota**`, `>>> **${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.\n**${prefix}quota** <set, remove, list> (<@Role or roleid>) - Sets the quota for individual roles.`)
+                .addField(`**Quota**`, `>>> **${prefix}members** - Displays all members in the database\n**${prefix}quotafailures** - Displays all quotafailures for the week.\n**${prefix}quotapasses** - Displays a list of members who passed the week's quota.\n**${prefix}resetpoints** - Resets the database.\n**${prefix}top** - Displays the top 5 leaderboard.\n**${prefix}totalevents** __<activity, hosts, ${supportsPatrols ? ", patrols" : ""}>__ - Generates a bar chart.\n**${prefix}quota** <set, remove, list> (<@Role or roleid>) - Sets the quota for individual roles.\n**${prefix}events** <set, unset> <attend,host> (<Amount of Points (Only necessary for set)>) <Event name> - Changes the points values for events.`)
                 .addField(`**Filtering**`, `>>> **${prefix}filter** __<@User>__ - Filters a user in.${announceMembers == 1 ? `\n**${prefix}announce** - Announces filtered members in on-duty.` : ""}`)
                 .addField(`**Moderation**`, `>>> **${prefix}kick** __@User (<Reason>)__ - Kicks them, removes them from the database and, if enabled, from the group.\n**${prefix}ban** __<@User> (<Reason>)__ - Bans them, removes them from the database and, if enabled, from the group.\n**${prefix}discharge** __<@User>__ - Removes the user from the database and, if enabled, from the group.\n**${prefix}notice** __<@User or @Role or nothing> <Message>__ - Sends a DM to the mentioned user(s)/role(s)\n**${prefix}purge** __<Amount>__ - Deletes a specified amount of messages.\n**${prefix}inactivity** __<add,remove> <(Length for add only)> <@User>__ - Adds/removes INs.\n**${prefix}inactivity** __<list>__ - Displays all INs.`)
                 .addField(`**Misc**`, `>>> **${prefix}update** (<@User>)\n**${prefix}info** __<Roblox name or leave this blank>__ - Displays a roblox profile.\n**${prefix}check** __<Roblox name>__ - Checks for rule violations.\n**${prefix}sg**\n**${prefix}game** __<1313, alderaan>__ - Displays stats of either 1313 or Alderaan.\n**${prefix}division** <501st, 212th, RG, CG, RI, ARC, ARF, RC, 104th, TJO>`)
@@ -88,142 +88,156 @@ module.exports = {
                     {
                         name: "game",
                         description: "Displays stats of either 1313 or Alderaan.",
-                        category: "misc",
+                        category: "Misc",
                         usage: `${prefix}game <1313, alderaan>`,
                         example: `${prefix}game 1313`
                     },
                     {
                         name: "ban",
                         description: "Bans a user, removes them from the database and, if enabled, from the group.",
-                        category: "moderation",
+                        category: "Moderation",
                         usage: `${prefix}ban <@User>\n${prefix}ban <@User> (<Reason>)`,
                         example: `${prefix}ban <@282590125408387073>`
                     },
                     {
                         name: "change",
                         description: "Changes the division's configuration.",
-                        category: "quota",
+                        category: "Misc",
                         usage: `${prefix}change <Parameter>`,
                         example: `${prefix}change prefix`
                     },
                     {
                         name: "check",
                         description: "Checks a member for rule violations like blacklist or limit violations.",
-                        category: "misc",
+                        category: "Misc",
                         usage: `${prefix}check <Roblox-name>`,
                         example: `${prefix}check Henryhre`
                     },
                     {
                         name: "filter",
                         description: "Adds a user to the database, gives them the personnel role and accepts them into the group.",
-                        category: "filtering",
+                        category: "Filtering",
                         usage: `${prefix}filter <@User>`,
                         example: `${prefix}filter <@282590125408387073>`
                     },
                     {
                         name: "discharge",
                         description: "Removes a user from the database and, if enabled, from the group.",
-                        category: "moderation",
+                        category: "Moderation",
                         usage: `${prefix}discharge <@User>`,
                         example: `${prefix}discharge <@282590125408387073>`
                     },
                     {
                         name: "inactivity",
                         description: "Adds/Removes inactivity notices.",
-                        category: "moderation",
+                        category: "Moderation",
                         usage: `${prefix}inactvitiy <add,remove> <Number of days> <@User>\n${prefix}inactivity <list>`,
                         example: `${prefix}inactivity add 3 <@282590125408387073>`
                     },
                     {
                         name: "info",
                         description: "Displays information about a roblox user.",
-                        category: "misc",
+                        category: "Misc",
                         usage: `${prefix}info <Roblox-name>\n${prefix}info`,
                         example: `${prefix}info Henryhre`
                     },
                     {
                         name: "kick",
                         description: "Kicks a user from the discord, removes them from the database and, if enabled, from the group.",
-                        category: "moderation",
+                        category: "Moderation",
                         usage: `${prefix}kick <@User>\n${prefix}kick <@User> (<Reason>)`,
                         example: `${prefix}kick <@282590125408387073>`
                     },
                     {
                         name: "members",
                         description: "Displays all members in the database.",
-                        category: "quota",
+                        category: "Quota",
                         usage: `${prefix}members`,
                         example: `${prefix}members`
                     },
                     {
                         name: "notice",
                         description: "DMs the specified User(s)/User(s) with the specified role(s) a message.",
-                        category: "moderation",
+                        category: "Moderation",
                         usage: `${prefix}notice <@Role> <Message>\n${prefix}notice <@User(s)> <Message>\n${prefix}notice <Message>`,
                         example: `${prefix}notice <@282590125408387073> Please attend the inspection.`
                     },
                     {
                         name: "points",
                         description: "Adds/Removes points.",
-                        category: "points",
+                        category: "Points",
                         usage: `${prefix}points <add,remove> <attend, host${supportsPatrols ? ", patrol" : ""}> <@User>\n${prefix}points get <@User>\n${prefix}points`,
                         example: `${prefix}points add attend 1 <@282590125408387073>`
                     },
                     {
                         name: "purge",
                         description: "Deletes a specified number of messages.",
-                        category: "moderation",
+                        category: "Moderation",
                         usage: `${prefix}purge <Number of messages>`,
                         example: `${prefix}purge 2`
                     },
                     {
                         name: "quotafailures",
                         description: "Displays all quota failures for the week.",
-                        category: "quota",
+                        category: "Quota",
                         usage: `${prefix}quotafailures`,
                         example: `${prefix}quotafailures`
                     },
                     {
                         name: "resetpoints",
                         description: "Resets the point database.",
-                        category: "quota",
+                        category: "Quota",
                         usage: `${prefix}resetpoints`,
                         example: `${prefix}resetpoints`
                     },
                     {
                         name: "setup",
                         description: "Starts the setup process.",
-                        category: "quota",
+                        category: "Misc",
                         usage: `${prefix}setup`,
                         example: `${prefix}setup`
                     },
                     {
                         name: "top",
                         description: "Displays the top 5 leaderboard of the most active members.",
-                        category: "misc",
+                        category: "Misc",
                         usage: `${prefix}top`,
                         example: `${prefix}top`
                     },
                     {
                         name: "totalevents",
                         description: "Displays a bar chart of all points.",
-                        category: "quota",
+                        category: "Quota",
                         usage: `${prefix}totalevents <attend, host${supportsPatrols ? ", patrol" : ""}>\n${prefix}totalevents`,
                         example: `${prefix}totalevents`
                     },
                     {
                         name: "update",
                         description: "Checks if a user is linked to a new account on Bloxlink.",
-                        category: "misc",
+                        category: "Misc",
                         usage: `${prefix}update <@User>\n${prefix}update`,
                         example: `${prefix}update <@282590125408387073>`
                     },
                     {
                         name: "quota",
                         description: "Sets and removes the quota for an individual role.",
-                        category: "quota",
+                        category: "Quota",
                         usage: `${prefix}quota <set, remove, list> (<@Role or role id>)`,
                         example: `${prefix}quota remove 855578622264737853`
+                    },
+                    {
+                        name: "quotapasses",
+                        description: "Displays a list of all personnel who passed this week's quota.",
+                        category: "Quota",
+                        usage: `${prefix}quotapasses`,
+                        example: `${prefix}quotapasses`
+                    },
+                    {
+                        name: "events",
+                        description: "Changes the value of different types accordingly.",
+                        category: "Quota",
+                        usage: `${prefix}events <set> <attend,host> <Amount of Points> <Event name>\n${prefix}events <unset> <attend,host> <Event name>`,
+                        example: `${prefix}events set attend 2 BT | Basic Training\n${prefix}events unset attend BT | Basic Training`
                     }
                 ]
 

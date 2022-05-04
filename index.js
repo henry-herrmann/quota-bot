@@ -163,6 +163,8 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("division").execute(message, args, handler, rbx);
     }else if(command == "quota"){
         client.commands.get("quota").execute(message, args, handler, client)
+    }else if(command == "quotapasses"){
+        client.commands.get("quotapasses").execute(message, args, handler, client)
     }
 })
 

@@ -1254,7 +1254,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                         const txt = new Discord.MessageEmbed()
                                         .setTitle("Patrol log Denied")
                                         .setColor("#ed0909")
-                                        .setDescription(`Stated time in minutes: **${time}**\nAmount of points: ${args[3]}\nProof link: ${link}\nUser: <@${member.id}>\nDenied by: <@${user.id}>`)
+                                        .setDescription(`Stated time in minutes: **${time.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nAmount of points: ${args[3]}\nProof link: ${link}\nUser: <@${member.id}>\nDenied by: <@${user.id}>`)
                                         .setFooter(Index.footer)
                                         .setTimestamp();
 
@@ -1263,7 +1263,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                         const txt1 = new Discord.MessageEmbed()
                                         .setTitle("Your event log was DENIED")
                                         .setColor("#ed0909")
-                                        .setDescription(`Stated time in minutes: **${time}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
+                                        .setDescription(`Stated time in minutes: **${time.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
                                         .setFooter(Index.footer)
                                         .setTimestamp();
 
@@ -1335,10 +1335,11 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                         }
                                     }
                                 }).catch(d => {})
+
                                 const txt = new Discord.MessageEmbed()
                                 .setTitle("Event log Denied")
                                 .setColor("#ed0909")
-                                .setDescription(`Event type: **${type1}**\nHost: **${name1}**\nDenied by: <@${user.id}>`)
+                                .setDescription(`Event type: **${type1.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nHost: **${name1}**\nDenied by: <@${user.id}>`)
                                 .setFooter(Index.footer)
                                 .setTimestamp();
 
@@ -1347,7 +1348,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                                 const txt1 = new Discord.MessageEmbed()
                                 .setTitle("Your event log was DENIED")
                                 .setColor("#ed0909")
-                                .setDescription(`Event type: **${type1}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
+                                .setDescription(`Event type: **${type1.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
                                 .setFooter(Index.footer)
                                 .setTimestamp();
 
@@ -1395,7 +1396,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt = new Discord.MessageEmbed()
                         .setTitle("Event log Denied")
                         .setColor("#ed0909")
-                        .setDescription(`Event type: **${eventtype}**\nHost: **${host}**\nDenied by: <@${user.id}>`)
+                        .setDescription(`Event type: **${eventtype.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nHost: **${host}**\nDenied by: <@${user.id}>`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 
@@ -1404,7 +1405,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt1 = new Discord.MessageEmbed()
                         .setTitle("Your event log was DENIED")
                         .setColor("#ed0909")
-                        .setDescription(`Event type: **${eventtype}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
+                        .setDescription(`Event type: **${eventtype.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 
@@ -1439,7 +1440,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt = new Discord.MessageEmbed()
                         .setTitle("Patrol log Denied")
                         .setColor("#ed0909")
-                        .setDescription(`Stated time in minutes: **${time}**\nAmount of points: ${ppoints}\nUser: <@${member.id}>\nDenied by: <@${user.id}>`)
+                        .setDescription(`Stated time in minutes: **${time.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nAmount of points: ${ppoints}\nUser: <@${member.id}>\nDenied by: <@${user.id}>`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 
@@ -1448,7 +1449,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt1 = new Discord.MessageEmbed()
                         .setTitle("Your patrol log was DENIED")
                         .setColor("#ed0909")
-                        .setDescription(`Stated time in minutes: **${time}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
+                        .setDescription(`Stated time in minutes: **${time.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 
@@ -1474,7 +1475,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt = new Discord.MessageEmbed()
                         .setTitle("Activity log Denied")
                         .setColor("#ed0909")
-                        .setDescription(`Event type: **${eventtype}**\nAttendee: <@${member.id}>\nHost: **${host}**\nDenied by: <@${user.id}>`)
+                        .setDescription(`Event type: **${eventtype.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nAttendee: <@${member.id}>\nHost: **${host}**\nDenied by: <@${user.id}>`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 
@@ -1483,7 +1484,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                         const txt1 = new Discord.MessageEmbed()
                         .setTitle("Your activity log was DENIED")
                         .setColor("#ed0909")
-                        .setDescription(`Event type: **${eventtype}**\nHost: **${host}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
+                        .setDescription(`Event type: **${eventtype.replace(/(\r\n|\n|\r|[*])/gm, "")}**\nHost: **${host}**\nDenied by: <@${user.id}>\n __Contact the stated member of HiCom for more information__`)
                         .setFooter(Index.footer)
                         .setTimestamp();
 
