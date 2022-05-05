@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const Index = require('../index');
 const { Util } = require("discord.js");
+const PageEmbed = require('../utils/PageEmbed');
+const PageEmbedHandler = require('../utils/PageEmbedHandler');
 
 module.exports = {
     name: "quotapasses",
