@@ -35,6 +35,7 @@ module.exports = {
 
         if(args.length == 0){
             const members = await handler.getMembers();
+            const color = (await handler.getConfig("Divisional-Color")).Value;
 
             let arr = [];
 
@@ -49,7 +50,7 @@ module.exports = {
 
             const string = Util.splitMessage(msg, { maxLength: 4096 });
 
-            const membersEmbed = new PageEmbed("Members", "#000000", string);
+            const membersEmbed = new PageEmbed("Members", color, string);
             const membersSent = await message.channel.send({embeds: [membersEmbed.getCurrentPageEmbed()]});
             
             if(membersEmbed.getLength()-1 > 0 ){

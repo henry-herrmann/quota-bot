@@ -92,19 +92,25 @@ module.exports = {
                                 }
                             }
 
-                            const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 2000 });
-                            const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 2000});
+                            const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 4096 });
+                            const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 4096 });
 
-                            message.channel.send("Staff Quota Passes: \n");
-                    
-                            for(const string of staffstringsplit){
-                                message.channel.send(string);
-                            }
-                            message.channel.send("Normal Passes: \n");
+                            const staffEmbed = new PageEmbed("Staff Quota Passes", "#56d402", staffstringsplit);
+                            const normalEmbed = new PageEmbed("Non-Staff Quota Passes", "#56d402", normalstringsplit);
 
-                            for(const string of normalstringsplit){
-                                message.channel.send(string);
+                            const staffSent = await message.channel.send({embeds: [staffEmbed.getCurrentPageEmbed()]});
+                            const normalSent = await message.channel.send({embeds: [normalEmbed.getCurrentPageEmbed()]});
+
+                            if(staffEmbed.getLength()-1 > 0 ){
+                                staffSent.react("➡️");
                             }
+
+                            if(normalEmbed.getLength()-1 > 0 ){
+                                normalSent.react("➡️");
+                            }
+
+                            PageEmbedHandler.addEmbed(staffEmbed, staffSent.id);
+                            PageEmbedHandler.addEmbed(normalEmbed, normalSent.id);
                         })
                     }else{
                         new Promise(async (resolve, reject) =>{
@@ -147,19 +153,25 @@ module.exports = {
                                 }
                             }
     
-                            const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 2000 });
-                            const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 2000});
+                            const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 4096 });
+                            const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 4096 });
 
-                            message.channel.send("Staff Quota Passes: \n");
-                    
-                            for(const string of staffstringsplit){
-                                message.channel.send(string);
-                            }
-                            message.channel.send("Normal Passes: \n");
+                            const staffEmbed = new PageEmbed("Staff Quota Passes", "#56d402", staffstringsplit);
+                            const normalEmbed = new PageEmbed("Non-Staff Quota Passes", "#56d402", normalstringsplit);
 
-                            for(const string of normalstringsplit){
-                                message.channel.send(string);
+                            const staffSent = await message.channel.send({embeds: [staffEmbed.getCurrentPageEmbed()]});
+                            const normalSent = await message.channel.send({embeds: [normalEmbed.getCurrentPageEmbed()]});
+
+                            if(staffEmbed.getLength()-1 > 0 ){
+                                staffSent.react("➡️");
                             }
+
+                            if(normalEmbed.getLength()-1 > 0 ){
+                                normalSent.react("➡️");
+                            }
+
+                            PageEmbedHandler.addEmbed(staffEmbed, staffSent.id);
+                            PageEmbedHandler.addEmbed(normalEmbed, normalSent.id);
                         })
                     }
                 })
