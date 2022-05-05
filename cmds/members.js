@@ -44,7 +44,7 @@ module.exports = {
             for(const member of members){
                 const datestring = new Date(member.Joined).toLocaleString('en-US', {timeZone: 'America/New_York'});
                 var date = dateFormat(datestring, "m/d/yy");
-                arr.push(`- <@${member.Id}>(${member.RbxId}): A: ${member.Attend}${supportsPatrols ? `, P: ${member.Patrol}` : ""}, H: ${member.Host}, Join: ${date}, S:${member.Staff}`);
+                arr.push(`- <@${member.Id}>(${member.RbxId}): A: ${member.Attend}${supportsPatrols ? `, P: ${member.Patrol}` : ""}, H: ${member.Host}, Join: ${date}, Staff: ${member.Staff}`);
             }
             const msg = arr.join("\n");
 
