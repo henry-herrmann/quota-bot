@@ -4,6 +4,7 @@ const timer = ms => new Promise(res => setTimeout(res, ms))
 const dateFormat = require("dateformat");
 const DivisionHandler = require("../db/DivisionHandler");
 const divisions = require("../utils/Divisions");
+const PageEmbedHandler = require("./PageEmbedHandler");
 
 async function messageReaction(client, user, handler, reaction, rbx) {
     if (user.bot) return;
@@ -150,9 +151,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
         }
 
 
-    }
-
-    if (message.channel.id == inactivitychannelid) {
+    }else if (message.channel.id == inactivitychannelid) {
         client.guilds.cache.get(handler.getGuildID()).members.fetch(user).then((member) => {
             if (member == null || member == undefined || member.user.bot) {
                 return;
@@ -161,9 +160,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
                 reaction.users.remove(member);
             }
         })
-    }
-
-    if (message.channel.id == logging) {
+    }else if (message.channel.id == logging) {
         if (reaction.count < 3) {
             var embed = message.embeds[0]
             if (emoji.name == "✅") {
@@ -1499,8 +1496,7 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
             }
         }
-    }
-    if (message.channel.id == nick_appeals) {
+    }else if (message.channel.id == nick_appeals) {
         if (reaction.count < 3) {
             var embed = message.embeds[0];
 
@@ -1609,6 +1605,46 @@ async function messageReaction(client, user, handler, reaction, rbx) {
 
         }
 
+    }else {
+        if(emoji.name == "➡️"){
+            const pageEmbed = PageEmbedHandler.getPageEmbed(message.id);
+
+            if(pageEmbed == undefined) return;
+
+            pageEmbed.embed.nextPage();
+
+            const msg = await message.edit({embeds: [pageEmbed.embed.getCurrentPageEmbed()]});
+
+            await msg.reactions.removeAll();
+
+            if(pageEmbed.embed.getCurrentIndex() != 0 || pageEmbed.embed.getCurrentIndex() == pageEmbed.embed.getLength()-1){
+                msg.react("⬅️");
+            }
+            
+            if(pageEmbed.embed.getCurrentIndex() < pageEmbed.embed.getLength()-1){
+                msg.react("➡️");
+            }
+        }
+
+        if(emoji.name == "⬅️"){
+            const pageEmbed = PageEmbedHandler.getPageEmbed(message.id);
+
+            if(pageEmbed == undefined) return;
+
+            pageEmbed.embed.previousPage();
+
+            const msg = await message.edit({embeds: [pageEmbed.embed.getCurrentPageEmbed()]});
+
+            await msg.reactions.removeAll();
+
+            if(pageEmbed.embed.getCurrentIndex() != 0 || pageEmbed.embed.getCurrentIndex() == pageEmbed.embed.getLength()-1){
+                msg.react("⬅️");
+            }
+
+            if(pageEmbed.embed.getCurrentIndex() < pageEmbed.embed.getLength()-1){
+                msg.react("➡️");
+            }
+        }
     }
 }
 

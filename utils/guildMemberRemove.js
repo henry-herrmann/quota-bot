@@ -12,7 +12,7 @@ module.exports = {
             handler.isOnSpreadsheet(member.id).then(async (bool) =>{
                 if(bool){
                     var id = await handler.getRobloxId(member.id);
-                    var name = await RbxManager.getNameFromId(id);
+                    var name = await RbxManager.getNameFromId(rbx, id);
                     await RbxManager.exileUser(rbx, handler, id);
                     await handler.removeMember(member.id);
     

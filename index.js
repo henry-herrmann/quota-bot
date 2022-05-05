@@ -165,6 +165,8 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("quota").execute(message, args, handler, client)
     }else if(command == "quotapasses"){
         client.commands.get("quotapasses").execute(message, args, handler, client)
+    }else if(command == "test"){
+        client.commands.get("test").execute(message, args,client)
     }
 })
 
