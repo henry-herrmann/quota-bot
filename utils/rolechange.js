@@ -34,7 +34,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
                                         var id = await handler.getRobloxId(member.id);
                                         var rank = await RbxManager.getRankInGroup(rbx, handler, id);
 
-                                        if(isstaff.rankid > rank){
+                                        if(isstaff.rankid >= rank){
                                             handler.setStaff(member.id, "yes")
                                             if(RbxManager.setRank(rbx, handler, id, isstaff.rankid) != false){
             
@@ -52,7 +52,7 @@ async function roleChanged(oldMember, newMember, handler, client, rbx){
 
                                         var rank = await RbxManager.getRankInGroup(rbx, handler, robloxid);
 
-                                        if(isstaff.rankid > rank){
+                                        if(isstaff.rankid >= rank){
                                             if(RbxManager.setRank(rbx, handler, robloxid, isstaff.rankid) != false){
         
                                             }
