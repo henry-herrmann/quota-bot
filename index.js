@@ -18,6 +18,7 @@ const guildMemberRemove = require("./utils/guildMemberRemove");
 const Inactivity = require("./utils/inactivity");
 
 const fs = require('fs');
+const PageEmbedHandler = require('./utils/PageEmbedHandler');
 
 const footer = {text: "Created by Henryhre"};
 
@@ -167,6 +168,14 @@ client.on('messageCreate', async (message) =>{
         client.commands.get("quotapasses").execute(message, args, handler, client)
     }else if(command == "test"){
         client.commands.get("test").execute(message, args,client)
+    }
+})
+
+client.on('messageDelete', (message) =>{
+    if(message.guild == null || DivisionHandler.getDivisionDB(message.guild.id) == undefined) return;
+
+    if(PageEmbedHandler.getPageEmbed(message.id) != undefined){
+        PageEmbedHandler.removePageEmbed(message.id);
     }
 })
 

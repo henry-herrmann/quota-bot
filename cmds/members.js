@@ -50,7 +50,7 @@ module.exports = {
 
             const string = Util.splitMessage(msg, { maxLength: 4096 });
 
-            const membersEmbed = new PageEmbed("Members", color, string);
+            const membersEmbed = new PageEmbed(`Members (${members.length})`, color, string);
             const membersSent = await message.channel.send({embeds: [membersEmbed.getCurrentPageEmbed()]});
             
             if(membersEmbed.getLength()-1 > 0 ){

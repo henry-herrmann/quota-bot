@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const Index = require('../index');
-const { Util } = require("discord.js");
+const { Util } = require(`discord.js`);
 const PageEmbed = require('../utils/PageEmbed');
 const PageEmbedHandler = require('../utils/PageEmbedHandler');
 
@@ -97,8 +97,8 @@ module.exports = {
                             const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 4096 });
                             const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 4096 });
 
-                            const staffEmbed = new PageEmbed("Staff Quota Passes", "#56d402", staffstringsplit);
-                            const normalEmbed = new PageEmbed("Non-Staff Quota Passes", "#56d402", normalstringsplit);
+                            const staffEmbed = new PageEmbed(`Staff Quota Passes (${staffstring.length})`, `#56d402`, staffstringsplit);
+                            const normalEmbed = new PageEmbed(`Non-Staff Quota Passes (${normalsting.length})`, `#56d402`, normalstringsplit);
 
                             const staffSent = await message.channel.send({embeds: [staffEmbed.getCurrentPageEmbed()]});
                             const normalSent = await message.channel.send({embeds: [normalEmbed.getCurrentPageEmbed()]});
@@ -158,18 +158,18 @@ module.exports = {
                             const staffstringsplit = Util.splitMessage(staffstring.join("\n"), { maxLength: 4096 });
                             const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 4096 });
 
-                            const staffEmbed = new PageEmbed("Staff Quota Passes", "#56d402", staffstringsplit);
-                            const normalEmbed = new PageEmbed("Non-Staff Quota Passes", "#56d402", normalstringsplit);
+                            const staffEmbed = new PageEmbed(`Staff Quota Passes (${staffstring.length})`, `#56d402`, staffstringsplit);
+                            const normalEmbed = new PageEmbed(`Non-Staff Quota Passes (${normalsting.length})`, `#56d402`, normalstringsplit);
 
                             const staffSent = await message.channel.send({embeds: [staffEmbed.getCurrentPageEmbed()]});
                             const normalSent = await message.channel.send({embeds: [normalEmbed.getCurrentPageEmbed()]});
 
                             if(staffEmbed.getLength()-1 > 0 ){
-                                staffSent.react("➡️");
+                                staffSent.react(`➡️`);
                             }
 
                             if(normalEmbed.getLength()-1 > 0 ){
-                                normalSent.react("➡️");
+                                normalSent.react(`➡️`);
                             }
 
                             PageEmbedHandler.addEmbed(staffEmbed, staffSent.id);
@@ -183,7 +183,7 @@ module.exports = {
         }else{
             const embed = new Discord.MessageEmbed()
             .setTitle('Incorrect usage :warning:')
-            .setColor("#ed0909")
+            .setColor(`#ed0909`)
             .setDescription(`>>> ${prefix}quotafailures`)
             .setFooter(Index.footer)
             .setTimestamp();

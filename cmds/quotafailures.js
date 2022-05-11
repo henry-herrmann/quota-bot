@@ -100,8 +100,8 @@ module.exports = {
                             const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 4096 });
 
 
-                            const staffEmbed = new PageEmbed("Staff Quota Failures", "#ed0909", staffstringsplit);
-                            const normalEmbed = new PageEmbed("Non-Staff Quota Failures", "#ed0909", normalstringsplit);
+                            const staffEmbed = new PageEmbed(`Staff Quota Failures (${staffstring.length})`, "#ed0909", staffstringsplit);
+                            const normalEmbed = new PageEmbed(`Non-Staff Quota Failures (${normalsting.length})`, "#ed0909", normalstringsplit);
 
                             const staffSent = await message.channel.send({embeds: [staffEmbed.getCurrentPageEmbed()]});
                             const normalSent = await message.channel.send({embeds: [normalEmbed.getCurrentPageEmbed()]});
@@ -165,8 +165,8 @@ module.exports = {
                             const normalstringsplit = Util.splitMessage(normalsting.join("\n"), { maxLength: 4096 });
 
 
-                            const staffEmbed = new PageEmbed("Staff Quota Failures", "#ed0909", staffstringsplit);
-                            const normalEmbed = new PageEmbed("Non-Staff Quota Failures", "#ed0909", normalstringsplit);
+                            const staffEmbed = new PageEmbed(`Staff Quota Failures (${staffstring.length})`, "#ed0909", staffstringsplit);
+                            const normalEmbed = new PageEmbed(`Non-Staff Quota Failures (${normalsting.length})`, "#ed0909", normalstringsplit);
 
                             const staffSent = await message.channel.send({embeds: [staffEmbed.getCurrentPageEmbed()]});
                             const normalSent = await message.channel.send({embeds: [normalEmbed.getCurrentPageEmbed()]});
