@@ -637,15 +637,41 @@ module.exports = {
                     message.channel.send({embeds: [embed]});
 
                     const answer = await awaitMessage(filter, message.channel);
+                    
                     if(answer.mentions.roles.first() == undefined || answer.mentions.roles.first() == null){
-                        const embed1 = new Discord.MessageEmbed()
-                        .setTitle('Incorrect answer :x:')
-                        .setColor("#ed0909")
-                        .setDescription(`Please execute the command again. Response required: Role mention.`)
-                        .setFooter(Index.footer)
-                        .setTimestamp()
-    
-                        message.channel.send({embeds: [embed1]})
+                        if(answer.content == "0"){
+                            if(!option.switchable){
+                                const embed1 = new Discord.MessageEmbed()
+                                .setTitle('Option cannot be disabled :x:')
+                                .setColor("#ed0909")
+                                .setDescription(`Please execute the command again as this option cannot be disabled. This is the case for certain settings that are crucial for the proper functioning of this bot.`)
+                                .setFooter(Index.footer)
+                                .setTimestamp()
+            
+                                message.channel.send({embeds: [embed1]})
+                                return;
+                            }
+                            
+                            handler.updateConfig(option.config_query, "0");
+
+                            const embed1 = new Discord.MessageEmbed()
+                            .setTitle(option.reply + "Disabled")
+                            .setColor("#56d402")
+                            .setDescription(``)
+                            .setFooter(Index.footer)
+                            .setTimestamp();
+                    
+                            message.channel.send({embeds: [embed1]})
+                        }else{
+                            const embed1 = new Discord.MessageEmbed()
+                            .setTitle('Incorrect answer :x:')
+                            .setColor("#ed0909")
+                            .setDescription(`Please execute the command again. Response required: Role mention.`)
+                            .setFooter(Index.footer)
+                            .setTimestamp()
+        
+                            message.channel.send({embeds: [embed1]})
+                        }
                         return;
                     }
 

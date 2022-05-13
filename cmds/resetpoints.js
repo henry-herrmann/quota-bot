@@ -74,8 +74,8 @@ module.exports = {
                         const Role = client.guilds.cache.get(handler.getGuildID()).roles.cache.find(role => role.id == personnelid);
     
                         members.filter(member => member.roles.cache.find(role => role == Role)).forEach((member) =>{
-                            member.roles.remove(member.guild.roles.cache.find(r => r.id == newstaffid));
-                            member.roles.remove(member.guild.roles.cache.find(r => r.id == newid));
+                            member.roles.remove(member.guild.roles.cache.find(r => r.id == newstaffid)).catch(err => {});
+                            member.roles.remove(member.guild.roles.cache.find(r => r.id == newid)).catch(err => {});
                         })
                         resolve();
                     })
