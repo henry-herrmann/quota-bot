@@ -8,14 +8,13 @@ module.exports = {
     async execute(message, args, client, handler, rbx){
         if(await handler.getPermissionLevel(message.member) < 4){
             const embed = new Discord.MessageEmbed()
-              .setTitle('Insufficient permissions :warning:')
-              .setColor("#ed0909")
-              .setDescription(`You are missing the required permissions to execute this command.`)
-              .setFooter(Index.footer)
-              .setTimestamp();
-
-              message.channel.send({embeds: [embed]})
-              return;
+            .setTitle('Insufficient permissions :warning:')
+            .setColor("#ed0909")
+            .setDescription(`You are missing the required permissions to execute this command.`)
+            .setFooter(Index.footer)
+            .setTimestamp();
+            message.channel.send({embeds: [embed]})
+            return;
         }
 
         const prefix = await handler.getPrefix();
@@ -79,6 +78,7 @@ module.exports = {
             }
 
             const autorank = parseInt((await handler.getConfig("Auto-Rank")).Value);
+            const react_logs = await handler.getChannel("react-logs");
 
             handler.isOnSpreadsheet(user.id).then(async (bool) =>{
                 if(bool){
@@ -104,7 +104,16 @@ module.exports = {
                         .setDescription(`Successfully banned ${user.user.tag} from the discord. They were also kicked from the group if the auto rank feature is enabled.`)
                         .setFooter(Index.footer)
                         .setTimestamp();
+
                         message.channel.send({embeds: [embed]})
+
+                        const ban = new Discord.MessageEmbed()
+                        .setTitle('User banned')
+                        .setDescription(`User: ${user.user.tag}\nReason: ${reason}\nBy: <@${message.author.id}>`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+
+                        client.channels.cache.get(react_logs).send({embeds: [ban]});
                     }).catch((error) =>{
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Unable to ban user :warning:')
@@ -163,6 +172,15 @@ module.exports = {
                         .setFooter(Index.footer)
                         .setTimestamp();
                         message.channel.send({embeds: [embed]})
+
+                        const ban = new Discord.MessageEmbed()
+                        .setTitle('User banned')
+                        .setDescription(`User: ${user.user.tag}\nReason: ${reason}\nBy: <@${message.author.id}>`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+
+                        client.channels.cache.get(react_logs).send({embeds: [ban]});
+
                     }).catch((error) =>{
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Unable to ban user :warning:')

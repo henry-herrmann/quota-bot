@@ -91,10 +91,11 @@ module.exports = {
                     .setDescription(`Reason: **${reason}**`)
                     .setFooter(Index.footer)
                     .setTimestamp();
+
                     user.send({embeds: [kickmsg]}).catch(() =>{});
                     
 
-                    user.ban({reason: reason}).then(async ()=>{
+                    user.kick({reason: reason}).then(async ()=>{
                         await handler.removeMember(user.id);
 
                         const embed = new Discord.MessageEmbed()
@@ -104,6 +105,14 @@ module.exports = {
                         .setFooter(Index.footer)
                         .setTimestamp();
                         message.channel.send({embeds: [embed]})
+
+                        const kick = new Discord.MessageEmbed()
+                        .setTitle('User kicked')
+                        .setDescription(`User: ${user.user.tag}\nReason: ${reason}\nBy: <@${message.author.id}>`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+
+                        client.channels.cache.get(react_logs).send({embeds: [kick]});
                     }).catch((error) =>{
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Unable to ban user :warning:')
@@ -153,7 +162,7 @@ module.exports = {
                     .setTimestamp();
                     user.send({embeds: [kickmsg]}).catch(() =>{});
 
-                    user.ban({reason: reason}).then(()=>{
+                    user.kick({reason: reason}).then(()=>{
 
                         const embed = new Discord.MessageEmbed()
                         .setTitle('User kicked and removed from the database :white_check_mark:')
@@ -162,6 +171,14 @@ module.exports = {
                         .setFooter(Index.footer)
                         .setTimestamp();
                         message.channel.send({embeds: [embed]})
+                        
+                        const kick = new Discord.MessageEmbed()
+                        .setTitle('User kicked')
+                        .setDescription(`User: ${user.user.tag}\nReason: ${reason}\nBy: <@${message.author.id}>`)
+                        .setFooter(Index.footer)
+                        .setTimestamp();
+
+                        client.channels.cache.get(react_logs).send({embeds: [kick]});
                     }).catch((error) =>{
                         const embed = new Discord.MessageEmbed()
                         .setTitle('Unable to kick user :warning:')
